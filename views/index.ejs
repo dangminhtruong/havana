@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SimpleOne - A Responsive Html5 Ecommerce Template</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<meta http-equiv="X-UA-Compatible" content="IE=100" >
+<%- include('blocks/css_links') %>
+</head>
+<body>
+<!-- Header Start -->
+<%- include('blocks/header') %>
+<div id="maincontainer">
+	<%- include('blocks/slider') %>
+  <section class="container otherddetails">
+    <div class="otherddetailspart">
+      <div class="innerclass free">
+        <h2><%= __('Free shipping') %></h2>
+        All over in world over $200 </div>
+    </div>
+    <div class="otherddetailspart">
+      <div class="innerclass payment">
+        <h2><%= __('Easy Payment') %></h2>
+        Payment Gatway support </div>
+    </div>
+    <div class="otherddetailspart">
+      <div class="innerclass shipping">
+        <h2><%= __('24hrs Shipping') %></h2>
+        Free For UK Customers </div>
+    </div>
+    <div class="otherddetailspart">
+      <div class="innerclass choice">
+        <h2><%= __('Commitment to quality') %></h2>
+        50,000+ Products </div>
+    </div>
+  </section>
+  <!-- Section End-->
+  
+  <!-- Featured Product-->
+  <section id="featured" class="row mt40">
+    <div class="container">
+      <h1 class="heading1"><span class="maintext"><%= __('Featured Products') %></span><span class="subtext"> See Our Most featured Products</span></h1>
+      <ul class="thumbnails">
+        <% for(i in news ){ %>
+        <li class="col-lg-3  col-sm-6">
+          <a class="prdocutname" href="product.html"><%= news[i].name %></a>
+          <div class="thumbnail">
+            <span class="sale tooltip-test">Sale</span>
+            <a href="#"><img alt="" src="img/product1.jpg"></a>
+            <div class="shortlinks">
+              <a class="details" href="#">DETAILS</a>
+              <a class="wishlist" href="#">WISHLIST</a>
+              <a class="compare" href="#">COMPARE</a>
+            </div>
+            <div class="pricetag">
+              <span class="spiral"></span><a href="#" class="productcart">ADD TO CART</a>
+              <div class="price">
+                <div class="pricenew">$<%= news[i].unit_price %></div>
+                <div class="priceold">$<%= news[i].promo_price %></div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <% } %>
+      </ul>
+    </div>
+  </section>
+  
+  <!-- Latest Product-->
+  <section id="latest" class="row">
+    <div class="container">
+      <h1 class="heading1"><span class="maintext"><%= __('Latest Products') %></span><span class="subtext"> See Our  Latest Products</span></h1>
+      <ul class="thumbnails">
+        <% for(i in news) { %>
+          <li class="col-lg-3 col-sm-6">
+            <a class="prdocutname" href="/product-details/<%= news[i].id %>"><%= news[i].name %></a>
+            <div class="thumbnail">
+              <a href="#"><img alt="" src="img/product1a.jpg"></a>
+              <div class="shortlinks">
+                <a class="details" href="#">DETAILS</a>
+                <a class="wishlist" href="#">WISHLIST</a>
+                <a class="compare" href="#">COMPARE</a>
+              </div>
+              <div class="pricetag">
+                <span class="spiral"></span><a href="#" class="productcart">ADD TO CART</a>
+                <div class="price">
+                  <div class="pricenew">$<%= news[i].unit_price %></div>
+                  <div class="priceold">$<%= news[i].promo_price %></div>
+                </div>
+              </div>
+            </div>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+  </section>
+  
+  <!-- Section  Banner Start-->
+  <section class="container smbanner">
+    <div class="row">
+      <div class="col-lg-3 col-sm-6"><a href="#"><img src="img/smbanner.jpg" alt="" title=""></a>
+      </div>
+      <div class="col-lg-3 col-sm-6"><a href="#"><img src="img/smbanner.jpg" alt="" title=""></a>
+      </div>
+      <div class="col-lg-3 col-sm-6"><a href="#"><img src="img/smbanner.jpg" alt="" title=""></a>
+      </div>
+      <div class="col-lg-3 col-sm-6"><a href="#"><img src="img/smbanner.jpg" alt="" title=""></a>
+      </div>
+    </div>
+  </section>
+  <!-- Section  End-->
+  
+  <!-- Popular Brands-->
+  <section id="popularbrands" class="container mt40">
+    <h1 class="heading1"><span class="maintext">Popular Brands</span><span class="subtext"> See Our  Popular Brands</span></h1>
+    <div class="brandcarousalrelative">
+      <ul id="brandcarousal">
+        <li><img src="img/brand1.jpg" alt="" title=""/></li>
+        <li><img src="img/brand2.jpg" alt="" title=""/></li>
+        <li><img src="img/brand3.jpg" alt="" title=""/></li>
+        <li><img src="img/brand4.jpg" alt="" title=""/></li>
+        <li><img src="img/brand1.jpg" alt="" title=""/></li>
+        <li><img src="img/brand2.jpg" alt="" title=""/></li>
+        <li><img src="img/brand3.jpg" alt="" title=""/></li>
+        <li><img src="img/brand4.jpg" alt="" title=""/></li>
+        <li><img src="img/brand1.jpg" alt="" title=""/></li>
+        <li><img src="img/brand2.jpg" alt="" title=""/></li>
+        <li><img src="img/brand3.jpg" alt="" title=""/></li>
+        <li><img src="img/brand4.jpg" alt="" title=""/></li>
+      </ul>
+      <div class="clearfix"></div>
+      <a id="prev" class="prev" href="#">&lt;</a>
+      <a id="next" class="next" href="#">&gt;</a>
+    </div>
+  </section>
+  
+  <!-- Newsletter Signup-->
+  <section id="newslettersignup" class="mt40">
+    <div class="container">
+      <div class="pull-left newsletter">
+        <h2> Newsletters Signup</h2>
+        Sign up to Our Newsletter & get attractive Offers by subscribing to our newsletters. </div>
+      <div class="pull-right">
+        <form class="form-horizontal">
+          <div class="input-prepend">
+            <input type="text" placeholder="Subscribe to Newsletter" id="inputIcon" class="input-xlarge">
+            <input value="Subscribe" class="btn btn-orange" type="submit">
+            Sign in </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
+<!-- /maincontainer -->
+
+<!-- Footer -->
+<footer id="footer">
+  <section class="footersocial">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 aboutus col-sm-6">
+          <h2>About Us </h2>
+          <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. <br>
+            <br>
+            t has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </p>
+        </div>
+        <div class="col-lg-3 contact col-sm-6">
+          <h2>Contact Us </h2>
+          <ul>
+            <li class="phone"> +123 456 7890, +123 456 7890</li>
+            <li class="mobile"> +123 456 7890, +123 456 78900</li>
+            <li class="email"> test@test.com</li>
+            <li class="email"> test@test.com</li>
+          </ul>
+        </div>
+        <div class="col-lg-3 twitter col-sm-6">
+          <h2>Twitter </h2>
+          <div id="twitter">
+          </div>
+        </div>
+        <div class="col-lg-3 facebook col-sm-6">
+          <h2>Facebook </h2>
+         <div id="fb-root"></div>
+        <div class="fb-like-box" data-href="http://www.facebook.com/envato" data-width="292" data-show-faces="true" data-colorscheme="light" data-stream="false" data-show-border="false" data-header="false"  data-height="240"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="footerlinks">
+    <div class="container">
+      <div class="info">
+        <ul>
+          <li><a href="#">Privacy Policy</a>
+          </li>
+          <li><a href="#">Terms &amp; Conditions</a>
+          </li>
+          <li><a href="#">Affiliates</a>
+          </li>
+          <li><a href="#">Newsletter</a>
+          </li>
+        </ul>
+      </div>
+      <div id="footersocial">
+        <a href="#" title="Facebook" class="facebook">Facebook</a>
+        <a href="#" title="Twitter" class="twitter">Twitter</a>
+        <a href="#" title="Linkedin" class="linkedin">Linkedin</a>
+        <a href="#" title="rss" class="rss">rss</a>
+        <a href="#" title="Googleplus" class="googleplus">Googleplus</a>
+        <a href="#" title="Skype" class="skype">Skype</a>
+        <a href="#" title="Flickr" class="flickr">Flickr</a>
+      </div>
+    </div>
+  </section>
+  <section class="copyrightbottom">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6"> All images are copyright to their owners. </div>
+        <div class="col-lg-6 textright"> ShopSimple @ 2012 </div>
+      </div>
+    </div>
+  </section>
+  <a id="gotop" href="#">Back to top</a>
+</footer>
+<%- include('blocks/script_links') %>
+</body>
+</html>

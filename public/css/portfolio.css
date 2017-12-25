@@ -1,0 +1,50 @@
+/* Start: Recommended Isotope styles */
+
+/**** Isotope Filtering ****/
+#portfoliocontainer { margin: 0 auto 20px; }
+.portfoliotital {font-size:18px; color:#F25C27; margin:5px 0 10px 0; display:block}
+.projecthighlight {font-size:18px; color:#F25C27; margin:5px 0 10px 0; display:block}
+.singleportfolioright ul {margin:0px;}
+.singleportfolioright ul li {margin:0 0 20px 0}
+.portfoliodetail {margin-top:20px; margin-bottom:50px; border-bottom:1px solid #ccc; padding-bottom:50px}
+.isotope-item { z-index: 2; }
+.isotope-hidden.isotope-item { pointer-events: none; z-index: 1; }
+/**** Isotope CSS3 transitions ****/
+.isotope, .isotope .isotope-item { -webkit-transition-duration: 0.8s; -moz-transition-duration: 0.8s; -ms-transition-duration: 0.8s; -o-transition-duration: 0.8s; transition-duration: 0.8s; }
+.isotope { -webkit-transition-property: height, width; -moz-transition-property: height, width; -ms-transition-property: height, width; -o-transition-property: height, width; transition-property: height, width; }
+.isotope .isotope-item { -webkit-transition-property: -webkit-transform, opacity; -moz-transition-property:    -moz-transform, opacity; -ms-transition-property:     -ms-transform, opacity; -o-transition-property:      -o-transform, opacity; transition-property:         transform, opacity; }
+/**** disabling Isotope CSS3 transitions ****/
+.isotope.no-transition, .isotope.no-transition .isotope-item, .isotope .isotope-item.no-transition { -webkit-transition-duration: 0s; -moz-transition-duration: 0s; -ms-transition-duration: 0s; -o-transition-duration: 0s; transition-duration: 0s; }
+/* End: Recommended Isotope styles */
+
+/* disable CSS transitions for containers with infinite scrolling*/
+.isotope.infinite-scrolling { -webkit-transition: none; -moz-transition: none; -ms-transition: none; -o-transition: none; transition: none; }
+/**** Base styles ****/
+
+/* required for containers to inherit vertical size from window */
+.element {  margin: 10px 10px 10px 10px; float: left; position: relative; }
+
+/**** Example Options ****/
+#filters {text-align:center}
+#options { padding-bottom: 1.0em;text-align:center; margin:10px 0 25px  }
+#options ul { margin: 0; list-style: none; display:inline-block }
+#options ul ul { margin-left: 1.5em;}
+#options li { float: left; margin-bottom: 0.2em; }
+#options li a { display: block; padding: 5px 10px; background-color: #efefef; color: #222;text-shadow: 0 1px hsla( 0, 0%, 100%, 0.5 ); text-decoration:none; font-size:14px; }
+
+#options li a:hover { background-color: #F25C27; color:#fff }
+#options li a:active { background-color: #F25C27; }
+#options li a { border-left:  1px solid hsla( 0, 0%, 100%, 0.3 ); border-right: 1px solid hsla( 0, 0%, 0%, 0.2 ); }
+#options li a.selected { background-color: #F25C27; text-shadow: none; color: white; }
+/* Combination filter options*/
+
+#options .option-combo { display: inline-block; float: left; margin-right: 10px; }
+#options .option-combo ul { margin-right: 20px; display: inline-block; }
+#options .option-combo h2, #options .option-combo h4 { line-height: 34px; margin-bottom: 0; margin-right: 5px; display: inline-block; vertical-align: top; }
+/**** Doc page nav ****/
+
+#infscr-loading { position: fixed; text-align: center; bottom: 30px; left: 42%; z-index: 100; background: white; background: hsla( 0, 0%, 100%, 0.9 ); padding: 20px; color: #222; font-size: 15px; font-weight: bold; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; }
+/* The Magnificent Clearfix: nicolasgallagher.com/micro-clearfix-hack/ */
+.clearfix:before, .clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }
