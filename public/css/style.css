@@ -86,7 +86,7 @@ color: #; vertical-align: top; padding: 5px 10px; border-bottom: 1px dashed #E7E
 #categorymenu:after { clear:both; content:"" }
 #categorymenu select { display:none }
 ul.categorymenu { margin:0px auto }
-ul.categorymenu > li { position:relative; margin: 0; border-right:1px solid #E7E7E7 }
+ul.categorymenu > li { position:relative; margin: 0; border-right:1px solid #E7E7E7; min-width: 28vh; }
 ul.categorymenu > li a.home span { text-indent:-9999px; }
 ul.categorymenu > li:last-child { border:none }
 ul.categorymenu > li > a { text-decoration: none; display: block; z-index: 6; position: relative; color:#4b5b58!Important; text-transform:uppercase; font-size:14px }

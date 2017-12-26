@@ -5,9 +5,9 @@ const Category = require('../model/category');
 /* GET home page. */
 router.get('/', function(req, res, next) {
     let Cate = new Category({
-        name : 'Quần jean nam',
-        descript : 'Quần Jean cho nam',
-        parent_id : '5a40999f923d1d098cec743a',
+        name : 'Woman',
+        descript : 'Woman\'s fashion',
+        parent_id : '00a00b00c00d',
     });
 
     Cate.save((err) => {

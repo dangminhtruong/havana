@@ -6,7 +6,7 @@ var Schema = mongoose.Schema,
 var CategorySchema = new mongoose.Schema({
     name : String,
     descript : String,
-    parent_id : ObjectId,
+    type : Number,
     createdOn: { type: Date, 'default': Date.now }
 });
 
