@@ -58,7 +58,7 @@ app.use(function(err, req, res, next) {
 });
 //-------------------------------------------------------
 const Category = require('./model/category');
-Category.find({}, {_id : 1, name : 1})
+Category.find({}, {_id : 1, name : 1, type : 1})
   .exec((err, category) => {
     app.locals.categories = category;
   });

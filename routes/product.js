@@ -5,15 +5,16 @@ const Product = require('../model/product');
 /* GET home page. */
 router.get('/', function(req, res, next) {
     let Item =  new Product({
-        name : 'Áo khoác hoodie nam',
+        name : 'Quần jean B11',
         unit_price : 18000,
         promo_price : 15000,
-        slug_name : 'ao-hoodie-nam',
-        descript: 'Áo hoodie nam...',
-        image : 'ao_hoodie_nam.jpg',
+        slug_name : 'quan-jean-b11-nam',
+        descript: 'Quần jean B11...',
+        image : 'ao_so_mi_a88.jpg',
         status : 2,
         quantity : 20,
-        category_id : '5a409a5252dd7e1d48675900',
+        couter : Number,
+        category_id : '5a421ad5d4b2d8181e9fac31',
         size : [
             { name :  'XL' },
             { name :  'L' },
@@ -21,9 +22,9 @@ router.get('/', function(req, res, next) {
             { name : 'XXL' }
         ],
         image_detais : [
-            { name : 'ao_hoodie_nam1.jpg' },
-            { name : 'ao_hoodie_nam2.jpg' },
-            { name : 'ao_hoodie_nam3.jpg' }
+            { name : 'ao1.jpg' },
+            { name : 'ao2.jpg' },
+            { name : 'ao3.jpg' }
         ],
     });
 

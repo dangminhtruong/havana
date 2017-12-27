@@ -20,8 +20,9 @@ router.get('/', function(req, res, next) {
             })
         },
         function(callback){
-            q(Product, { quantity : { $gt : 0 }  }).limit(4).exec((err, result) => {
-                callback(null, result)
+            Product.find({ status : 2 }).limit(4)
+            .exec((err, features) => {
+                callback(null, features);
             })
         }
     ],
@@ -31,10 +32,10 @@ router.get('/', function(req, res, next) {
             console.log(err);
         }
 
-        // res.render('index',{
-        //     news : results[0],
-        //     features : results[1]
-        // });
+        res.render('index',{
+             news : results[0],
+             features : results[1]
+        });
     });
 });
 

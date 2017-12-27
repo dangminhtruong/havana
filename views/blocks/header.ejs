@@ -103,8 +103,10 @@
                     <li><a href="product.html"><%= __('Men') %></a>
                         <div>
                             <ul>
-                                <li><a href="product.html">Product style 1</a> </li>
-                                <li><a href="product2.html">Product style 2</a> </li>
+                                <% for(i in categories){ 
+                                    if( categories[i].type == 1 ) { %>
+                                <li><a href="product.html"><%= categories[i].name %></a> </li>
+                                <% } } %>
                             </ul>
                             <ul>
                                 <li><img style="display:block" src="img/proudctbanner.jpg" alt="" title="" > </li>
@@ -114,8 +116,10 @@
                     <li><a  href="category.html"><%= __('Women') %></a> 
                         <div>
                             <ul>
-                                <li><a href="product.html">Product style 1</a> </li>
-                                <li><a href="product2.html">Product style 2</a> </li>
+                                <% for(i in categories){ 
+                                    if( categories[i].type == 2 ) { %>
+                                    <li><a href="blog.html"><%= categories[i].name %></a> </li>
+                                <% } } %>
                             </ul>
                             <ul>
                                 <li><img style="display:block" src="img/proudctbanner.jpg" alt="" title="" > </li>
