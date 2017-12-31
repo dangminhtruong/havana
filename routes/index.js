@@ -3,12 +3,7 @@ var router = express.Router();
 const async = require('async');
 const Product = require('../model/product');
 const Category = require('../model/category');
-const q = require('../database/queries/find');
 /* GET home page.... */
-
-function f(){
-    return Product.find({ status : 2, quantity : { $gt : 0 } });
-}
 
 router.get('/', function(req, res, next) {
     
