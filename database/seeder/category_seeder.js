@@ -1,11 +1,9 @@
 var seeder = require('mongoose-seed');
-const Product = require('../model/product');
-const Category = require('../model/category');
 seeder.connect('mongodb://localhost:27017/havana', function() {
  
   // Load Mongoose models
   seeder.loadModels([
-    '../model/category'
+    '../../model/category'
   ]);
  
   // Clear specified collections

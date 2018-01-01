@@ -1,68 +1,51 @@
 var seeder = require('mongoose-seed');
-const Product = require('../model/product');
-const Category = require('../model/category');
+const Category = require('../../model/category');
 var faker = require('faker');
 
-seeder.connect('mongodb://localhost:27017/havana', function() {
- 
-  // Load Mongoose models
-  seeder.loadModels([
-    '../model/product'
-  ]);
- 
-  // Clear specified collections
-  seeder.clearModels(['Category'], function() {
- 
-    // Callback to populate DB once collections have been cleared
-    seeder.populateModels(data, function() {
-      seeder.disconnect();
-    });
- 
-  });
-});
 
-const data = [
-    {
-        'model': 'Product',
-        'documents': [
-            {
-                name : ,
-                unit_price : Number,
-                promo_price : Number,
-                slug_name : String,
-                descript: String,
-                image : String,
-                status : Number,
-                quantity : Number,
-                saled : Number,
-                category_id : { type: ObjectId, ref : 'Category'},
-                size : [
-                    { name :  String }
-                ],
-                image_detais : [
-                    { name : String }
-                ],
-                rate : [
-                    {
-                        star : Number,
-                        user_id : { type: ObjectId, ref : 'User'}
-                    }
-                ],
-                comment : [
-                    {
-                        user_name : String,
-                        content : String,
-                        reply : [
-                            {
-                                user_name : String,
-                                content : String,
-                                createdOn: { type: Date, 'default': Date.now }
-                            }
-                        ],
-                        createdOn: { type: Date, 'default': Date.now }
-                    }
-                ]
-            }
-        ]
-    }
-];
+
+
+seeder.connect('mongodb://localhost:27017/havana', function() {
+    seeder.loadModels([
+        '../../model/product'
+    ]);
+    seeder.clearModels(['Category'], function() {
+        seeder.populateModels(data, function() {
+        seeder.disconnect();
+        });
+    });
+ });
+
+ const data = [
+     {
+         'model': 'Product',
+         'documents': [
+             {
+                 name : faker.commerce.productName(),
+                 unit_price : faker.commerce.price(),
+                 promo_price : faker.commerce.price(),
+                 slug_name : faker.helpers.slugify(),
+                 descript: faker.lorem.paragraph(),
+                 image : 'product.jpg',
+                 status : 1,
+                 quantity : faker.random.number(),
+                 saled : 0,
+                 category_id : null,
+                 size : [
+                     { name :  'XL' },
+                     { name :  'L' },
+                     { name :  'M' },
+                 ],
+                 image_detais : [
+                    
+                 ],
+                 rate : [
+                    
+                 ],
+                 comment : [
+                    
+                 ]
+             }
+         ]
+     }
+ ];
