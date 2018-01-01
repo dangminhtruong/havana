@@ -37,7 +37,7 @@ i18n.configure({
 app.use('/', index);
 app.use('/change-languages', languages);
 app.use('/users', users);
-app.use('/product', product);
+app.use('/product/', product);
 app.use('/category', category);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

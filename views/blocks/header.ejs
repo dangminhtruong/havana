@@ -100,29 +100,29 @@
                 <ul class="nav-pills categorymenu">
                     <li><a class="active"  href="/">Home</a>
                     </li>
-                    <li><a href="product.html"><%= __('Men') %></a>
+                    <li><a href="#"><%= __('Men') %></a>
                         <div>
                             <ul>
                                 <% for(i in categories){ 
                                     if( categories[i].type == 1 ) { %>
-                                <li><a href="product.html"><%= categories[i].name %></a> </li>
+                                <li><a href="/category/<%= categories[i]._id %>"><%= categories[i].name %></a> </li>
                                 <% } } %>
                             </ul>
                             <ul>
-                                <li><img style="display:block" src="img/proudctbanner.jpg" alt="" title="" > </li>
+                                <li><img style="display:block" src="/img/proudctbanner.jpg" alt="" title="" > </li>
                             </ul>
                         </div>
                     </li>
-                    <li><a  href="category.html"><%= __('Women') %></a> 
+                    <li><a  href="#"><%= __('Women') %></a> 
                         <div>
                             <ul>
                                 <% for(i in categories){ 
                                     if( categories[i].type == 2 ) { %>
-                                    <li><a href="blog.html"><%= categories[i].name %></a> </li>
+                                    <li><a href="/category/<%= categories[i]._id %>"><%= categories[i].name %></a> </li>
                                 <% } } %>
                             </ul>
                             <ul>
-                                <li><img style="display:block" src="img/proudctbanner.jpg" alt="" title="" > </li>
+                                <li><img style="display:block" src="/img/proudctbanner.jpg" alt="" title="" > </li>
                             </ul>
                         </div>
                     </li>

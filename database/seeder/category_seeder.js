@@ -1,15 +1,16 @@
-var seeder = require('mongoose-seed');
+/*
+* Author : Dang Minh Truong
+* Email : xdangminhtruongx@gmail.com
+*/
+const seeder = require('mongoose-seed');
+const faker = require('faker');
+
 seeder.connect('mongodb://localhost:27017/havana', function() {
- 
-  // Load Mongoose models
+
   seeder.loadModels([
     '../../model/category'
   ]);
- 
-  // Clear specified collections
   seeder.clearModels(['Category'], function() {
- 
-    // Callback to populate DB once collections have been cleared
     seeder.populateModels(data, function() {
       seeder.disconnect();
     });

@@ -1,3 +1,8 @@
+/*
+* Author : Dang Minh Truong
+* Email : xdangminhtruongx@gmail.com
+*/
+
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 const seeder = require('mongoose-seed');
@@ -19,7 +24,7 @@ new Promise((resolve) => {
     return new Promise((resolve) => {
         let items = [];
         let status = [1, 2]
-        for(i=0; i< 50; i++){
+        for(i=0; i< 150; i++){
             items.push(
                 {
                     name : faker.commerce.productName(),
@@ -36,6 +41,13 @@ new Promise((resolve) => {
                         { name :  'XL' },
                         { name :  'L' },
                         { name :  'M' },
+                    ],
+                    color : [
+                        { name : faker.commerce.color()  },
+                        { name : faker.commerce.color()  },
+                        { name : faker.commerce.color()  },
+                        { name : faker.commerce.color()  },
+                        { name : faker.commerce.color()  }
                     ],
                     image_detais : [
                        
@@ -67,41 +79,3 @@ new Promise((resolve) => {
         });
      });
 });
-
-
-
-
-
-//   const data = [
-//       {
-//           'model': 'Product',
-//           'documents': [
-//               {
-//                   name : faker.commerce.productName(),
-//                   unit_price : faker.commerce.price(),
-//                   promo_price : faker.commerce.price(),
-//                   slug_name : faker.helpers.slugify(),
-//                   descript: faker.lorem.paragraph(),
-//                   image : 'product.jpg',
-//                   status : 1,
-//                   quantity : faker.random.number(),
-//                   saled : 0,
-//                   category_id : null,
-//                   size : [
-//                       { name :  'XL' },
-//                       { name :  'L' },
-//                       { name :  'M' },
-//                   ],
-//                   image_detais : [
-                    
-//                   ],
-//                   rate : [
-                    
-//                   ],
-//                   comment : [
-                    
-//                   ]
-//               }
-//           ]
-//       }
-//   ];

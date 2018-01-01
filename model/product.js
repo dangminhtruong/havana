@@ -17,6 +17,9 @@ var ProductSchema = new mongoose.Schema({
     size : [
         { name :  String }
     ],
+    color : [
+        { name :  String }
+    ],
     image_detais : [
         { name : String }
     ],
