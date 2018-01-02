@@ -29,7 +29,7 @@ h2 { font-size:24px }
 .displayblock { display:block }
 .red { color:#F00 }
 .orange { color:#F25C27 }
-.footerlinks ul li a, .footerlinks ul li a:hover, .thumbnail .shortlinks a, .thumbnail .shortlinks a:hover, .flex-control-paging li a, .flex-control-paging li a:hover, ul.categorymenu > li > a, ul.categorymenu > li > a:hover, .dropdown-menu li > a, .dropdown-menu li > a:hover, ul.categorymenu > li > div > ul > li > a, ul.categorymenu > li > div > ul > li > a:hover, #topnav ul li a, #topnav ul li a:hover, .thumbnail a.productcart, .thumbnail a:hover.productcart, input, input:focus, select, select:focus, textarea, textarea:focus { -moz-transition: all .2s ease;
+.footerlinks ul li a, .footerlinks ul li a:hover, .thumbnail .shortlinks a, .thumbnail .shortlinks a:hover, .flex-control-paging li a, .flex-control-paging li a:hover, ul.categorymenu > li > a, ul.categorymenu > li > a:hover, .dropdown-menu li > a, .dropdown-menu li > a:hover, ul.categorymenu > li > div > ul > li > a, ul.categorymenu > li > div > ul > li > a:hover, #topnav ul li a, #topnav ul li a:hover, .thumbnail button.productcart, .thumbnail a:hover.productcart, input, input:focus, select, select:focus, textarea, textarea:focus { -moz-transition: all .2s ease;
 -webkit-transition: all .2s ease;
 -o-transition: all .2s ease
 }
@@ -179,8 +179,8 @@ ul.categorymenu > li > div > ul > li > div ul li:hover > div { display: table; w
 .thumbnail .offer, .thumbnail .sale, .thumbnail .new { z-index:999 }
 .thumbnail .pricetag { width:221px; height:37px; background:url(../img/pricetag.png) no-repeat right 0; margin-top:8px; position:relative; padding:9px 9px 9px 30px; margin-bottom:20px }
 .thumbnail .pricetag .spiral { position:absolute; top:-19px; left:10px; background:url(../img/spiral.png) no-repeat right 0; height:50px; width:35px }
-.thumbnail a.productcart { background: #f25c27 url(../img/prodcutcart.png) right 7px no-repeat; color:#fff; float:right; padding:8px 27px 8px 8px; font-size:13px; }
-.thumbnail a.productcart:hover { background: #db420e url(../img/prodcutcart.png) right 7px no-repeat; }
+.thumbnail button.productcart { background: #f25c27 url(../img/prodcutcart.png) right 7px no-repeat; color:#fff; float:right; padding:8px 27px 8px 8px; font-size:13px; }
+.thumbnail button.productcart:hover { background: #db420e url(../img/prodcutcart.png) right 7px no-repeat; }
 .thumbnail .shortlinks { background:#fff; position:absolute; left:0; top:60%; width:100%; text-align:center; padding:5px 0; display:none }
 .thumbnail .shortlinks a { font-size:12px; padding:5px 5px 0 25px; background:url(../img/sprite.png) 0 0 no-repeat; }
 .thumbnail .shortlinks a.details { background-position:0 -384px }
@@ -538,7 +538,7 @@ text-align:center;
 width:100%;
  margin:10px 0 0 0
 }
- .thumbnail a.productcart {
+ .thumbnail button.productcart {
 float:none
 }
  .thumbnail .shortlinks {
@@ -841,7 +841,7 @@ ul.thumbnails div.thumbnail {width:auto}
     padding: 2px 12px;
 }
 .thumbnails.list .productdiscrption {text-align:left}
-.thumbnails.list .thumbnail a.productcart {float:left; margin-left:15px}
+.thumbnails.list .thumbnail button.productcart {float:left; margin-left:15px}
 .thumbnails.list .price{text-align:left; float:left; margin-left:20px; width:auto; margin-top:0px}
  }
   @media only screen and (max-width:979px) {

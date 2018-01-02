@@ -45,7 +45,7 @@
       <ul class="thumbnails">
         <% for(i in features ){ %>
         <li class="col-lg-3  col-sm-6">
-          <a class="prdocutname" href="product.html"><%= features[i].name %></a>
+          <a class="prdocutname" href="/product/<%= features[i]._id %>"><%= features[i].name %></a>
           <div class="thumbnail">
             <span class="sale tooltip-test">Sale</span>
             <a href="#"><img alt="" src="img/product1.jpg"></a>
@@ -55,7 +55,7 @@
               <a class="compare" href="#">COMPARE</a>
             </div>
             <div class="pricetag">
-              <span class="spiral"></span><a href="#" class="productcart">ADD TO CART</a>
+              <span class="spiral"></span><button class="productcart">ADD TO CART</button>
               <div class="price">
                 <div class="pricenew">$<%= features[i].unit_price %></div>
                 <div class="priceold">$<%= features[i].promo_price %></div>
@@ -84,7 +84,7 @@
                 <a class="compare" href="#">COMPARE</a>
               </div>
               <div class="pricetag">
-                <span class="spiral"></span><a href="#" class="productcart">ADD TO CART</a>
+                <span class="spiral"></span><button class="productcart">ADD TO CART</button>
                 <div class="price">
                   <div class="pricenew">$<%= news[i].unit_price %></div>
                   <div class="priceold">$<%= news[i].promo_price %></div>
