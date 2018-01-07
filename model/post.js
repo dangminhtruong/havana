@@ -3,6 +3,11 @@ mongoose.Promise = require('bluebird');
 var Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId;
 
+/*------------------------------------
+* Author : Dang Minh Truong
+* Email : mr.dangminhtruong@gmail.com
+*-----------------------------------*/
+
 var PostSchema = new mongoose.Schema({
     {
         title : String,

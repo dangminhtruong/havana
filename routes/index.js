@@ -3,7 +3,11 @@ var router = express.Router();
 const async = require('async');
 const Product = require('../model/product');
 const Category = require('../model/category');
-/* GET home page.... */
+
+/*------------------------------------
+* Author : Dang Minh Truong
+* Email : mr.dangminhtruong@gmail.com
+*-----------------------------------*/
 
 router.get('/', function(req, res, next) {
     

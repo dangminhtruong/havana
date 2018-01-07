@@ -3,7 +3,11 @@ const router = express.Router();
 const async = require('async');
 const Product = require('../model/product');
 
-/* GET home page. */
+/*------------------------------------
+* Author : Dang Minh Truong
+* Email : mr.dangminhtruong@gmail.com
+*-----------------------------------*/
+
 router.get('/:id', function(req, res, next) {
     async.parallel([
         function(callback){

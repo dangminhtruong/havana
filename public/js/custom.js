@@ -1,7 +1,5 @@
-// JavaScript Document
-			
-// Brand Carousal
-	$(window).load(function() {
+
+$(window).load(function() {
 	$('#brandcarousal').carouFredSel({
 							width: '100%',
 						scroll: 1,
@@ -19,11 +17,10 @@
 // Dropdown on Mouseover					
 $('document').ready(function(){
 	
-	<!-- Tooltip -->
+
 	 $('.tooltip-test').tooltip()
     $('.popover-test').popover()
 
-	<!-- Accrodian -->	
 	var $acdata = $('.accrodian-data'),
 		$acclick = $('.accrodian-trigger');
 
@@ -38,8 +35,7 @@ $('document').ready(function(){
 		e.preventDefault();
 	});
 		
-		
-	<!-- Toggle -->			
+
 	$('.togglehandle').click(function()
 	{
 		$(this).toggleClass('active')
@@ -144,10 +140,6 @@ $('document').ready(function(){
 	});	
 	 
 
-
-	
-					
-	<!-- index2 main Carousal-->
 	$("#mainslider2").carouFredSel({
 		responsive: true,
 	items		: 1,
@@ -172,7 +164,7 @@ $('document').ready(function(){
 	});
 
 
-	<!-- index3 main Carousal-->
+
 	$(function() {
 				$('#mainslider3').carouFredSel({
 					responsive: true,
@@ -196,7 +188,7 @@ $('document').ready(function(){
 			});
 
 
-	<!-- index4 main Carousal-->
+
 	$(window).load(function() {
               // The slider being synced must be initialized first
               $('#carouseindex4').flexslider({
@@ -218,7 +210,6 @@ $('document').ready(function(){
               });
             });
 			
-	<!-- index5 main Carousal-->		
 			function prevTimers() {
 				return allTimers().slice( 0, $('.sliderindex5pager a.selected').index() );
 			}
@@ -253,7 +244,7 @@ $('document').ready(function(){
 				});
 			});
 			
-			<!-- index6 main Carousal-->
+	
 	$(function() {
 				$('#mainslider6').carouFredSel({
 					//width: 900,
@@ -346,8 +337,7 @@ $(window).load(function(){
 	  
 	  
 });
-
-<!-- Scroll top -->		  
+	  
 $(window).scroll(function () {
 		if ($(this).scrollTop() > 50) {
 			$('#gotop').fadeIn(500);
@@ -358,7 +348,7 @@ $(window).scroll(function () {
 	
 
 $(window).load(function() {	
-	<!-- Portfolio -->					
+			
 
   $.Isotope.prototype._getCenteredMasonryColumns = function() {
     this.width = this.element.width();
@@ -503,4 +493,32 @@ $(window).load(function() {
 			fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
 
-//-------------------------------------------------------------------
+/*
+* Author : Dang Minh Truong
+* Email : mr.dangminhtruong
+*/
+
+let app = new Vue({
+	el : '#app',
+	data : {
+
+	},
+	methods : {
+		add_card : function(event){
+			let id = $(this).val();
+			axios.get(`/shoping-cart/add/${id}`, {
+				params: {
+				}
+			})
+			.then(function (response) {
+				console.log(response);
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+		
+
+		}
+	}
+});
+
