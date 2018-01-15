@@ -8,5 +8,5 @@ async function dbseed() {
     await product();
     await user();
     await bill();
-     console.log('data generate successfull');
+    console.log('data generate successfull');
 }

@@ -56,7 +56,7 @@
             </div>
             <div class="pricetag">
               <span class="spiral"></span>
-              <button class="productcart" @click="add_card" value="<%= features[i]._id %>">ADD TO CART</button>
+              <button class="productcart" @click="addCart('<%= features[i]._id %>')">ADD TO CART</button>
               <div class="price">
                 <div class="pricenew">$<%= features[i].unit_price %></div>
                 <div class="priceold">$<%= features[i].promo_price %></div>
@@ -76,7 +76,7 @@
       <ul class="thumbnails">
         <% for(i in news) { %>
           <li class="col-lg-3 col-sm-6">
-            <a class="prdocutname" href="/product/<%= news[i].id %>"><%= news[i].name %></a>
+            <a class="prdocutname" href="/product/<%= news[i]._id %>"><%= news[i].name %></a>
             <div class="thumbnail">
               <a href="#"><img alt="" src="/img/product1a.jpg"></a>
               <div class="shortlinks">
@@ -85,7 +85,8 @@
                 <a class="compare" href="#">COMPARE</a>
               </div>
               <div class="pricetag">
-                <span class="spiral"></span><button class="productcart">ADD TO CART</button>
+                <span class="spiral"></span>
+                <button class="productcart" @click="addCart('<%= news[i]._id %>')">ADD TO CART</button>
                 <div class="price">
                   <div class="pricenew">$<%= news[i].unit_price %></div>
                   <div class="priceold">$<%= news[i].promo_price %></div>

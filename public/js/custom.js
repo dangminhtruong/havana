@@ -497,28 +497,3 @@ $(window).load(function() {
 * Author : Dang Minh Truong
 * Email : mr.dangminhtruong
 */
-
-let app = new Vue({
-	el : '#app',
-	data : {
-
-	},
-	methods : {
-		add_card : function(event){
-			let id = $(this).val();
-			axios.get(`/shoping-cart/add/${id}`, {
-				params: {
-				}
-			})
-			.then(function (response) {
-				console.log(response);
-			})
-			.catch(function (error) {
-				console.log(error);
-			});
-		
-
-		}
-	}
-});
-

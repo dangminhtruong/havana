@@ -23,7 +23,10 @@ router.get('/add/:id', function(req, res, next) {
                 }
             ]
         }).then(() => {
-            res.send('add cart successfull');
+            console.log(sess.cart);
+            res.send({
+                cart_items : 1
+            });
         });
     }
     //----------------------------
@@ -31,7 +34,10 @@ router.get('/add/:id', function(req, res, next) {
         let check = _.findIndex(sess.cart, { 'product_id': req.params.id });
         if(check >= 0 ){
             sess.cart[check].product_quantity += 1;
-            res.send('add cart successfull');
+            console.log(sess.cart);
+            res.send({
+                cart_items : sess.cart.length
+            });
         }
     //------------------------
         else{
@@ -45,7 +51,9 @@ router.get('/add/:id', function(req, res, next) {
                     }
                 )
             }).then(() => {
-                res.send('add cart successfull');
+                res.send({
+                    cart_items : sess.cart.length
+                });
             });
         } 
     //------------------------

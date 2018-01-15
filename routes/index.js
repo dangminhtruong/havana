@@ -10,7 +10,6 @@ const Category = require('../model/category');
 *-----------------------------------*/
 
 router.get('/', function(req, res, next) {
-    
     async.parallel([
         function(callback){
             Product.find().sort( { createdOn: -1 } ).limit(4)
