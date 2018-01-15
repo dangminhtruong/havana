@@ -10,10 +10,6 @@ var i18n = require("i18n");
 var session = require('express-session');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
-var product = require('./routes/product');
-var languages = require('./routes/languages');
-var category = require('./routes/category');
 var shoping_cart = require('./routes/shopping_cart');
 
 var app = express();
@@ -31,6 +27,8 @@ app.use(cookieParser());
 app.use(session({secret: 'no'}));
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+//-----------------CUSTOM CONTROLLER------------------
 app.use(i18n.init);
 i18n.configure({
   locales:['en', 'vi'],
@@ -38,11 +36,8 @@ i18n.configure({
   cookie: 'lang',
 });
 app.use('/', index);
-app.use('/change-languages', languages);
-app.use('/users', users);
-app.use('/product', product);
-app.use('/category', category);
 app.use('/shoping-cart',shoping_cart);
+//--------------------------------------------------
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

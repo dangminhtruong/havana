@@ -72,8 +72,13 @@ router.get('/remove/:id', (req, res, next) => {
     } catch (error) {
         res.send('failed');
     }
-
   
 });
+
+router.get('/details', function(req, res, next) {
+    res.render('./pages/view_cart', {
+        cart : req.session.cart
+    });
+ });
 
 module.exports = router;
