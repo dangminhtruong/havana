@@ -11,7 +11,7 @@ var session = require('express-session');
 
 var index = require('./routes/index');
 var shoping_cart = require('./routes/shopping_cart');
-
+var admin = require('./routes/admin');
 var app = express();
 
 // view engine setup
@@ -37,6 +37,7 @@ i18n.configure({
 });
 app.use('/', index);
 app.use('/shoping-cart',shoping_cart);
+app.use('/admin', admin);
 //--------------------------------------------------
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

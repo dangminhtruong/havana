@@ -17,6 +17,7 @@
 <div id="maincontainer">
   <section id="product">
     <div class="container">
+        <% if(typeof cart !==  "undefined" ){ %>
      <!--  breadcrumb --> 
       <ul class="breadcrumb">
         <li>
@@ -27,7 +28,7 @@
       </ul>       
       <h1 class="heading1"><span class="maintext"> Shopping Cart</span><span class="subtext"> All items in your  Shopping Cart</span></h1>
       <!-- Cart-->
-        <% if(typeof cart !==  "undefined" ){ %>
+        
           <div class="cart-info">
             <table class="table table-striped table-bordered">
               <tr>
@@ -35,9 +36,9 @@
                 <th class="name">Product Name</th>
                 <th class="model">Model</th>
                 <th class="quantity">Qty</th>
-                <th class="total">Action</th>
                 <th class="price">Unit Price</th>
                 <th class="total">Total</th>
+                <th class="total">Action</th>
               </tr>
              <% cart.forEach((item)=>{ %>
                 <tr>
@@ -46,11 +47,24 @@
                     <td class="model">Purchased Product</td>
                     <td class="quantity">
                         <input type="text" size="1" value="<%= item.product_quantity %>" name="quantity[40]" class="col-lg-1">
-                     </td>
-                     <td class="total"> <a href="#"><img class="tooltip-test" data-original-title="Update" src="img/update.png" alt=""></a>
-                      <a href="#"><img class="tooltip-test" data-original-title="Remove"  src="img/remove.png" alt=""></a></td>
-                    <td class="price">$120.68</td>
-                    <td class="total">$120.68</td> 
+                    </td>
+                    <% if(item.promo_price !== 0){ %>
+                      <td class="price">$<%= item.promo_price %></td>
+                    <% }else{ %>
+                      <td class="price">$<%= item.unit_price %></td>
+                    <% } %>
+                    
+                    <td class="total">
+                      <% if(item.promo_price !== 0){ %>
+                        $<%= item.promo_price * item.product_quantity %>
+                      <% }else{ %>
+                        $<%= item.unit_price * item.product_quantity %>
+                      <% } %>
+                    </td> 
+                    <td class="total"> 
+                      <a href="#"><img class="tooltip-test" data-original-title="Update" src="/img/update.png" alt=""></a>
+                      <a href="#"><img class="tooltip-test" data-original-title="Remove"  src="/img/remove.png" alt=""></a>
+                    </td>
                 </tr>
              <% }) %>
     
@@ -112,7 +126,9 @@
               </div>
             </div>
         <% }else{ %>
-            weswepfweofn
+            <div class="cart-info" style="min-height: 50vh;">
+              Bạn hiện chưa có sản phẩm nào trong giỏ hàng
+            </div>
         <% } %>
         </div>
     </div>

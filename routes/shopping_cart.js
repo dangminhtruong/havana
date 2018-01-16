@@ -19,6 +19,8 @@ router.get('/add/:id', function(req, res, next) {
                 {
                     product_id : req.params.id,
                     product_name : product.name,
+                    unit_price : product.unit_price,
+                    promo_price : product.promo_price,
                     product_quantity : 1
                 }
             ]
@@ -47,6 +49,8 @@ router.get('/add/:id', function(req, res, next) {
                     {
                         product_id : req.params.id,
                         product_name : product.name,
+                        unit_price : product.unit_price,
+                        promo_price : product.promo_price,
                         product_quantity : 1
                     }
                 )
