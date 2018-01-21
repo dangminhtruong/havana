@@ -8,6 +8,10 @@ $(function () {
         screenfull.toggle($('#container')[0]);
     });
 });
+
+$('.btn-admore').click(function() {
+	$(this).toggleClass('active');
+});
                      
 var category_add = new Vue({
     el : '#category_add',

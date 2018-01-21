@@ -5,7 +5,7 @@ const Category = require('../model/category');
 const Bill = require('../model/bill');
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
-var weeky = require('../helpers/line_chart_data');
+var weekly = require('../helpers/line_chart_data');
 
 
 /*------------------------------------
@@ -18,12 +18,7 @@ router.get('/', function(req, res, next) {
 });
 /*--------------------------------------------------------*/
 router.get('/category/add', (req, res, next) => {
-    Category.find({}, {_id : 1, name : 1 })
-    .exec((err, categories) => {
-        res.render('./admin/pages/add_category', {
-            categories : categories
-        });
-    });
+    res.render('./admin/pages/add_category');
 });
 /*--------------------------------------------------------*/
 router.post('/category/add', urlencodedParser , (req, res, next) => {
@@ -39,9 +34,13 @@ router.post('/category/add', urlencodedParser , (req, res, next) => {
     });
     
 });
-
+/*--------------------------------------------------------*/
 router.get('/line-chart', (req, res, next) => {
-    weeky(req, res);
+    weekly(req, res);
 });
-
+/*--------------------------------------------------------*/
+router.get('/product/add', (rwq, res, next) => {
+    res.render('./admin/pages/add_product');
+});
+/*--------------------------------------------------------*/
 module.exports = router;

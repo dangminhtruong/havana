@@ -2849,3 +2849,19 @@ ul.dropdown-menu.dropdown-menu-right {
     font-size:14px; 
     color: #999;
 }
+
+.transition {
+	transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.btn-admore {
+    background-color: #ffffff;
+    border: solid 1px #657d95;
+    border-radius: 100px;
+    padding: 1vh 2vh;
+    font-size: 11px;
+    text-transform: uppercase;
+    cursor: pointer;
+    outline: none;
+
+}
