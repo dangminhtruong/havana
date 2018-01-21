@@ -45,8 +45,8 @@ new Promise((resolve) => {
                     total : faker.commerce.price(),
                     status : _.sample(status),
                     note: faker.lorem.text(),
-                    address : faker.address.streetAddress,
-                    phone: faker.phone.phoneNumber,
+                    address : faker.address.streetName(),
+                    phone: faker.phone.phoneNumber(),
                     user_id : _.sample(results[0])._id,
                     detais : [
                         {

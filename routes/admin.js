@@ -2,8 +2,11 @@ var express = require('express');
 var router = express.Router();
 const async = require('async');
 const Category = require('../model/category');
+const Bill = require('../model/bill');
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
+var weeky = require('../helpers/line_chart_data');
+
 
 /*------------------------------------
 * Author : Dang Minh Truong
@@ -35,6 +38,10 @@ router.post('/category/add', urlencodedParser , (req, res, next) => {
          });
     });
     
+});
+
+router.get('/line-chart', (req, res, next) => {
+    weeky(req, res);
 });
 
 module.exports = router;
