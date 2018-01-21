@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="keywords" content="havana" />
-		<%- include('./blocks/header_links') %>
+		<%- include('../blocks/header_links') %>
 	</head>
 	<body>
 		<div id="wrapper">
@@ -115,72 +115,7 @@
 			<!-- /.navbar-collapse -->
 			<div class="clearfix">
 			</div>
-			<div class="navbar-default sidebar" role="navigation">
-				<div class="sidebar-nav navbar-collapse">
-					<ul class="nav" id="side-menu">
-					<li>
-						<a href="index.html" class=" hvr-bounce-to-right">
-							<i class="fa fa-dashboard nav_icon "></i>
-							<span class="nav-label"><%= __('Dashboards') %></span> </a>
-					</li>
-					<li>
-						<a href="inbox.html" class=" hvr-bounce-to-right">
-						<i class="fa fa-inbox nav_icon"></i> 
-						<span class="nav-label"><%= __('Inbox') %></span> </a>
-					</li>
-					<li>
-						<a href="#" class=" hvr-bounce-to-right">
-							<i class="fa fa-indent nav_icon"></i> 
-							<span class="nav-label"><%= __('Category')  %></span>
-							<span class="fa arrow"></span>
-						</a>
-						<ul class="nav nav-second-level">
-							<li><a href="graphs.html" class=" hvr-bounce-to-right"> 
-								<i class="fa fa-list nav_icon"></i>List</a>
-							</li>
-							<li><a href="maps.html" class=" hvr-bounce-to-right">
-								<i class="fa fa-plus nav_icon"></i>Add new</a></li>
-						</ul>
-					</li>
-					<li>
-						<a href="#" class=" hvr-bounce-to-right">
-							<i class="fa fa-product-hunt nav_icon"></i>
-							<span class="nav-label"><%= __('Product') %></span>
-							<span class="fa arrow"></span>
-						</a>
-						<ul class="nav nav-second-level">
-							<li><a href="404.html" class=" hvr-bounce-to-right">
-								<i class="fa fa-list nav_icon"></i>List</a>
-							</li>
-							<li><a href="faq.html" class=" hvr-bounce-to-right">
-								<i class="fa fa-plus nav_icon"></i>Add</a>
-							</li>
-						</ul>
-					</li>
-					<li>
-						<a href="#" class=" hvr-bounce-to-right">
-							<i class="fa fa-line-chart nav_icon"></i> 
-							<span class="nav-label"><%= __('Statistic') %></span>
-							<span class="fa arrow"></span></a>
-						<ul class="nav nav-second-level">
-							<li><a href="forms.html" class=" hvr-bounce-to-right">
-								<i class="fa fa-align-left nav_icon"></i><%= __('Income') %></a>
-							</li>
-							<li><a href="validation.html" class=" hvr-bounce-to-right">
-								<i class="fa fa-check-square-o nav_icon"></i><%= __('Top sale') %></a>
-							</li>
-						</ul>
-					</li>
-					<li>
-						<a href="#" class=" hvr-bounce-to-right"><i class="fa fa-cog nav_icon"></i> <span class="nav-label">Settings</span><span class="fa arrow"></span></a>
-						<ul class="nav nav-second-level">
-							<li><a href="signin.html" class=" hvr-bounce-to-right"><i class="fa fa-sign-in nav_icon"></i>Signin</a></li>
-							<li><a href="signup.html" class=" hvr-bounce-to-right"><i class="fa fa-sign-in nav_icon"></i>Singup</a></li>
-						</ul>
-					</li>
-					</ul>
-				</div>
-			</div>
+			<%- include('../blocks/main_menu') %>
 		</nav>
 		<div id="page-wrapper" class="gray-bg dashbard-1">
 		<div class="content-main">
@@ -197,27 +132,29 @@
 		<!--//banner-->
 		<!--content-->
 		<div class="content-top">
-		<div class="col-md-12 " style="min-height:65vh;">
+		<div class="col-md-12 " style="min-height:65vh;" id="category_add">
             <div >
                 <div class="col-md-12 panel-content">
-                    <form action="/admin/category/add" method="post" >
+                    <form action="/admin/category/add" method="post"  v-on:submit.prevent="onSubmit">
                         <div class="form-group">
-                            <label for="sel1"><%= __(' Product\'s type ') %>:</label>
-                            <select class="form-control" id="sel1">
-                                <% categories.forEach((category) => { %>
-                                    <option value="<%= category._id %>"><%= category.name %></option>
-                                <% }) %>  
-                            </select>
+                            <label for="sel1"><%= __(' Product\'s type ') %> :</label>
+                            <select class="form-control" v-model="categoryType" required>
+								<option value="1">Thời trang nam</option>
+								<option value="2">Thời trang nữ</option>
+							</select>
+							<p style="color :red;">{{ alertTypeNull }}</p>
                         </div>
                         <div class="form-group">
                             <label for="email"><%= __('Category\'s name ') %>:</label>
-                            <input type="email" class="form-control" id="email">
+							<input type="text" class="form-control" v-model="categoryName" required>
+							<p style="color :red;">{{ alertNameNull }}</p>
                         </div>
                         <div class="form-group">
                             <label for="pwd"><%= __('Category\'s  description') %>:</label>
-                            <textarea class="form-control" rows="5" id="comment"></textarea>
+							<textarea class="form-control" rows="5" v-model="categoryDesc" required></textarea>
+							<p style="color :red;">{{ alertDescNull }}</p>
                         </div>
-                        <button type="submit" class="btn btn-default" style="color: #999;"><%= __('Finish') %></button>
+                        <button type="button" class="btn btn-default" @click="submited" style="color: #999;"><%= __('Finish') %></button>
                     </form>
                 </div>
             </div>
@@ -234,6 +171,6 @@
 		<div class="clearfix"> </div>
 		</div>
 		</div>
-		<%- include('./blocks/footer_links') %>
+		<%- include('../blocks/footer_links') %>
 	</body>
 </html>
