@@ -13,5 +13,19 @@
 	"Women": "Women",
 	"Blog": "Blog",
 	"About": "About",
-	"Contact": "Contact"
+	"Contact": "Contact",
+	"Product": "Product",
+	"Category": "Category",
+	"Statistic": "Statistic",
+	"Income": "Income",
+	"Top sale": "Top sale",
+	"Product's name ": "Product's name ",
+	"Category's name ": "Category's name ",
+	"Category's  description": "Category's  description",
+	"Product's type": "Product's type",
+	" Product's type ": " Product's type ",
+	"Dashboards": "Dashboards",
+	"Inbox": "Inbox",
+	"Add": "Add",
+	"Finish": "Finish"
 }

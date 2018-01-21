@@ -102,7 +102,7 @@
 					</ul>
 					</li>
 					<li class="dropdown">
-					<a href="#" class="dropdown-toggle dropdown-at" data-toggle="dropdown"><span class=" name-caret">Rackham<i class="caret"></i></span><img src="images/wo.jpg"></a>
+					<a href="#" class="dropdown-toggle dropdown-at" data-toggle="dropdown"><span class=" name-caret">Rackham<i class="caret"></i></span><img src="/admin/images/wo.jpg"></a>
 					<ul class="dropdown-menu " role="menu">
 						<li><a href="profile.html"><i class="fa fa-user"></i>Edit Profile</a></li>
 						<li><a href="inbox.html"><i class="fa fa-envelope"></i>Inbox</a></li>
@@ -121,12 +121,12 @@
 					<li>
 						<a href="index.html" class=" hvr-bounce-to-right">
 							<i class="fa fa-dashboard nav_icon "></i>
-							<span class="nav-label">Dashboards</span> </a>
+							<span class="nav-label"><%= __('Dashboards') %></span> </a>
 					</li>
 					<li>
 						<a href="inbox.html" class=" hvr-bounce-to-right">
 						<i class="fa fa-inbox nav_icon"></i> 
-						<span class="nav-label">Inbox</span> </a>
+						<span class="nav-label"><%= __('Inbox') %></span> </a>
 					</li>
 					<li>
 						<a href="#" class=" hvr-bounce-to-right">
@@ -189,19 +189,39 @@
 		<h2>
 		<a href="index.html">Home</a>
 		<i class="fa fa-angle-right"></i>
-		<span>Dashboard</span>
+        <span><%= __('Category') %></span>
+        <i class="fa fa-angle-right"></i>
+		<span><%= __('Add') %></span>
 		</h2>
 		</div>
 		<!--//banner-->
 		<!--content-->
 		<div class="content-top">
-		<div class="col-md-12 " style="min-height:65vh">
-			
-		CONTENT
-
-
-
-
+		<div class="col-md-12 " style="min-height:65vh;">
+            <div >
+                <div class="col-md-12 panel-content">
+                    <form action="/admin/category/add" method="post" >
+                        <div class="form-group">
+                            <label for="sel1"><%= __(' Product\'s type ') %>:</label>
+                            <select class="form-control" id="sel1">
+                                <% categories.forEach((category) => { %>
+                                    <option value="<%= category._id %>"><%= category.name %></option>
+                                <% }) %>  
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="email"><%= __('Category\'s name ') %>:</label>
+                            <input type="email" class="form-control" id="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd"><%= __('Category\'s  description') %>:</label>
+                            <textarea class="form-control" rows="5" id="comment"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-default" style="color: #999;"><%= __('Finish') %></button>
+                    </form>
+                </div>
+            </div>
+            
 		</div>
 		<div class="clearfix"> </div>
 		</div>

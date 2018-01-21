@@ -2840,3 +2840,12 @@ ul.dropdown-menu.dropdown-menu-right {
     font-size: 1.6em;
 }
 }
+.panel-content{
+    background-color: #fff; 
+    border: 1px solid #ebeff6;
+    border-color: #ebeff6; 
+    box-shadow: 0 1px 1px rgba(0,0,0,.05); 
+    padding:5vh; 
+    font-size:14px; 
+    color: #999;
+}
