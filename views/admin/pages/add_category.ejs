@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="keywords" content="havana" />
-		<%- include('./blocks/header_links') %>
+		<%- include('../blocks/header_links') %>
 	</head>
 	<body>
 		<div id="wrapper">
@@ -18,7 +18,7 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			</button>
-			<h1> <a class="navbar-brand" href="/admin">Havana</a></h1>
+			<h1> <a class="navbar-brand" href="index.html">Havana</a></h1>
 		</div>
 		<div class=" border-bottom">
 			<div class="full-left">
@@ -102,7 +102,7 @@
 					</ul>
 					</li>
 					<li class="dropdown">
-					<a href="#" class="dropdown-toggle dropdown-at" data-toggle="dropdown"><span class=" name-caret">Rackham<i class="caret"></i></span><img src="images/wo.jpg"></a>
+					<a href="#" class="dropdown-toggle dropdown-at" data-toggle="dropdown"><span class=" name-caret">Rackham<i class="caret"></i></span><img src="/admin/images/wo.jpg"></a>
 					<ul class="dropdown-menu " role="menu">
 						<li><a href="profile.html"><i class="fa fa-user"></i>Edit Profile</a></li>
 						<li><a href="inbox.html"><i class="fa fa-envelope"></i>Inbox</a></li>
@@ -115,7 +115,7 @@
 			<!-- /.navbar-collapse -->
 			<div class="clearfix">
 			</div>
-			<%- include('./blocks/main_menu') %>
+			<%- include('../blocks/main_menu') %>
 		</nav>
 		<div id="page-wrapper" class="gray-bg dashbard-1">
 		<div class="content-main">
@@ -124,14 +124,41 @@
 		<h2>
 		<a href="index.html">Home</a>
 		<i class="fa fa-angle-right"></i>
-		<span>Dashboard</span>
+        <span><%= __('Category') %></span>
+        <i class="fa fa-angle-right"></i>
+		<span><%= __('Add') %></span>
 		</h2>
 		</div>
 		<!--//banner-->
 		<!--content-->
 		<div class="content-top">
-		<div class="col-md-12 " style="min-height:65vh" id="admin_index">
-				<canvas id="line-chart" width="600" height="250"></canvas>
+		<div class="col-md-12 " style="min-height:65vh;" id="category_add">
+            <div >
+                <div class="col-md-12 panel-content">
+                    <form action="/admin/category/add" method="post"  v-on:submit.prevent="onSubmit">
+                        <div class="form-group">
+                            <label for="sel1"><%= __(' Product\'s type ') %> :</label>
+                            <select class="form-control" v-model="categoryType" required>
+								<option value="1">Thời trang nam</option>
+								<option value="2">Thời trang nữ</option>
+							</select>
+							<p style="color :red;">{{ alertTypeNull }}</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="email"><%= __('Category\'s name ') %>:</label>
+							<input type="text" class="form-control" v-model="categoryName" required>
+							<p style="color :red;">{{ alertNameNull }}</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd"><%= __('Category\'s  description') %>:</label>
+							<textarea class="form-control" rows="5" v-model="categoryDesc" required></textarea>
+							<p style="color :red;">{{ alertDescNull }}</p>
+                        </div>
+                        <button type="button" class="btn btn-default" @click="submited" style="color: #999;"><%= __('Finish') %></button>
+                    </form>
+                </div>
+            </div>
+            
 		</div>
 		<div class="clearfix"> </div>
 		</div>
@@ -144,6 +171,6 @@
 		<div class="clearfix"> </div>
 		</div>
 		</div>
-		<%- include('./blocks/footer_links') %>
+		<%- include('../blocks/footer_links') %>
 	</body>
 </html>
