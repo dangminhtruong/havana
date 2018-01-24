@@ -45,27 +45,20 @@ router.get('/product/add', (req, res, next) => {
     res.render('./admin/pages/add_product');
 });
 /*--------------------------------------------------------*/
-router.get('/bills/main', (req, res, next) => {
-    Bill.find({ _id : '5a6729d4fa1c7e1e21652e54' })
-    .populate('userId')
-    .exec((err, bills) => {
-        console.log(JSON.stringify(bills, null, "\t"));
-        res.send(JSON.stringify(bills, null, "\t"));
-        /* res.render('./admin/pages/bills_main', {
-            billToday : bills
-        }); */
-        
-    });
-    
+router.get('/bills/index', (req, res, next) => {
+    res.render('./admin/pages/bills_main'); 
 });
 /*--------------------------------------------------------*/
-router.get('/havana', (req, res) => {
-    User.find({ _id : '5a6729cf4dd9f81e04cec355' })
-    .exec((err, users) => {
-        console.log(users);
-        res.send({
-            user : users
-        });
+router.get('/bills/today-data', (req, res) => {
+    Bill.find({
+        createdOn : {
+            $gt : moment().startOf("day"),
+            $lt : moment().endOf("day")
+        }
+    })
+    .populate('user')
+    .exec((err, bills) => {
+        res.send(bills); 
     });
 })
 module.exports = router;

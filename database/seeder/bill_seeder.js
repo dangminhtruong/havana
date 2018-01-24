@@ -25,7 +25,7 @@ new Promise((resolve) => {
             }); 
         },
         (callback) => {
-            User.find({})
+            User.find({}, { _id : 1 })
             .exec((err, user_ids) => {
                 callback(null, user_ids);
             });
@@ -39,7 +39,7 @@ new Promise((resolve) => {
     return new Promise((resolve) => {
         let items = [];
         let status = [1, 2]
-        for(i=0; i< 15; i++){
+        for(i=0; i< 150; i++){
             items.push(
                 {
                     total : faker.commerce.price(),
@@ -47,41 +47,41 @@ new Promise((resolve) => {
                     note: faker.lorem.text(),
                     address : faker.address.streetName(),
                     phone: faker.phone.phoneNumber(),
-                    userId : _.sample(results[0])._id,
+                    user : _.sample(results[1])._id,
                     detais : [
                         {
-                            product_id : _.sample(results[1])._id,
-                            product_name : _.sample(results[1]).name,
+                            product_id : _.sample(results[0])._id,
+                            product_name : _.sample(results[0]).name,
+                            price : _.sample(results[0]).unit_price,
+                            quantity : faker.random.number()
+                        },
+                        {
+                            product_id : _.sample(results[0])._id,
+                            product_name : _.sample(results[0]).name,
+                            price : _.sample(results[0]).unit_price,
+                            quantity : faker.random.number()
+                        },
+                        {
+                            product_id : _.sample(results[0])._id,
+                            product_name : _.sample(results[0]).name,
+                            price : _.sample(results[0]).unit_price,
+                            quantity : faker.random.number()
+                        },
+                        {
+                            product_id : _.sample(results[0])._id,
+                            product_name : _.sample(results[0]).name,
+                            price : _.sample(results[0]).unit_price,
+                            quantity : faker.random.number()
+                        },
+                        {
+                            product_id : _.sample(results[0])._id,
+                            product_name : _.sample(results[0]).name,
                             price : _.sample(results[1]).unit_price,
                             quantity : faker.random.number()
                         },
                         {
-                            product_id : _.sample(results[1])._id,
-                            product_name : _.sample(results[1]).name,
-                            price : _.sample(results[1]).unit_price,
-                            quantity : faker.random.number()
-                        },
-                        {
-                            product_id : _.sample(results[1])._id,
-                            product_name : _.sample(results[1]).name,
-                            price : _.sample(results[1]).unit_price,
-                            quantity : faker.random.number()
-                        },
-                        {
-                            product_id : _.sample(results[1])._id,
-                            product_name : _.sample(results[1]).name,
-                            price : _.sample(results[1]).unit_price,
-                            quantity : faker.random.number()
-                        },
-                        {
-                            product_id : _.sample(results[1])._id,
-                            product_name : _.sample(results[1]).name,
-                            price : _.sample(results[1]).unit_price,
-                            quantity : faker.random.number()
-                        },
-                        {
-                            product_id : _.sample(results[1])._id,
-                            product_name : _.sample(results[1]).name,
+                            product_id : _.sample(results[0])._id,
+                            product_name : _.sample(results[0]).name,
                             price : _.sample(results[1]).unit_price,
                             quantity : faker.random.number()
                         }
