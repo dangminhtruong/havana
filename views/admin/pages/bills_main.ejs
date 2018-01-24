@@ -90,11 +90,16 @@
 						</div>
 					</form>
 					<div class="col-md-12 col-sm-12" style="min-height:60vh;">
-						<div class="col-md-12">
-							
-						</div>
-						<div class="col-md-12">
-							
+						<div class="col-md-12" v-for = "bill in bills" style="padding:2vh;">
+							<div class="col-md-4">
+								{{ bill.phone }}
+							</div>
+							<div class="col-md-4">
+								{{ bill.user.user_name }}
+							</div>
+							<div class="col-md-4" v-for="detail in bill.detais">
+								{{ detail.quantity }}
+							</div>
 						</div>
 					</div>
 			</div>   

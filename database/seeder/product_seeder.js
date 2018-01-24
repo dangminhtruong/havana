@@ -24,7 +24,7 @@ new Promise((resolve) => {
     return new Promise((resolve) => {
         let items = [];
         let status = [1, 2]
-        for(i=0; i< 15; i++){
+        for(i=0; i< 150; i++){
             items.push(
                 {
                     name : faker.commerce.productName(),

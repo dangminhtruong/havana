@@ -112,6 +112,13 @@ var bills = new Vue({
 
     },
     mounted : function(){
-        
+        axios.get('/admin/bills/today-data')
+          .then(function (response) {
+            bills.bills = response.data;
+            console.log(response.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
     }
 });
