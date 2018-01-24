@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Minimal an Admin Panel Category Flat Bootstrap Responsive Website Template | Home :: w3layouts</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="keywords" content="havana" />
+		<%- include('../blocks/header_links') %>
+	</head>
+	<body>
+		<div id="wrapper">
+		<!------>
+		<nav class="navbar-default navbar-static-top" role="navigation">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			</button>
+			<h1> <a class="navbar-brand" href="index.html">Havana</a></h1>
+		</div>
+		<div class=" border-bottom">
+			<%- include('../blocks/left_menu') %>
+			<!-------------------------------------->
+			<div class="clearfix">
+			</div>
+			<!-------------------------------------->
+			<%- include('../blocks/main_menu') %>
+		</nav>
+		<div id="page-wrapper" class="gray-bg dashbard-1">
+		<div class="content-main">
+		<!--banner-->	
+		<div class="banner">
+		<h2>
+		<a href="index.html">Home</a>
+		<i class="fa fa-angle-right"></i>
+        <span><%= __('Category') %></span>
+        <i class="fa fa-angle-right"></i>
+		<span><%= __('Add') %></span>
+		</h2>
+		</div>
+		<!--//banner-->
+		<!--content-->
+		<div class="content-top">
+		<div class="col-md-12 " style="min-height:65vh;" id="bills">
+			<div class="col-md-12 panel-content">
+					<form class="" role="form">
+						<!-------->
+						<div class="col-md-5">
+						<div class="col-md-6 col-xs-12">
+							<div class="form-group">
+							<label class="sr-only" for=""></label>
+							<input type="text" class="form-control" id="timTuNgay" placeholder="Tìm từ ngày">
+							</div>
+						</div>
+						<div class="col-md-6 col-xs-12">
+							<div class="form-group">
+								<label class="sr-only" for=""></label>
+								<input type="text" class="form-control" id="timDenNgay" placeholder="Đến ngày">
+							</div>
+						</div>
+						</div>
+						<!-------->
+						<div class="col-md-6">
+						<div class="col-md-6 col-xs-12">
+							<div class="form-group">
+							<select class="form-control" id="timTheoTuanThang" name="timTheoTuanThang">
+							<option value="null">Tìm trong</option>
+							<option value="timTrongTuan">Tuần này</option>
+							<option value="timTrongThang">Tháng này</option>
+							</select>
+							</div>
+						</div>
+						<div class="col-md-6 col-xs-12">
+							<div class="form-group">
+							<select class="form-control" id="timTheoTinhTrang" name="timTheoTinhTrang">
+								<option value="null">Tình trạng đơn hàng</option>
+								<option  value="Đang chờ">Đang chờ</option>
+								<option  value="Đã xác nhận">Đã xác nhận</option>
+								<option  value="Đang chuyển hàng">Đang chuyển hàng</option>
+								<option  value="Hoàn tất">Hoàn tất</option>
+							</select>
+							</div>
+						</div>
+						</div>
+						<!-------->
+						<div class="col-md-1 col-xs-12">
+						<button type="button" class="btn btn-sm btn-success" style="background-color:#F25C27">Lọc</button>
+						</div>
+					</form>
+					<div class="col-md-12 col-sm-12" style="min-height:60vh;">
+						<div class="col-md-12">
+							
+						</div>
+						<div class="col-md-12">
+							
+						</div>
+					</div>
+			</div>   
+		</div>
+		<div class="clearfix"> </div>
+		</div>
+		<!--//content-->
+		<!---->
+		<div class="copy">
+		<p> &copy; 2016 Minimal. All Rights Reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
+		</div>
+		</div>
+		<div class="clearfix"> </div>
+		</div>
+		</div>
+		<%- include('../blocks/footer_links') %>
+	</body>
+</html>

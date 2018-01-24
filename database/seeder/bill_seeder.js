@@ -39,7 +39,7 @@ new Promise((resolve) => {
     return new Promise((resolve) => {
         let items = [];
         let status = [1, 2]
-        for(i=0; i< 150; i++){
+        for(i=0; i< 15; i++){
             items.push(
                 {
                     total : faker.commerce.price(),
@@ -47,7 +47,7 @@ new Promise((resolve) => {
                     note: faker.lorem.text(),
                     address : faker.address.streetName(),
                     phone: faker.phone.phoneNumber(),
-                    user_id : _.sample(results[0])._id,
+                    userId : _.sample(results[0])._id,
                     detais : [
                         {
                             product_id : _.sample(results[1])._id,

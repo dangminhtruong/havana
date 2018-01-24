@@ -24,7 +24,7 @@ new Promise((resolve) => {
     return new Promise((resolve) => {
         let items = [];
         let status = [1, 2]
-        for(i=0; i< 150; i++){
+        for(i=0; i< 15; i++){
             items.push(
                 {
                     user_name : faker.name.findName(),

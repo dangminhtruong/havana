@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 var Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId;
+var User = require('../model/user');
 
 /*------------------------------------
 * Author : Dang Minh Truong
@@ -14,7 +15,7 @@ var BillSchema = new mongoose.Schema({
     note: String,
     address : String,
     phone: String,
-    user_id : { type: ObjectId, ref : 'User'},
+    userId : { type: ObjectId, ref : 'User'},
     detais : [
         {
             product_id : { type: ObjectId, ref : 'Product'},

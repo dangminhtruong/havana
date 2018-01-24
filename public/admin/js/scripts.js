@@ -63,6 +63,7 @@ var category_add = new Vue({
     }
 });
 
+
 var admin_index = new Vue({
     el : '#admin_index',
     data : {
@@ -102,3 +103,15 @@ var admin_index = new Vue({
     }
 });
 
+var bills = new Vue({
+    el : '#bills',
+    data : {
+        bills : null
+    },
+    methods : {
+
+    },
+    mounted : function(){
+        
+    }
+});
