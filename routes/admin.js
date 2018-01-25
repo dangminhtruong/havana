@@ -60,5 +60,6 @@ router.get('/bills/today-data', (req, res) => {
     .exec((err, bills) => {
         res.send(bills); 
     });
+    
 })
 module.exports = router;
