@@ -8,7 +8,7 @@
  * Copyright 2012, Codrops
  * http://www.codrops.com
  */
-;( function( $, window, undefined ) {
+( function( $, window, undefined ) {
 	
 	'use strict';
 
@@ -96,9 +96,9 @@
 				rowClass;
 
 			switch( this.rowTotal ) {
-				case 4 : rowClass = 'fc-four-rows'; break;
-				case 5 : rowClass = 'fc-five-rows'; break;
-				case 6 : rowClass = 'fc-six-rows'; break;
+			case 4 : rowClass = 'fc-four-rows'; break;
+			case 5 : rowClass = 'fc-five-rows'; break;
+			case 6 : rowClass = 'fc-six-rows'; break;
 			}
 
 			this.$cal = $( '<div class="fc-calendar ' + rowClass + '">' ).append( head, body );
@@ -344,15 +344,15 @@
 			
 				if ( !instance ) {
 
-					logError( "cannot call methods on calendario prior to initialization; " +
-					"attempted to call method '" + options + "'" );
+					logError( 'cannot call methods on calendario prior to initialization; ' +
+					'attempted to call method \'' + options + '\'' );
 					return;
 				
 				}
 				
-				if ( !$.isFunction( instance[options] ) || options.charAt(0) === "_" ) {
+				if ( !$.isFunction( instance[options] ) || options.charAt(0) === '_' ) {
 
-					logError( "no such method '" + options + "' for calendario instance" );
+					logError( 'no such method \'' + options + '\' for calendario instance' );
 					return;
 				
 				}

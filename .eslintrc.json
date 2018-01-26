@@ -1,0 +1,38 @@
+{
+    "env": {
+        "es6": true,
+        "amd": true,
+        "jquery": true,
+        "browser": true,
+        "node": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "globals": {
+        "$": true,
+        "document": true,
+        "axios": true,
+        "jQuery": true,
+        "window": true
+    },
+    "rules": {
+        "indent": [
+            "error",
+            "tab"
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ]
+    }
+}

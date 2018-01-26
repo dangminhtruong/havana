@@ -89,7 +89,7 @@ More detail and specific examples can be found in the included HTML file.
 
 				// set labels.show
 
-				if (options.series.pie.label.show == "auto") {
+				if (options.series.pie.label.show == 'auto') {
 					if (options.legend.show) {
 						options.series.pie.label.show = false;
 					} else {
@@ -99,7 +99,7 @@ More detail and specific examples can be found in the included HTML file.
 
 				// set radius
 
-				if (options.series.pie.radius == "auto") {
+				if (options.series.pie.radius == 'auto') {
 					if (options.series.pie.label.show) {
 						options.series.pie.radius = 3/4;
 					} else {
@@ -121,10 +121,10 @@ More detail and specific examples can be found in the included HTML file.
 			var options = plot.getOptions();
 			if (options.series.pie.show) {
 				if (options.grid.hoverable) {
-					eventHolder.unbind("mousemove").mousemove(onMouseMove);
+					eventHolder.unbind('mousemove').mousemove(onMouseMove);
 				}
 				if (options.grid.clickable) {
-					eventHolder.unbind("click").click(onClick);
+					eventHolder.unbind('click').click(onClick);
 				}
 			}
 		});
@@ -258,7 +258,7 @@ More detail and specific examples can be found in the included HTML file.
 
 			var canvasWidth = plot.getPlaceholder().width(),
 				canvasHeight = plot.getPlaceholder().height(),
-				legendWidth = target.children().filter(".legend").children().width() || 0;
+				legendWidth = target.children().filter('.legend').children().width() || 0;
 
 			ctx = newCtx;
 
@@ -291,8 +291,8 @@ More detail and specific examples can be found in the included HTML file.
 			centerTop = canvasHeight / 2 + options.series.pie.offset.top;
 			centerLeft = canvasWidth / 2;
 
-			if (options.series.pie.offset.left == "auto") {
-				if (options.legend.position.match("w")) {
+			if (options.series.pie.offset.left == 'auto') {
+				if (options.legend.position.match('w')) {
 					centerLeft += legendWidth / 2;
 				} else {
 					centerLeft -= legendWidth / 2;
@@ -321,11 +321,11 @@ More detail and specific examples can be found in the included HTML file.
 				if (options.series.pie.tilt <= 0.8) {
 					drawShadow();
 				}
-			} while (!drawPie() && attempts < REDRAW_ATTEMPTS)
+			} while (!drawPie() && attempts < REDRAW_ATTEMPTS);
 
 			if (attempts >= REDRAW_ATTEMPTS) {
 				clear();
-				target.prepend("<div class='error'>Could not draw pie with labels contained inside canvas</div>");
+				target.prepend('<div class=\'error\'>Could not draw pie with labels contained inside canvas</div>');
 			}
 
 			if (plot.setSeries && plot.insertLegend) {
@@ -337,7 +337,7 @@ More detail and specific examples can be found in the included HTML file.
 
 			function clear() {
 				ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-				target.children().filter(".pieLabel, .pieLabelBackground").remove();
+				target.children().filter('.pieLabel, .pieLabelBackground').remove();
 			}
 
 			function drawShadow() {
@@ -355,7 +355,7 @@ More detail and specific examples can be found in the included HTML file.
 				ctx.save();
 				ctx.translate(shadowLeft,shadowTop);
 				ctx.globalAlpha = alpha;
-				ctx.fillStyle = "#000";
+				ctx.fillStyle = '#000';
 
 				// center and rotate to starting position
 
@@ -430,7 +430,7 @@ More detail and specific examples can be found in the included HTML file.
 						ctx.fillStyle = color;
 					} else {
 						ctx.strokeStyle = color;
-						ctx.lineJoin = "round";
+						ctx.lineJoin = 'round';
 					}
 
 					ctx.beginPath();
@@ -492,15 +492,15 @@ More detail and specific examples can be found in the included HTML file.
 						var x = centerLeft + Math.round(Math.cos(halfAngle) * radius);
 						var y = centerTop + Math.round(Math.sin(halfAngle) * radius) * options.series.pie.tilt;
 
-						var html = "<span class='pieLabel' id='pieLabel" + index + "' style='position:absolute;top:" + y + "px;left:" + x + "px;'>" + text + "</span>";
+						var html = '<span class=\'pieLabel\' id=\'pieLabel' + index + '\' style=\'position:absolute;top:' + y + 'px;left:' + x + 'px;\'>' + text + '</span>';
 						target.append(html);
 
-						var label = target.children("#pieLabel" + index);
+						var label = target.children('#pieLabel' + index);
 						var labelTop = (y - label.height() / 2);
 						var labelLeft = (x - label.width() / 2);
 
-						label.css("top", labelTop);
-						label.css("left", labelLeft);
+						label.css('top', labelTop);
+						label.css('left', labelLeft);
 
 						// check to make sure that the label is not outside the canvas
 
@@ -518,9 +518,9 @@ More detail and specific examples can be found in the included HTML file.
 								c = slice.color;
 							}
 
-							var pos = "top:" + labelTop + "px;left:" + labelLeft + "px;";
-							$("<div class='pieLabelBackground' style='position:absolute;width:" + label.width() + "px;height:" + label.height() + "px;" + pos + "background-color:" + c + ";'></div>")
-								.css("opacity", options.series.pie.label.background.opacity)
+							var pos = 'top:' + labelTop + 'px;left:' + labelLeft + 'px;';
+							$('<div class=\'pieLabelBackground\' style=\'position:absolute;width:' + label.width() + 'px;height:' + label.height() + 'px;' + pos + 'background-color:' + c + ';\'></div>')
+								.css('opacity', options.series.pie.label.background.opacity)
 								.insertBefore(label);
 						}
 
@@ -539,7 +539,7 @@ More detail and specific examples can be found in the included HTML file.
 
 				layer.save();
 				var innerRadius = options.series.pie.innerRadius > 1 ? options.series.pie.innerRadius : maxRadius * options.series.pie.innerRadius;
-				layer.globalCompositeOperation = "destination-out"; // this does not work with excanvas, but it will fall back to using the stroke color
+				layer.globalCompositeOperation = 'destination-out'; // this does not work with excanvas, but it will fall back to using the stroke color
 				layer.beginPath();
 				layer.fillStyle = options.series.pie.stroke.color;
 				layer.arc(0, 0, innerRadius, 0, Math.PI * 2, false);
@@ -642,11 +642,11 @@ More detail and specific examples can be found in the included HTML file.
 		}
 
 		function onMouseMove(e) {
-			triggerClickHoverEvent("plothover", e);
+			triggerClickHoverEvent('plothover', e);
 		}
 
 		function onClick(e) {
-			triggerClickHoverEvent("plotclick", e);
+			triggerClickHoverEvent('plotclick', e);
 		}
 
 		// trigger click or hover event (they send the same parameters so we share their code)
@@ -749,7 +749,7 @@ More detail and specific examples can be found in the included HTML file.
 				}
 
 				//octx.fillStyle = parseColor(options.series.pie.highlight.color).scale(null, null, null, options.series.pie.highlight.opacity).toString();
-				octx.fillStyle = "rgba(255, 255, 255, " + options.series.pie.highlight.opacity + ")"; // this is temporary until we have access to parseColor
+				octx.fillStyle = 'rgba(255, 255, 255, ' + options.series.pie.highlight.opacity + ')'; // this is temporary until we have access to parseColor
 				octx.beginPath();
 				if (Math.abs(series.angle - Math.PI * 2) > 0.000000001) {
 					octx.moveTo(0, 0); // Center of the pie
@@ -768,7 +768,7 @@ More detail and specific examples can be found in the included HTML file.
 		series: {
 			pie: {
 				show: false,
-				radius: "auto",	// actual radius of the visible pie (based on full calculated radius if <=1, or hard pixel value)
+				radius: 'auto',	// actual radius of the visible pie (based on full calculated radius if <=1, or hard pixel value)
 				innerRadius: 0, /* for donut */
 				startAngle: 3/2,
 				tilt: 1,
@@ -779,16 +779,16 @@ More detail and specific examples can be found in the included HTML file.
 				},
 				offset: {
 					top: 0,
-					left: "auto"
+					left: 'auto'
 				},
 				stroke: {
-					color: "#fff",
+					color: '#fff',
 					width: 1
 				},
 				label: {
-					show: "auto",
+					show: 'auto',
 					formatter: function(label, slice) {
-						return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br/>" + Math.round(slice.percent) + "%</div>";
+						return '<div style=\'font-size:x-small;text-align:center;padding:2px;color:' + slice.color + ';\'>' + label + '<br/>' + Math.round(slice.percent) + '%</div>';
 					},	// formatter function
 					radius: 1,	// radius at which to place the labels (based on full calculated radius if <=1, or hard pixel value)
 					background: {
@@ -800,7 +800,7 @@ More detail and specific examples can be found in the included HTML file.
 				combine: {
 					threshold: -1,	// percentage at which to combine little slices into one larger slice
 					color: null,	// color to give the new slice (auto-generated if null)
-					label: "Other"	// label to give the new slice
+					label: 'Other'	// label to give the new slice
 				},
 				highlight: {
 					//color: "#fff",		// will add this functionality once parseColor is available
@@ -813,8 +813,8 @@ More detail and specific examples can be found in the included HTML file.
 	$.plot.plugins.push({
 		init: init,
 		options: options,
-		name: "pie",
-		version: "1.1"
+		name: 'pie',
+		version: '1.1'
 	});
 
 })(jQuery);

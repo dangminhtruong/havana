@@ -35,9 +35,9 @@
 		<h2>
 		<a href="index.html">Home</a>
 		<i class="fa fa-angle-right"></i>
-        <span><%= __('Category') %></span>
+        <span><%= __('Bills') %></span>
         <i class="fa fa-angle-right"></i>
-		<span><%= __('Add') %></span>
+		<span><%= __('List') %></span>
 		</h2>
 		</div>
 		<!--//banner-->
@@ -51,13 +51,13 @@
 						<div class="col-md-6 col-xs-12">
 							<div class="form-group">
 							<label class="sr-only" for=""></label>
-							<input type="text" class="form-control" id="timTuNgay" placeholder="Tìm từ ngày">
+							<input type="text" class="form-control" placeholder="Tìm từ ngày" v-model="startDay">
 							</div>
 						</div>
 						<div class="col-md-6 col-xs-12">
 							<div class="form-group">
 								<label class="sr-only" for=""></label>
-								<input type="text" class="form-control" id="timDenNgay" placeholder="Đến ngày">
+								<input type="text" class="form-control" placeholder="Đến ngày" v-model="endDay">
 							</div>
 						</div>
 						</div>
@@ -65,40 +65,79 @@
 						<div class="col-md-6">
 						<div class="col-md-6 col-xs-12">
 							<div class="form-group">
-							<select class="form-control" id="timTheoTuanThang" name="timTheoTuanThang">
-							<option value="null">Tìm trong</option>
-							<option value="timTrongTuan">Tuần này</option>
-							<option value="timTrongThang">Tháng này</option>
+							<select class="form-control" v-model="byStage">
+								<option value="null">Tìm trong</option>
+								<option value="week">Tuần này</option>
+								<option value="month">Tháng này</option>
 							</select>
 							</div>
 						</div>
 						<div class="col-md-6 col-xs-12">
 							<div class="form-group">
-							<select class="form-control" id="timTheoTinhTrang" name="timTheoTinhTrang">
+							<select class="form-control" name="timTheoTinhTrang" v-model="byStatus">
 								<option value="null">Tình trạng đơn hàng</option>
-								<option  value="Đang chờ">Đang chờ</option>
-								<option  value="Đã xác nhận">Đã xác nhận</option>
-								<option  value="Đang chuyển hàng">Đang chuyển hàng</option>
-								<option  value="Hoàn tất">Hoàn tất</option>
+								<option  value="pendding">Đang chờ</option>
+								<option  value="confirmed">Đã xác nhận</option>
+								<option  value="shipping">Đang chuyển hàng</option>
+								<option  value="done">Hoàn tất</option>
 							</select>
 							</div>
 						</div>
 						</div>
 						<!-------->
 						<div class="col-md-1 col-xs-12">
-						<button type="button" class="btn btn-sm btn-success" style="background-color:#F25C27">Lọc</button>
+						<button type="button" class="btn btn-sm btn-success" style="background-color:#F25C27" @click="fill()">Lọc</button>
 						</div>
 					</form>
-					<div class="col-md-12 col-sm-12" style="min-height:60vh;">
-						<div class="col-md-12" v-for = "bill in bills" style="padding:2vh;">
-							<div class="col-md-4">
-								{{ bill.phone }}
+					<div class="col-md-12" style="color:black">
+							<div class="col-md-12 row">
+								<div class="col-md-3 col-lg-3">
+									Details
+								</div>
+								<div class="col-md-3 col-lg-3">
+									Custom infor
+								</div>
+								<div class="col-md-3 col-lg-3" >
+									Note
+								</div>
+								<div class="col-md-1 col-lg-1">
+									Status
+								</div>
+								<div class="col-md-2 col-lg-2">
+									Action
+								</div>
 							</div>
-							<div class="col-md-4">
-								{{ bill.user.user_name }}
+					</div>
+					<div class="col-md-12 col-sm-12" style="min-height:60vh; max-height:60vh; text-align:left; overflow-y: scroll">
+						<div class="col-md-12 row" v-for = "bill in bills" style="padding:2vh; border-bottom: 1px solid;">
+							<div class="col-md-3 col-lg-3">
+								<span v-for = "item in bill.detais">{{ item.product_id.name }} 
+									<span class="badge">{{ item.quantity }}</span><br/>
+								</span>
 							</div>
-							<div class="col-md-4" v-for="detail in bill.detais">
-								{{ detail.quantity }}
+							<div class="col-md-3 col-lg-3">
+								{{ bill.user.user_name }} <br/>
+								{{ bill.user.address }} <br/>
+								{{ bill.user.email }} <br/>
+							</div>
+							<div class="col-md-3 col-lg-3" >
+								{{ bill.note }}
+							</div>
+							<div class="col-md-1 col-lg-1">
+								<span v-if = "bill.status == 2 ">
+									<span class="label label-primary">pedding</span>
+								</span>
+								<span v-else>
+									<span class="label label-success">done</span>
+								</span>
+							</div>
+							<div class="col-md-2 col-lg-2">
+								<button class="btn btn-xs btn-warning">
+									edit
+								</button>
+								<button class="btn btn-xs btn-danger">
+									delete
+								</button>
 							</div>
 						</div>
 					</div>
