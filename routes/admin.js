@@ -61,5 +61,14 @@ router.get('/bills/today-data', (req, res) => {
         res.send(bills); 
     });
     
-})
+});
+/*--------------------------------------------------------*/
+router.get('/bills/week-data', (req, res) => {
+    Bill.find({
+        createdOn : {
+            $gt : moment().startOf('week'),
+            $lt : moment().endOf('week')
+        }
+    })
+});
 module.exports = router;
