@@ -11,6 +11,7 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "ejs": "~2.5.7",
+    "eslint": "^4.16.0",
     "express": "~4.15.5",
     "express-session": "^1.15.6",
     "faker": "^4.1.0",

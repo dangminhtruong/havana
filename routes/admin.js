@@ -102,13 +102,14 @@ router.get('/bills/month-data', (req, res) => {
 });
 /*--------------------------------------------------------*/
 router.post('/bills/start-end-data',urlencodedParser, (req, res) => {
-    Bill.find({
-        createdOn : {
-            $gt : req.body.startDay,
-            $lt : req.body.endDay
-        }
-    })
-    .populate('user')
+	console.log(req.body.startDay);
+	Bill.find({
+		createdOn : {
+			$gt : req.body.startDay,
+			$lt : req.body.endDay
+		}
+	})
+		.populate('user')
 		.populate({
 			path : 'detais.product_id',
 			select : 'name'
@@ -116,14 +117,14 @@ router.post('/bills/start-end-data',urlencodedParser, (req, res) => {
 		.exec((err, bills) => {
 			return res.send(bills); 
 		});
-    ;
+    
 });
 /*--------------------------------------------------------*/
 router.get('/bills/status-data', (req, res) => {
-        Bill.find({
-            status : req.query.status
-        })
-        .populate('user')
+	Bill.find({
+		status : req.query.status
+	})
+		.populate('user')
 		.populate({
 			path : 'detais.product_id',
 			select : 'name'
@@ -131,6 +132,6 @@ router.get('/bills/status-data', (req, res) => {
 		.exec((err, bills) => {
 			return res.send(bills); 
 		});
-    ;
+    
 });
 module.exports = router;

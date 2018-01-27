@@ -12,7 +12,9 @@ $(function () {
 $('.btn-admore').click(function() {
 	$(this).toggleClass('active');
 });
-                     
+
+
+            
 var category_add = new Vue({
 	el : '#category_add',
 	data : {
@@ -105,7 +107,7 @@ var admin_index = new Vue({
 const bills = new Vue({
 	el : '#bills',
 	data : {
-		bills : [],
+		bills : null,
 		startDay : null,
 		endDay : null,
 		byStage : null,
@@ -113,46 +115,97 @@ const bills = new Vue({
 	},
 	methods : {
 		fill : function(){
-			if (this.byStage !== null) {
-				if(this.byStage == 'week'){
+			console.log(this.startDay);
+			if (this.byStage !== null && this.byStatus === null && this.startDay === null && this.endDay === null) {
+				if(this.byStage === 'week'){
 					axios.get('/admin/bills/week-data')
 						.then( (response) => {
 							this.bills = response.data;
+							this.byStage = null;
 						})
 						.catch(function (error) {
-                            throw new error;
+							throw new error;
 						});
 				}else {
-                    axios.get('/admin/bills/month-data')
-                        .then( (response) => {
-                            this.bills = response.data;
-                        })
-                        .catch(function (error) {
-                            throw new error;
-                        });
-                }
-			}else if(this.byStatus !== null){
-                if(this.byStatus == 'done'){
-                    axios.get('/admin/bills/status-data?status=1')
-                        .then( (response) => {
-                            this.bills = response.data;
-                        })
-                        .catch(function (error) {
-                            throw new error;
-                        });
-                }   
-            }
+					axios.get('/admin/bills/month-data')
+						.then( (response) => {
+							this.bills = response.data;
+							this.byStage = null;
+						})
+						.catch( (error) => {
+							throw new error;
+						});
+				}
+			}else if(this.byStatus !== null && this.byStage === null && this.startDay === null && this.endDay === null){
+
+				if(this.byStatus == 'done'){
+					axios.get('/admin/bills/status-data?status=1')
+						.then( (response) => {
+							this.bills = response.data;
+							this.byStatus = null;
+						})
+						.catch(function (error) {
+							throw new error;
+						});
+				}else if(this.byStatus == 'pendding'){
+					axios.get('/admin/bills/status-data?status=2')
+						.then( (response) => {
+							this.bills = response.data;
+							this.byStatus = null;
+						})
+						.catch(function (error) {
+							throw new error;
+						});
+				}else if(this.byStatus == 'shipping'){
+					axios.get('/admin/bills/status-data?status=4')
+						.then( (response) => {
+							this.bills = response.data;
+							this.byStatus = null;
+						})
+						.catch(function (error) {
+							throw new error;
+						});
+				}else {
+					axios.get('/admin/bills/status-data?status=3')
+						.then( (response) => {
+							this.bills = response.data;
+							this.byStatus = null;
+						})
+						.catch(function (error) {
+							throw new error;
+						});
+				}   
+			}else if(this.startDay !== null && this.endDay !== null && this.byStage == null && this.byStatus == null){
+				axios.post('/admin/bills/start-end-data', {
+					startDay: this.startDay,
+					endDay: this.endDay
+				})
+					.then(function (response) {
+						this.bills = response.data;
+						this.startDay = null;
+						this.endDay = null;
+					})
+					.catch(function (error) {
+						throw new error;
+					});
+			}
 		}
 
       
 	},
 	mounted : function(){
+		const self = this;
+      	$('#fill-start-day').datepicker({
+        	onSelect:function(selectedDate, datePicker) {            
+            	self.date = selectedDate;
+        	}
+      	});
 		axios.get('/admin/bills/today-data')
 			.then( (response) => {
 				this.bills = response.data;
 			})
 			.catch(function (error) {
-                throw new error;
+				throw new error;
 			});
 	}
 });

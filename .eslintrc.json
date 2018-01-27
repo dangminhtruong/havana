@@ -1,21 +1,12 @@
 {
     "env": {
-        "es6": true,
-        "amd": true,
-        "jquery": true,
         "browser": true,
-        "node": true
+        "commonjs": true,
+        "es6": true
     },
     "extends": "eslint:recommended",
     "parserOptions": {
         "sourceType": "module"
-    },
-    "globals": {
-        "$": true,
-        "document": true,
-        "axios": true,
-        "jQuery": true,
-        "window": true
     },
     "rules": {
         "indent": [

@@ -50,14 +50,14 @@
 						<div class="col-md-5">
 						<div class="col-md-6 col-xs-12">
 							<div class="form-group">
-							<label class="sr-only" for=""></label>
-							<input type="text" class="form-control" placeholder="Tìm từ ngày" v-model="startDay">
+								<label class="sr-only" for=""></label>
+								<input type="text" class="form-control" placeholder="Tìm từ ngày" id="fill-start-day" v-model="startDay">
 							</div>
 						</div>
 						<div class="col-md-6 col-xs-12">
 							<div class="form-group">
 								<label class="sr-only" for=""></label>
-								<input type="text" class="form-control" placeholder="Đến ngày" v-model="endDay">
+								<input type="text" class="form-control" placeholder="Đến ngày" id="fill-end-day" v-model="endDay">
 							</div>
 						</div>
 						</div>
@@ -127,8 +127,14 @@
 								<span v-if = "bill.status == 2 ">
 									<span class="label label-primary">pedding</span>
 								</span>
-								<span v-else>
+								<span v-else-if = "bill.status == 1">
 									<span class="label label-success">done</span>
+								</span>
+								<span v-else-if = "bill.status == 3">
+									<span class="label label-info">confirm</span>
+								</span>
+								<span v-else-if = "bill.status == 4">
+									<span class="label label-default">shipping</span>
 								</span>
 							</div>
 							<div class="col-md-2 col-lg-2">
