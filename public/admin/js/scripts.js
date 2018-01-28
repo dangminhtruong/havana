@@ -115,8 +115,10 @@ const bills = new Vue({
 	},
 	methods : {
 		fill : function(){
-			console.log(this.startDay);
-			if (this.byStage !== null && this.byStatus === null && this.startDay === null && this.endDay === null) {
+			this.startDay = $('#fill-start-day').val();
+			this.endDay = $('#fill-end-day').val();
+			if (this.byStage !== null && this.byStatus === null 
+				&& this.startDay === '' && this.endDay === '') {
 				if(this.byStage === 'week'){
 					axios.get('/admin/bills/week-data')
 						.then( (response) => {
@@ -136,7 +138,8 @@ const bills = new Vue({
 							throw new error;
 						});
 				}
-			}else if(this.byStatus !== null && this.byStage === null && this.startDay === null && this.endDay === null){
+			}else if(this.byStatus !== null && this.byStage === null 
+				    && this.startDay === '' && this.endDay === ''){
 
 				if(this.byStatus == 'done'){
 					axios.get('/admin/bills/status-data?status=1')
@@ -175,15 +178,102 @@ const bills = new Vue({
 							throw new error;
 						});
 				}   
-			}else if(this.startDay !== null && this.endDay !== null && this.byStage == null && this.byStatus == null){
+			}else if (this.byStage !== null && this.byStatus !== 0
+					  && this.startDay === '' && this.endDay === ''){
+				if (this.byStage == 'week' && this.byStatus == 'done' ) {
+					axios.get('/admin/bills/week-done-data')
+						.then( (response) => {
+							this.bills = response.data;
+							this.byStatus = null;
+							this.byStage = null;
+						})
+						.catch(function (error) {
+							throw new error;
+						});
+				}else if(this.byStage == 'week' && this.byStatus == 'pendding'){
+					axios.get('/admin/bills/week-pendding-data')
+						.then( (response) => {
+							this.bills = response.data;
+							this.byStatus = null;
+							this.byStage = null;
+						})
+						.catch(function (error) {
+							throw new error;
+						});
+				}else if(this.byStage == 'week' && this.byStatus == 'shipping'){
+					axios.get('/admin/bills/week-shipping-data')
+						.then( (response) => {
+							this.bills = response.data;
+							this.byStatus = null;
+							this.byStage = null;
+						})
+						.catch(function (error) {
+							throw new error;
+						});
+				}else if(this.byStage == 'week' && this.byStatus == 'confirmed'){
+					axios.get('/admin/bills/week-confirm-data')
+						.then( (response) => {
+							this.bills = response.data;
+							this.byStatus = null;
+							this.byStage = null;
+						})
+						.catch(function (error) {
+							throw new error;
+						});
+				}else if (this.byStage == 'month' && this.byStatus == 'done' ) {
+					axios.get('/admin/bills/month-done-data')
+						.then( (response) => {
+							this.bills = response.data;
+							this.byStatus = null;
+							this.byStage = null;
+						})
+						.catch(function (error) {
+							throw new error;
+						});
+				}else if(this.byStage == 'month' && this.byStatus == 'pendding'){
+					axios.get('/admin/bills/month-pendding-data')
+						.then( (response) => {
+							this.bills = response.data;
+							this.byStatus = null;
+							this.byStage = null;
+						})
+						.catch(function (error) {
+							throw new error;
+						});
+				}else if(this.byStage == 'month' && this.byStatus == 'shipping'){
+					axios.get('/admin/bills/month-shipping-data')
+						.then( (response) => {
+							this.bills = response.data;
+							this.byStatus = null;
+							this.byStage = null;
+						})
+						.catch(function (error) {
+							throw new error;
+						});
+				}else{
+					axios.get('/admin/bills/month-confirm-data')
+						.then( (response) => {
+							this.bills = response.data;
+							this.byStatus = null;
+							this.byStage = null;
+						})
+						.catch(function (error) {
+							throw new error;
+						});
+				}
+			}
+			else if(this.startDay !== '' && this.endDay !== '' 
+					&& this.byStage == null && this.byStatus == null){
 				axios.post('/admin/bills/start-end-data', {
 					startDay: this.startDay,
 					endDay: this.endDay
 				})
-					.then(function (response) {
+					.then( (response) => {
 						this.bills = response.data;
 						this.startDay = null;
 						this.endDay = null;
+						$('#fill-start-day').val('');
+						$('#fill-end-day').val('');
 					})
 					.catch(function (error) {
 						throw new error;
@@ -194,12 +284,8 @@ const bills = new Vue({
       
 	},
 	mounted : function(){
-		const self = this;
-      	$('#fill-start-day').datepicker({
-        	onSelect:function(selectedDate, datePicker) {            
-            	self.date = selectedDate;
-        	}
-      	});
+		$("#fill-start-day").datepicker( {dateFormat: 'yy-mm-dd' });
+		$("#fill-end-day").datepicker( {dateFormat: 'yy-mm-dd' });
 		axios.get('/admin/bills/today-data')
 			.then( (response) => {
 				this.bills = response.data;

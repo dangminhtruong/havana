@@ -74,6 +74,7 @@ router.get('/bills/week-data', (req, res) => {
 			$lt : moment().endOf('week')
 		}
 	})
+		.sort({createdOn : -1 })
 		.populate('user')
 		.populate({
 			path : 'detais.product_id',
@@ -100,6 +101,162 @@ router.get('/bills/month-data', (req, res) => {
 			return res.send(bills); 
 		});
 });
+/*--------------------------------------------------------*/
+router.get('/bills/week-done-data', (req, res) => {
+	Bill.find({
+		createdOn : {
+			$gt : moment().startOf('week'),
+			$lt : moment().endOf('week')
+		},
+		status : '1'
+	})
+		.populate('user')
+		.populate({
+			path : 'detais.product_id',
+			select : 'name'
+		})
+		.exec((err, bills) => {
+			return res.send(bills); 
+		});
+});
+/*--------------------------------------------------------*/
+router.get('/bills/week-pendding-data', (req, res) => {
+	Bill.find({
+		createdOn : {
+			$gt : moment().startOf('week'),
+			$lt : moment().endOf('week')
+		},
+		status : '2'
+	})
+		.populate('user')
+		.populate({
+			path : 'detais.product_id',
+			select : 'name'
+		})
+		.exec((err, bills) => {
+			return res.send(bills); 
+		});
+});
+/*--------------------------------------------------------*/
+router.get('/bills/week-shipping-data', (req, res) => {
+	Bill.find({
+		createdOn : {
+			$gt : moment().startOf('week'),
+			$lt : moment().endOf('week')
+		},
+		status : '4'
+	})
+		.populate('user')
+		.populate({
+			path : 'detais.product_id',
+			select : 'name'
+		})
+		.exec((err, bills) => {
+			return res.send(bills); 
+		});
+});
+/*--------------------------------------------------------*/
+router.get('/bills/week-confirm-data', (req, res) => {
+	Bill.find({
+		createdOn : {
+			$gt : moment().startOf('week'),
+			$lt : moment().endOf('week')
+		},
+		status : '3'
+	})
+		.populate('user')
+		.populate({
+			path : 'detais.product_id',
+			select : 'name'
+		})
+		.exec((err, bills) => {
+			return res.send(bills); 
+		});
+});
+
+
+
+
+
+/*--------------------------------------------------------*/
+router.get('/bills/month-done-data', (req, res) => {
+	Bill.find({
+		createdOn : {
+			$gt : moment().startOf('month'),
+			$lt : moment().endOf('month')
+		},
+		status : '1'
+	})
+		.populate('user')
+		.populate({
+			path : 'detais.product_id',
+			select : 'name'
+		})
+		.exec((err, bills) => {
+			return res.send(bills); 
+		});
+});
+/*--------------------------------------------------------*/
+router.get('/bills/month-pendding-data', (req, res) => {
+	Bill.find({
+		createdOn : {
+			$gt : moment().startOf('month'),
+			$lt : moment().endOf('month')
+		},
+		status : '2'
+	})
+		.populate('user')
+		.populate({
+			path : 'detais.product_id',
+			select : 'name'
+		})
+		.exec((err, bills) => {
+			return res.send(bills); 
+		});
+});
+/*--------------------------------------------------------*/
+router.get('/bills/month-shipping-data', (req, res) => {
+	Bill.find({
+		createdOn : {
+			$gt : moment().startOf('month'),
+			$lt : moment().endOf('month')
+		},
+		status : '4'
+	})
+		.populate('user')
+		.populate({
+			path : 'detais.product_id',
+			select : 'name'
+		})
+		.exec((err, bills) => {
+			return res.send(bills); 
+		});
+});
+/*--------------------------------------------------------*/
+router.get('/bills/month-confirm-data', (req, res) => {
+	Bill.find({
+		createdOn : {
+			$gt : moment().startOf('month'),
+			$lt : moment().endOf('month')
+		},
+		status : '3'
+	})
+		.populate('user')
+		.populate({
+			path : 'detais.product_id',
+			select : 'name'
+		})
+		.exec((err, bills) => {
+			return res.send(bills); 
+		});
+});
+
+
+
+
+
+
+
 /*--------------------------------------------------------*/
 router.post('/bills/start-end-data',urlencodedParser, (req, res) => {
 	console.log(req.body.startDay);
