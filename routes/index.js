@@ -1,9 +1,27 @@
+
 var express = require('express');
 var router = express.Router();
 const async = require('async');
 const Product = require('../model/product');
+const User = require('../model/user');
 const Category = require('../model/category');
 
+var passport = require('passport')
+	, LocalStrategy = require('passport-local').Strategy;
+passport.use(new LocalStrategy(
+	function(username, password, done) {
+		  User.findOne({ username : username }, function (err, user) {
+			if (err) { return done(err); }
+			if (!user) {
+					  return done(null, false, { message: 'Incorrect username.' });
+			}
+			if (!user.validPassword(password)) {
+					  return done(null, false, { message: 'Incorrect password.' });
+			}
+			return done(null, user);
+		  });
+	}
+));
 /*------------------------------------
 * Author : Dang Minh Truong
 * Email : mr.dangminhtruong@gmail.com
@@ -14,7 +32,7 @@ router.get('/change-languages/:lang', function(req, res, next) {
 	res.redirect('back');
 });
 /*--------------------------------------------------------*/
-router.get('/index', function(req, res, next) {
+router.get('/', function(req, res, next) {
 	async.parallel([
 		function(callback){
 			Product.find().sort( { createdOn: -1 } ).limit(4)
@@ -32,14 +50,15 @@ router.get('/index', function(req, res, next) {
 		// Call back
 	function(err, results) {
 		if(err){
-			console.log(err);
+			throw new err;
 		}
-		res.render('index',{
+		console.log(req.user);
+		return res.render('index',{
 			news : results[0],
 			features : results[1],
-			cart : req.session.cart
+			cart : req.session.cart,
+			user: req.user
 		});
-		next();
 	});
 });
 /*--------------------------------------------------------*/
@@ -116,4 +135,24 @@ router.get('/category/:id', function(req, res, next) {
     
 });
 /*--------------------------------------------------------*/
+
+
+router.post('/login',
+	passport.authenticate('local', 
+		{ successRedirect: '/',
+			failureRedirect: '/login'
+		})
+	
+);
+
+router.get('/login', (req, res, next) => {
+	return res.render('./pages/login', {
+		user: req.session.user
+	});
+});
+
+router.get('/logout', function(req, res){
+	req.logout();
+	res.redirect('/');
+});
 module.exports = router;

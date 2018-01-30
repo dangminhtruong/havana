@@ -9,7 +9,11 @@
                             <div class="navbar-inner">
                                 <ul class="nav" >
                                     <li><a class="home active" href="/index"><%= __('Home') %></a> </li>
-                                    <li><a class="myaccount" href="#"><%= __('My Account') %></a> </li>
+                                    <% if(typeof user !== 'undefined'){ %>
+                                        <li><a class="myaccount" href="#"><%= user.username %></a> </li>
+                                    <% }else { %>
+                                        <li><a class="myaccount" href="#"><%= __('My Account')  %></a> </li>
+                                    <% } %>
                                     <li><a class="shoppingcart" href="#"><%= __('Shopping Cart') %></a> </li>
                                     <li><a class="checkout" href="#"><%= __('CheckOut') %></a> </li>
                                 </ul>

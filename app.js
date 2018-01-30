@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 var i18n = require("i18n");
 var session = require('express-session');
+var passport = require('passport');
 
 var index = require('./routes/index');
 var shoping_cart = require('./routes/shopping_cart');
@@ -25,6 +26,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({secret: 'no'}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -57,6 +60,13 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 //-------------------------------------------------------
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
 const Category = require('./model/category');
 Category.find({}, {_id : 1, name : 1, type : 1})
   .exec((err, category) => {
