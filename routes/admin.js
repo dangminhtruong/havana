@@ -3,11 +3,18 @@ var router = express.Router();
 const async = require('async');
 const Category = require('../model/category');
 const Bill = require('../model/bill');
+const Product = require('../model/product');
 const User = require('../model/user');
+const _ = require('lodash');
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
+const slug = require('slug')
 var moment = require('moment');
 var weekly = require('../helpers/line_chart_data');
+var multer  = require('multer');
+var upload = multer({ dest: 'public/img' });
+var fs = require('fs');
+ 
 
 
 /*------------------------------------
@@ -39,10 +46,6 @@ router.post('/category/add', urlencodedParser , (req, res, next) => {
 /*--------------------------------------------------------*/
 router.get('/line-chart', (req, res, next) => {
 	weekly(req, res);
-});
-/*--------------------------------------------------------*/
-router.get('/product/add', (req, res, next) => {
-	res.render('./admin/pages/add_product');
 });
 /*--------------------------------------------------------*/
 router.get('/bills/index', (req, res, next) => {
@@ -174,10 +177,6 @@ router.get('/bills/week-confirm-data', (req, res) => {
 		});
 });
 
-
-
-
-
 /*--------------------------------------------------------*/
 router.get('/bills/month-done-data', (req, res) => {
 	Bill.find({
@@ -252,14 +251,8 @@ router.get('/bills/month-confirm-data', (req, res) => {
 });
 
 
-
-
-
-
-
 /*--------------------------------------------------------*/
 router.post('/bills/start-end-data',urlencodedParser, (req, res) => {
-	console.log(req.body.startDay);
 	Bill.find({
 		createdOn : {
 			$gt : req.body.startDay,
@@ -291,4 +284,54 @@ router.get('/bills/status-data', (req, res) => {
 		});
     
 });
+/*--------------------------------------------------------*/
+router.get('/product/add', (req, res, next) => {
+	Category.find({}, { _id : 1, name : 1 })
+	.exec((err, category) => {
+		res.render('./admin/pages/add_product', {
+			categories : category
+		});
+	});
+	
+});
+/*--------------------------------------------------------*/
+router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
+	let cpUpload = upload.fields([{ name: 'avatar', maxCount: 1 }, 
+		{ name: 'details', maxCount: 8 }])
+	
+	
+		 let product = new Product({
+			name : req.body.product_name,
+			unit_price : req.body.unit_price,
+			promo_price : req.body.promo_price,
+			slug_name : slug(req.body.product_name),
+			descript: req.body.description,
+			image : req.files[0].originalname,
+			status : req.body.status,
+			quantity : req.body.quantity,
+			saled : 0,
+			category_id : req.body.product_type,
+			size : [
+				{ name :  'Xl' },
+				{ name : 'L' }
+			],
+			color : [
+				{ name :  '#0000' }
+			],
+			image_detais : _.map(_.filter(req.files, { 'fieldname': 'details[]' }), 'originalname'),
+			rate : [],
+			comment : []
+		});
+
+		product.save(function (err, results) {
+			
+			res.send({
+				'image_detais' : _.map( _.filter(req.files, { 'fieldname': 'details[]' }), 
+										'originalname'),
+			});
+		});
+  
+	
+});
+
 module.exports = router;
