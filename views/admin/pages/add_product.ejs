@@ -31,8 +31,6 @@
 				</form>
 				<div class="clearfix"> </div>
 			</div>
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="drop-men" >
 				<ul class=" nav_1">
 					<li class="dropdown at-drop">
@@ -131,125 +129,123 @@
 		</div>
 		<!--//banner-->
 		<!--content-->
-		<div class="content-top">
-		<div class="col-md-12 " style="min-height:65vh;" id="category_add">
-            <div >
-                <div class="col-md-12 panel-content">
-                    <form method="post" action="/admin/product/add" enctype="multipart/form-data">
-                        <div class="col-md-6 col-sm-12">
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1"><%= __('Product\'s type ') %></label>
-                                    <select class="form-control" name="product_type">
-                                        <% categories.forEach((category) => { %>
-											<option value="<%= category._id %>">
-													<%= category.name %>
-											</option>
-										<% }) %>
-                                    </select>
-                                </div>
-                             <div class="form-group">
-                                <label for="exampleInputEmail1"><%= __('Product\'s name') %></label>
-								<input type="text" class="form-control" id="exampleInputEmail1" 
-									   name="product_name" placeholder="name" required>
-                                <small id="emailHelp" class="form-text text-muted">
-									We'll never share your email with anyone else.
-								</small>
-							  </div>
-                              <div class="form-group">
-                                <label for="exampleInputEmail1"><%= __('Product\'s unit price') %></label>
-								<input type="text" class="form-control" id="exampleInputEmail1" 
-									   name="unit_price" placeholder="unit price" required>
-                                <small id="emailHelp" class="form-text text-muted">
-									We'll never share your email with anyone else.
-								</small>
-                              </div>
-                              <div class="form-group">
-                                <label for="exampleInputEmail1"><%= __('Product\'s promotion price') %></label>
-								<input type="text" class="form-control" id="exampleInputEmail1" 
-									   name="promo_price" placeholder="promotion price">
-                                <small id="emailHelp" class="form-text text-muted">
-									We'll never share your email with anyone else.
-								</small>
-                              </div>
-                              <div class="form-group">
-                                    <label for="exampleInputEmail1"><%= __('Product\'s quantity') %></label>
-									<input type="text" class="form-control" id="exampleInputEmail1" 
-										   name="quantity" placeholder="quantity">
-                                    <small id="emailHelp" class="form-text text-muted">
-										We'll never share your email with anyone else.
-									</small>
-							  </div>
-							  <div class="form-group">
-                                    <label for="exampleInputEmail1"><%= __('Product\'s size') %></label>
-									<input type="text" class="form-control" id="exampleInputEmail1" 
-										   name="size[]" placeholder="quantity">
-                                    <small id="emailHelp" class="form-text text-muted">
-										We'll never share your email with anyone else.
-									</small>
-							  </div>
-							  <div class="form-group">
-									<label for="example-color-input" class="col-2 col-form-label"><%= __('Product\'s color') %></label>
-									<div class="col-10">
-										<input class="form-control" type="color" value="#F25C27" name="color[]">
+	
+			<div class="col-md-12 " style="min-height:65vh;" id="add_product">
+				<div >
+					<div class="col-md-12 panel-content">
+						<form method="post" action="/admin/product/add" enctype="multipart/form-data">
+							<div class="col-md-6 col-sm-12">
+									<div class="form-group">
+										<label for="exampleFormControlSelect1"><%= __('Product\'s type ') %></label>
+										<select class="form-control" name="product_type">
+											<% categories.forEach((category) => { %>
+												<option value="<%= category._id %>">
+														<%= category.name %>
+												</option>
+											<% }) %>
+										</select>
 									</div>
-							  </div>
-                              <button type="submit" class="btn btn-primary" style="background: #F25C27;
-                              border-color: #F25C27;">Submit</button>
-                        </div>
-                        <div class="col-md-6 col-sm-12">
-                            <div class="form-group">
-                                <label for="exampleFormControlTextarea1"><%= __('Product\'s description') %></label>
-                                <textarea class="form-control" name="description" rows="5"></textarea>
-                            </div>
-                            <div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio"  
-								name="status" value="1">
-                                <label class="form-check-label" for="inlineRadio1"><%= __('New') %></label>
-                            </div>
-                            <div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" 
-								name="status" id="inlineRadio2" value="2">
-                                <label class="form-check-label" for="inlineRadio2"><%= __('Comming soon') %></label>
-                            </div>
-                            <div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="status" 
-									   id="inlineRadio3" value="3">
-                                <label class="form-check-label" for="inlineRadio3"><%= __('Expire') %></label>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleFormControlFile1"><%= __('Product\'s main avata ') %></label>
-                                <input type="file" class="form-control-file" name="avatar" id="exampleFormControlFile1">
-                            </div>
-                            <div class="col-md-7 row">
-                                <div class="form-group">
-                                    <label for="exampleFormControlFile1"><%= __('Product\'s images detail ') %></label>
-                                    <input type="file" class="form-control-file" name="details[]" id="exampleFormControlFile1">
+								<div class="form-group">
+									<label for="exampleInputEmail1"><%= __('Product\'s name') %></label>
+									<input type="text" class="form-control" id="exampleInputEmail1" 
+										name="product_name" placeholder="name" required>
+									<small id="emailHelp" class="form-text text-muted">
+										We'll never share your email with anyone else.
+									</small>
 								</div>
 								<div class="form-group">
-                                    <label for="exampleFormControlFile1"><%= __('Product\'s images detail ') %></label>
-                                    <input type="file" class="form-control-file" name="details[]" id="exampleFormControlFile1">
+									<label for="exampleInputEmail1"><%= __('Product\'s unit price') %></label>
+									<input type="text" class="form-control" id="exampleInputEmail1" 
+										name="unit_price" placeholder="unit price" required>
+									<small id="emailHelp" class="form-text text-muted">
+										We'll never share your email with anyone else.
+									</small>
 								</div>
 								<div class="form-group">
-									<label for="exampleFormControlFile1"><%= __('Product\'s images detail ') %></label>
-									<input type="file" class="form-control-file" name="details[]" id="exampleFormControlFile1">
+									<label for="exampleInputEmail1"><%= __('Product\'s promotion price') %></label>
+									<input type="text" class="form-control" id="exampleInputEmail1" 
+										name="promo_price" placeholder="promotion price">
+									<small id="emailHelp" class="form-text text-muted">
+										We'll never share your email with anyone else.
+									</small>
 								</div>
-                            </div>
-                            <div class="col-md-5 row">
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-admore">
-                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                        <span>Add more</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            
-		</div>
-		<div class="clearfix"> </div>
-		</div>
+								<div class="form-group">
+										<label for="exampleInputEmail1"><%= __('Product\'s quantity') %></label>
+										<input type="text" class="form-control" id="exampleInputEmail1" 
+											name="quantity" placeholder="quantity">
+										<small id="emailHelp" class="form-text text-muted">
+											We'll never share your email with anyone else.
+										</small>
+								</div>
+								<div class="form-group">
+										<label for="exampleInputEmail1"><%= __('Product\'s size') %></label>
+										<input type="text" class="form-control" name="size[]" value="S,M,L,Xl,XXl" data-role="tagsinput" >
+										
+										<small id="emailHelp" class="form-text text-muted">
+											We'll never share your email with anyone else.
+										</small>
+								</div>
+							
+								<button type="submit" class="btn btn-primary" style="background: #F25C27;
+								border-color: #F25C27;">Submit</button>
+							</div>
+							<div class="col-md-6 col-sm-12">
+									<div class="form-group" v-for = "color in colorsNum">
+											<label for="example-color-input" class="col-2 col-form-label"><%= __('Product\'s color') %></label>
+											<div>
+												<input class="form-control" type="color" value="#F25C27" name="color[]">
+											</div>
+									</div>
+									<div class="form-group">
+										<button type="button" class="btn btn-primary btn-xs" @click="colorsNum += 1"
+										style="background: #F25C27;
+										border-color: #F25C27;">More colors</button>
+									</div>
+								<div class="form-group">
+									<label for="exampleFormControlTextarea1"><%= __('Product\'s description') %></label>
+									<textarea class="form-control" name="description" rows="5"></textarea>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio"  
+									name="status" value="1">
+									<label class="form-check-label" for="inlineRadio1"><%= __('New') %></label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" 
+									name="status" id="inlineRadio2" value="2">
+									<label class="form-check-label" for="inlineRadio2"><%= __('Comming soon') %></label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="status" 
+										id="inlineRadio3" value="3">
+									<label class="form-check-label" for="inlineRadio3"><%= __('Expire') %></label>
+								</div>
+								<div class="form-group">
+									<label for="exampleFormControlFile1"><%= __('Product\'s main avata ') %></label>
+									<input type="file" class="form-control-file" name="avatar" id="exampleFormControlFile1">
+								</div>
+								<div class="col-md-7 row" v-for="detail in imgDetailsNum">
+									<div class="form-group" >
+										<label for="exampleFormControlFile1"><%= __('Product\'s images detail ') %></label>
+										<input type="file" class="form-control-file" name="details[]" id="exampleFormControlFile1">
+									</div>
+								</div>
+								<div class="col-md-5 row">
+									<div class="form-group">
+										<button type="button" class="btn btn-admore" @click="imgDetailsNum += 1">
+											<i class="fa fa-plus" aria-hidden="true"></i>
+											<span>Add more</span>
+										</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				
+			</div>
+			<div class="clearfix"> </div>
+		
 		<!--//content-->
 		<!---->
 		<div class="copy">
