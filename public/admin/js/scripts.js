@@ -66,43 +66,50 @@ var category_add = new Vue({
 });
 
 
-var admin_index = new Vue({
-	el : '#admin_index',
-	data : {
-
-	},
-	methods : {
-        
-	},
-	mounted : function(){
-		axios.get('/admin/line-chart')
-			.then(function (response) {
-				let data = response.data;
-				new Chart(document.getElementById('line-chart'), {
-					type: 'line',
-					data: {
-						labels: ['Chủ nhật','Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7'],
-						datasets: [{ 
-							data: [data.sunday, data.monday, data.tueDay, data.weDay, data.thuDay, data.friDay, data.satuDay],
-							label: 'Biên độ doanh thu',
-							borderColor: '#F25C27',
-							fill: false
+if(document.getElementById("admin_index")){
+	var admin_index = new Vue({
+		el : '#admin_index',
+		data : {
+	
+		},
+		methods : {
+			
+		},
+		mounted : function(){
+			axios.get('/admin/line-chart')
+				.then(function (response) {
+					let data = response.data;
+					new Chart(document.getElementById('line-chart'), {
+						type: 'line',
+						data: {
+							labels: ['Chủ nhật','Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7'],
+							datasets: [{ 
+								data: [data.sunday, data.monday, data.tueDay, data.weDay, data.thuDay, data.friDay, data.satuDay],
+								label: 'Biên độ doanh thu',
+								borderColor: '#F25C27',
+								fill: false
+							}
+							]
+						},
+						options: {
+							title: {
+								display: true,
+								text: 'Đồ thị doanh thu tuần này '
+							}
 						}
-						]
-					},
-					options: {
-						title: {
-							display: true,
-							text: 'Đồ thị doanh thu tuần này '
-						}
-					}
+					});
+				})
+				.catch(function (error) {
+					console.log(error);
 				});
-			})
-			.catch(function (error) {
-				console.log(error);
-			});
-	}
-});
+		}
+	});	
+}
+  
+
+
+
+
 
 const bills = new Vue({
 	el : '#bills',
@@ -293,5 +300,26 @@ const bills = new Vue({
 			.catch(function (error) {
 				throw new error;
 			});
+	}
+});
+
+
+const addProduct = new Vue({
+	el : '#add_product',
+	data : {
+	 	product_name : null,
+		unit_price : null,
+		promo_price : null,
+		description : null,
+		status : null,
+		quantity : null,
+		product_type : null,
+		size : null,
+		color : null,
+		imgDetailsNum : 1,
+		colorsNum : 1
+	},
+	methods  : {
+		
 	}
 });

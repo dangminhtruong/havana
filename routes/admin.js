@@ -298,8 +298,7 @@ router.get('/product/add', (req, res, next) => {
 router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
 	let cpUpload = upload.fields([{ name: 'avatar', maxCount: 1 }, 
 		{ name: 'details', maxCount: 8 }])
-	
-	
+
 		 let product = new Product({
 			name : req.body.product_name,
 			unit_price : req.body.unit_price,
@@ -311,26 +310,22 @@ router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
 			quantity : req.body.quantity,
 			saled : 0,
 			category_id : req.body.product_type,
-			size : [
-				{ name :  'Xl' },
-				{ name : 'L' }
-			],
-			color : [
-				{ name :  '#0000' }
-			],
+			size : _.split(req.body.size[0], ','),
+			color : req.body.color,
 			image_detais : _.map(_.filter(req.files, { 'fieldname': 'details[]' }), 'originalname'),
 			rate : [],
 			comment : []
 		});
-
-		product.save(function (err, results) {
-			
+ 
+		 product.save(function (err, results) {
+			if(err){
+				return res.send(err);
+			} 
 			res.send({
-				'image_detais' : _.map( _.filter(req.files, { 'fieldname': 'details[]' }), 
-										'originalname'),
+				 'image_detais' : _.map( _.filter(req.files, { 'fieldname': 'details[]' }), 
+										'originalname'), 
 			});
-		});
-  
+		 }); 
 	
 });
 
