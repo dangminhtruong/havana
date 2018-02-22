@@ -11,7 +11,7 @@ const _ = require('lodash');
 var faker = require('faker');
 
 new Promise((resolve) => {
-	mongoose.connect('mongodb://localhost:27017/havana', {
+	mongoose.connect('mongodb://mongodb:27017/havana', {
 		useMongoClient: true,
 		promiseLibrary: require('bluebird')
 	});
@@ -56,7 +56,7 @@ new Promise((resolve) => {
 		resolve(items);
 	});
 }).then((items) => {
-	seeder.connect('mongodb://localhost:27017/havana', function() {
+	seeder.connect('mongodb://mongodb:27017/havana', function() {
 		let data = [{
 			'model': 'User',
 			'documents': items

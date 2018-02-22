@@ -67,13 +67,9 @@ passport.deserializeUser(function(user, done) {
 	done(null, user);
 });
 
-const Category = require('./model/category');
-Category.find({}, {_id : 1, name : 1, type : 1})
-	.exec((err, category) => {
-		app.locals.categories = category;
-	});
+
 //--------------------------------------------------------
-mongoose.connect('mongodb://localhost:27017/havana', {
+mongoose.connect('mongodb://mongodb:27017/havana', {
 	useMongoClient: true,
 	promiseLibrary: require('bluebird')
 });
@@ -91,4 +87,11 @@ mongoose.connection.on('error', function (err) {
 mongoose.connection.on('disconnected', function () {
 	console.log('Mongodb connection is disconnected');
 });
+
+const Category = require('./model/category');
+Category.find({}, {_id : 1, name : 1, type : 1})
+	.exec((err, category) => {
+		app.locals.categories = category;
+	});
+
 module.exports = app;

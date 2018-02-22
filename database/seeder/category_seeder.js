@@ -5,7 +5,7 @@
 const seeder = require('mongoose-seed');
 const faker = require('faker');
 
-seeder.connect('mongodb://localhost:27017/havana', function() {
+seeder.connect('mongodb://mongodb:27017/havana', function() {
 
 	seeder.loadModels([
 		'../../model/category'
