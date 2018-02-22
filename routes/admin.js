@@ -305,7 +305,7 @@ router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
 			promo_price : req.body.promo_price,
 			slug_name : slug(req.body.product_name),
 			descript: req.body.description,
-			image : req.files[0].originalname,
+			image : req.files[0].filename,
 			status : req.body.status,
 			quantity : req.body.quantity,
 			saled : 0,

@@ -2,19 +2,19 @@
     <div class="headerstrip">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12"> <a href="/index" class="logo pull-left"><img src="/img/logo.png" alt="SimpleOne" title="SimpleOne"></a> 
+                <div class="col-lg-12"> <a href="/" class="logo pull-left"><img src="/img/logo.png" alt="SimpleOne" title="SimpleOne"></a> 
                     <!-- Top Nav Start -->
                     <div class="pull-left">
                         <div class="navbar" id="topnav">
                             <div class="navbar-inner">
                                 <ul class="nav" >
-                                    <li><a class="home active" href="/index"><%= __('Home') %></a> </li>
+                                    <li><a class="home active" href="/"><%= __('Home') %></a> </li>
                                     <% if(typeof user !== 'undefined'){ %>
                                         <li><a class="myaccount" href="#"><%= user.username %></a> </li>
                                     <% }else { %>
-                                        <li><a class="myaccount" href="#"><%= __('My Account')  %></a> </li>
+                                        <li><a class="myaccount" href="/login"><%= __('My Account')  %></a> </li>
                                     <% } %>
-                                    <li><a class="shoppingcart" href="#"><%= __('Shopping Cart') %></a> </li>
+                                    <li><a class="shoppingcart" href="/shoping-cart/details"><%= __('Shopping Cart') %></a> </li>
                                     <li><a class="checkout" href="#"><%= __('CheckOut') %></a> </li>
                                 </ul>
                             </div>

@@ -3,5 +3,5 @@ WORKDIR /app
 ADD . /app
 RUN npm install
 RUN npm i -g nodemon
-CMD ["npm", "start"]
+CMD ["nodemon", "-L"]
 EXPOSE 3000

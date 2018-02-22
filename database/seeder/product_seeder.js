@@ -32,7 +32,7 @@ new Promise((resolve) => {
 					promo_price : faker.commerce.price(),
 					slug_name : faker.helpers.slugify(),
 					descript: faker.lorem.paragraph(),
-					image : 'product.jpg',
+					image : 'product1a.jpg',
 					status : _.sample(status),
 					quantity : faker.random.number(),
 					saled : 0,
