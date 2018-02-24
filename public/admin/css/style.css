@@ -2865,3 +2865,9 @@ ul.dropdown-menu.dropdown-menu-right {
     outline: none;
 
 }
+
+.btn-remove-color{
+    background: rgb(247, 245, 245);
+    width: 10%;
+    padding-right : 0px
+}
