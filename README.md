@@ -16,7 +16,7 @@
 <b>Step 1</b> Open terminal and run command "docker-compose up -d" <br/>
 <b>Step 2</b> Run "docker exec -it havana_web /bin/bash" <br/>
 <b>Step 3 </b> Move to seeder folder by run "cd databse/seeder/" then run seeder files one by one <br/>
-               <li>"node category_seeder"</li> 
-                <li>"node product_seeder"</li> 
-                <li>"node user_seeder"</li> 
-                <li>"node bill_seeder"</li> 
+<li>"node category_seeder"</li> 
+<li>"node product_seeder"</li> 
+<li>"node user_seeder"</li> 
+<li>"node bill_seeder"</li> 
