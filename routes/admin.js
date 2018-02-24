@@ -8,7 +8,7 @@ const User = require('../model/user');
 const _ = require('lodash');
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
-const slug = require('slug')
+const slug = require('slug');
 var moment = require('moment');
 var weekly = require('../helpers/line_chart_data');
 var multer  = require('multer');
@@ -287,44 +287,44 @@ router.get('/bills/status-data', (req, res) => {
 /*--------------------------------------------------------*/
 router.get('/product/add', (req, res, next) => {
 	Category.find({}, { _id : 1, name : 1 })
-	.exec((err, category) => {
-		res.render('./admin/pages/add_product', {
-			categories : category
+		.exec((err, category) => {
+			res.render('./admin/pages/add_product');
 		});
-	});
 	
 });
 /*--------------------------------------------------------*/
 router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
 	let cpUpload = upload.fields([{ name: 'avatar', maxCount: 1 }, 
-		{ name: 'details', maxCount: 8 }])
+		{ name: 'details', maxCount: 8 }]);
 
 		 let product = new Product({
-			name : req.body.product_name,
-			unit_price : req.body.unit_price,
-			promo_price : req.body.promo_price,
-			slug_name : slug(req.body.product_name),
-			descript: req.body.description,
-			image : req.files[0].filename,
-			status : req.body.status,
-			quantity : req.body.quantity,
-			saled : 0,
-			category_id : req.body.product_type,
-			size : _.split(req.body.size[0], ','),
-			color : req.body.color,
-			image_detais : _.map(_.filter(req.files, { 'fieldname': 'details[]' }), 'originalname'),
-			rate : [],
-			comment : []
-		});
+		name : req.body.product_name,
+		unit_price : req.body.unit_price,
+		promo_price : req.body.promo_price,
+		slug_name : slug(req.body.product_name),
+		descript: req.body.description,
+		image : req.files[0].filename,
+		status : req.body.status,
+		quantity : req.body.quantity,
+		saled : 0,
+		category_id : req.body.product_type,
+		size : _.split(req.body.size[0], ','),
+		color : req.body.color,
+		image_detais : _.map(_.filter(req.files, { 'fieldname': 'details[]' }), 'originalname'),
+		rate : [],
+		comment : []
+	});
  
 		 product.save(function (err, results) {
-			if(err){
-				return res.send(err);
-			} 
-			res.send({
-				 'image_detais' : _.map( _.filter(req.files, { 'fieldname': 'details[]' }), 
-										'originalname'), 
+		if(err){
+			console.log(error);
+			return res.render('./admin/pages/add_product', {
+				messages : 'Opps! somethings went wrong'
 			});
+		} 
+		return res.render('./admin/pages/add_product', {
+			messages : 'Add product sucessfull!'
+		});
 		 }); 
 	
 });

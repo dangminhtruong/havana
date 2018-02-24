@@ -66,7 +66,7 @@ var category_add = new Vue({
 });
 
 
-if(document.getElementById("admin_index")){
+if(document.getElementById('admin_index')){
 	var admin_index = new Vue({
 		el : '#admin_index',
 		data : {
@@ -291,8 +291,8 @@ const bills = new Vue({
       
 	},
 	mounted : function(){
-		$("#fill-start-day").datepicker( {dateFormat: 'yy-mm-dd' });
-		$("#fill-end-day").datepicker( {dateFormat: 'yy-mm-dd' });
+		$('#fill-start-day').datepicker( {dateFormat: 'yy-mm-dd' });
+		$('#fill-end-day').datepicker( {dateFormat: 'yy-mm-dd' });
 		axios.get('/admin/bills/today-data')
 			.then( (response) => {
 				this.bills = response.data;
@@ -314,7 +314,7 @@ const addProduct = new Vue({
 		quantity : null,
 		product_type : null,
 		imgDetailsNum : 1,
-		colors : ["#F25C27"],
+		colors : ['#F25C27'],
 		promoPriceAlert : null,
 		unitPriceAlert : null,
 		quantityAlert : null
@@ -375,7 +375,7 @@ const addProduct = new Vue({
 			this.colors.splice(index, 1);
 		},
 		adMoreColor : function(){
-			this.colors.push("#F25C27");
+			this.colors.push('#F25C27');
 		}
 	}
 });
