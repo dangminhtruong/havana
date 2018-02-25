@@ -21,3 +21,43 @@ let app = new Vue({
 		}
 	}
 });
+
+
+const shoppingCart = new Vue({
+	el : '#shopping_cart',
+	data : {
+		items : []
+	},
+	methods : {
+		getImgPath : function(fileName){
+			return `/img/${ fileName }`;
+		},
+
+		removeItem :  function(index){
+			axios.get(`/shoping-cart/remove/${ index }`)
+			.then((response) => {
+				if(typeof response.data.items !== 'undefined'){
+					this.items = response.data.items;
+				}
+			});
+		},
+
+		updateItemQuantity : function(productId, index){
+			axios.get(`/shoping-cart/update-quantity/${ productId }`, {
+				params : {
+					newQuantity : this.items[index].product_quantity
+				}
+			})
+			.then((response) => {
+				this.items = response.data.items;
+			});
+		}
+	},
+	mounted : function(){
+		axios.get('/shoping-cart/cart-data')
+		.then((response) => {
+			this.items = response.data.items;
+		})
+		.catch(err => console.log(err));
+	}
+});

@@ -317,7 +317,6 @@ router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
  
 		 product.save(function (err, results) {
 		if(err){
-			console.log(error);
 			return res.render('./admin/pages/add_product', {
 				messages : 'Opps! somethings went wrong'
 			});

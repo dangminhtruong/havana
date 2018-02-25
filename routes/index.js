@@ -52,7 +52,6 @@ router.get('/', function(req, res, next) {
 		if(err){
 			throw new err;
 		}
-		console.log(req.user);
 		return res.render('index',{
 			news : results[0],
 			features : results[1],

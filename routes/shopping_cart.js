@@ -20,11 +20,11 @@ router.get('/add/:id', function(req, res, next) {
 						product_name : product.name,
 						unit_price : product.unit_price,
 						promo_price : product.promo_price,
-						product_quantity : 1
+						product_quantity : 1,
+						product_img : product.image
 					}
 				];
 			}).then(() => {
-				console.log(sess.cart);
 				res.send({
 					cart_items : 1
 				});
@@ -35,7 +35,6 @@ router.get('/add/:id', function(req, res, next) {
 		let check = _.findIndex(sess.cart, { 'product_id': req.params.id });
 		if(check >= 0 ){
 			sess.cart[check].product_quantity += 1;
-			console.log(sess.cart);
 			res.send({
 				cart_items : sess.cart.length
 			});
@@ -50,7 +49,8 @@ router.get('/add/:id', function(req, res, next) {
 							product_name : product.name,
 							unit_price : product.unit_price,
 							promo_price : product.promo_price,
-							product_quantity : 1
+							product_quantity : 1,
+							product_img : product.image
 						}
 					);
 				}).then(() => {
@@ -64,14 +64,13 @@ router.get('/add/:id', function(req, res, next) {
 });
 
 router.get('/remove/:id', (req, res, next) => {
-	let sess = req.session;
-	let index = req.params.id;
-
 	try {
-		_.remove(sess.cart, function(index) {
-			return index;
+		_.remove(req.session.cart, function(obj) {
+			return obj.product_id === req.params.id;
 		});
-		res.send('success');
+		res.send({
+			items : req.session.cart
+		});
 	} catch (error) {
 		res.send('failed');
 	}
@@ -81,6 +80,21 @@ router.get('/remove/:id', (req, res, next) => {
 router.get('/details', function(req, res, next) {
 	res.render('./pages/view_cart', {
 		cart : req.session.cart
+	});
+});
+
+
+router.get('/cart-data', function(req, res){
+	res.send({
+		items : req.session.cart
+	});
+});
+
+router.get('/update-quantity/:id', (req, res) => {
+	
+	req.session.cart[_.findIndex(req.session.cart, { product_id : req.params.id })].product_quantity = req.query.newQuantity;
+	res.send({
+		items : req.session.cart
 	});
 });
 
