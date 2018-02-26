@@ -66,7 +66,7 @@ var category_add = new Vue({
 });
 
 
-if(document.getElementById("admin_index")){
+if(document.getElementById('admin_index')){
 	var admin_index = new Vue({
 		el : '#admin_index',
 		data : {
@@ -291,8 +291,8 @@ const bills = new Vue({
       
 	},
 	mounted : function(){
-		$("#fill-start-day").datepicker( {dateFormat: 'yy-mm-dd' });
-		$("#fill-end-day").datepicker( {dateFormat: 'yy-mm-dd' });
+		$('#fill-start-day').datepicker( {dateFormat: 'yy-mm-dd' });
+		$('#fill-end-day').datepicker( {dateFormat: 'yy-mm-dd' });
 		axios.get('/admin/bills/today-data')
 			.then( (response) => {
 				this.bills = response.data;
@@ -311,15 +311,71 @@ const addProduct = new Vue({
 		unit_price : null,
 		promo_price : null,
 		description : null,
-		status : null,
 		quantity : null,
 		product_type : null,
-		size : null,
-		color : null,
 		imgDetailsNum : 1,
-		colorsNum : 1
+		colors : ['#F25C27'],
+		promoPriceAlert : null,
+		unitPriceAlert : null,
+		quantityAlert : null
+		
 	},
 	methods  : {
-		
+		checkValidate : function(){
+			if(this.validatePromoPrice() && this.validateUnitPrice()  && this.validateQuantity() ){
+				this.$refs.form.submit();
+			}
+		},
+
+		validatePromoPrice : function(){
+			if(isNaN(this.promo_price)){
+				this.promoPriceAlert = 'Price must be an integer value';
+				return false;
+			}else if(!isNaN(this.promo_price) && this.promo_price < 0 ){
+				this.promoPriceAlert = 'Price must be greater than 0';
+				return false;
+			}else if(Number(this.promo_price) >= Number(this.unit_price)){
+				this.promoPriceAlert = 'Promotion price must less than unit price';
+				return false;
+			}
+			else{
+				this.promoPriceAlert = null;
+				return true;
+			}
+			
+		},
+
+		validateUnitPrice : function(){
+			if(isNaN(this.unit_price)){
+				this.unitPriceAlert = 'Unit price must be an integer value';
+				return false;
+			}else if(!isNaN(this.unit_price) && this.unit_price < 0 ){
+				this.unitPriceAlert = 'Unit price must be greater than 0';
+				return false;
+			}else{
+				this.unitPriceAlert = null;
+			}
+			return true;
+		},
+
+		validateQuantity : function(){
+			if(isNaN(this.quantity)){
+				this.quantityAlert = 'Quantity must be an integer value';
+				return false;
+			}
+			else if(!isNaN(this.quantity) && this.quantity < 0 ){
+				this.quantityAlert = 'Quantity must be greater than 0';
+				return false;
+			}else{
+				this.quantityAlert = null;
+				return true;
+			}
+		},
+		removeColor : function(index){
+			this.colors.splice(index, 1);
+		},
+		adMoreColor : function(){
+			this.colors.push('#F25C27');
+		}
 	}
 });

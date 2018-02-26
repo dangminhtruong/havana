@@ -133,7 +133,7 @@
 			<div class="col-md-12 " style="min-height:65vh;" id="add_product">
 				<div >
 					<div class="col-md-12 panel-content">
-						<form method="post" action="/admin/product/add" enctype="multipart/form-data">
+						<form method="post" ref="form" action="/admin/product/add" enctype="multipart/form-data" v-on:submit.prevent="checkValidate">
 							<div class="col-md-6 col-sm-12">
 									<div class="form-group">
 										<label for="exampleFormControlSelect1"><%= __('Product\'s type ') %></label>
@@ -149,55 +149,58 @@
 									<label for="exampleInputEmail1"><%= __('Product\'s name') %></label>
 									<input type="text" class="form-control" id="exampleInputEmail1" 
 										name="product_name" placeholder="name" required>
-									<small id="emailHelp" class="form-text text-muted">
-										We'll never share your email with anyone else.
-									</small>
 								</div>
 								<div class="form-group">
 									<label for="exampleInputEmail1"><%= __('Product\'s unit price') %></label>
-									<input type="text" class="form-control" id="exampleInputEmail1" 
+									<input type="text" class="form-control" v-model="unit_price" @change="validateUnitPrice"
 										name="unit_price" placeholder="unit price" required>
 									<small id="emailHelp" class="form-text text-muted">
-										We'll never share your email with anyone else.
+										<p style="color:red;">{{ unitPriceAlert }}</p>
 									</small>
 								</div>
 								<div class="form-group">
 									<label for="exampleInputEmail1"><%= __('Product\'s promotion price') %></label>
-									<input type="text" class="form-control" id="exampleInputEmail1" 
-										name="promo_price" placeholder="promotion price">
-									<small id="emailHelp" class="form-text text-muted">
-										We'll never share your email with anyone else.
+									<input type="text" class="form-control" v-model="promo_price" 
+										name="promo_price" placeholder="promotion price" @change="validatePromoPrice">
+									<small id="emailHelp" class="form-text text-muted" >
+										<p style="color:red;">{{ promoPriceAlert }} </p>
 									</small>
 								</div>
 								<div class="form-group">
 										<label for="exampleInputEmail1"><%= __('Product\'s quantity') %></label>
-										<input type="text" class="form-control" id="exampleInputEmail1" 
+										<input type="text" class="form-control" v-model="quantity" @change= "validateQuantity"
 											name="quantity" placeholder="quantity">
 										<small id="emailHelp" class="form-text text-muted">
-											We'll never share your email with anyone else.
+											<p style="color:red;">{{ quantityAlert }}</p>
 										</small>
 								</div>
 								<div class="form-group">
 										<label for="exampleInputEmail1"><%= __('Product\'s size') %></label>
-										<input type="text" class="form-control" name="size[]" value="S,M,L,Xl,XXl" data-role="tagsinput" >
+										<input type="text" class="form-control" name="size[]" 
+												value="S,M,L,Xl,XXl" data-role="tagsinput" required>
 										
 										<small id="emailHelp" class="form-text text-muted">
 											We'll never share your email with anyone else.
 										</small>
 								</div>
 							
-								<button type="submit" class="btn btn-primary" style="background: #F25C27;
-								border-color: #F25C27;">Submit</button>
+								
 							</div>
 							<div class="col-md-6 col-sm-12">
-									<div class="form-group" v-for = "color in colorsNum">
-											<label for="example-color-input" class="col-2 col-form-label"><%= __('Product\'s color') %></label>
-											<div>
-												<input class="form-control" type="color" value="#F25C27" name="color[]">
-											</div>
+									<div class="form-group" v-for = "(color, index) in colors" :key="index">
+											<label class="form-label"><%= __('Product\'s color') %></label>
+												<input style="width:89%" type="color" 
+														:value="color" name="color[]" v-model="colors[index]">
+												<button type="button" v-if="index == 0" disabled class="btn-xs btn-remove-color" @click="removeColor(index)">
+													<i class="fa fa-trash-o" style="color:#F25C27;"></i>
+												</button>
+												<button type="button" v-else class="btn-xs btn-remove-color" @click="removeColor(index)">
+													<i class="fa fa-trash-o" style="color:#F25C27;"></i>
+												</button>
+											
 									</div>
 									<div class="form-group">
-										<button type="button" class="btn btn-primary btn-xs" @click="colorsNum += 1"
+										<button type="button" class="btn btn-primary btn-xs" @click="adMoreColor"
 										style="background: #F25C27;
 										border-color: #F25C27;">More colors</button>
 									</div>
@@ -207,7 +210,7 @@
 								</div>
 								<div class="form-check form-check-inline">
 									<input class="form-check-input" type="radio"  
-									name="status" value="1">
+									name="status" value="1" checked>
 									<label class="form-check-label" for="inlineRadio1"><%= __('New') %></label>
 								</div>
 								<div class="form-check form-check-inline">
@@ -222,12 +225,12 @@
 								</div>
 								<div class="form-group">
 									<label for="exampleFormControlFile1"><%= __('Product\'s main avata ') %></label>
-									<input type="file" class="form-control-file" name="avatar" id="exampleFormControlFile1">
+									<input type="file" class="form-control-file" name="avatar" accept="image/*" >
 								</div>
 								<div class="col-md-7 row" v-for="detail in imgDetailsNum">
 									<div class="form-group" >
 										<label for="exampleFormControlFile1"><%= __('Product\'s images detail ') %></label>
-										<input type="file" class="form-control-file" name="details[]" id="exampleFormControlFile1">
+										<input type="file" class="form-control-file" name="details[]" accept="image/*" >
 									</div>
 								</div>
 								<div class="col-md-5 row">
@@ -236,6 +239,14 @@
 											<i class="fa fa-plus" aria-hidden="true"></i>
 											<span>Add more</span>
 										</button>
+									</div>
+								</div>
+								<div class="col-md-12 row">
+									<div class="form-group">
+											<button type="submit" class="btn btn-primary" style="background: #F25C27;
+											border-color: #F25C27;">Submit</button>
+											<button type="reset" class="btn btn-primary" style="background: rgb(201, 198, 197);
+											border-color: rgb(151, 149, 149);">Clear</button>
 									</div>
 								</div>
 							</div>
@@ -256,5 +267,11 @@
 		</div>
 		</div>
 		<%- include('../blocks/footer_links') %>
+		<% if(typeof messages !== 'undefined'){ %>
+			<script>
+				toastr.options.closeButton = true;
+				toastr.success('New product inserted!');
+			</script>
+		<% } %>
 	</body>
 </html>

@@ -17,6 +17,7 @@
 <b>Step 1</b> Open terminal and run command "docker-compose up -d" <br/>
 <b>Step 2</b> Run "docker exec -it havana_web_1 /bin/bash" <br/>
 <b>Step 3 </b> Move to seeder folder by run "cd databse/seeder/" then run seeder files one by one <br/>
+<<<<<<< HEAD
 <li>"node category_seeder"</li>
 <li>"node product_seeder"</li>
 <li>"node user_seeder"</li>
@@ -24,3 +25,9 @@
 <br/>
 <h6>Notice !</h6>
 Cause this project just a my first project using nodejs, mongodb. So, source maybe confusing !
+=======
+<li>"node category_seeder"</li> 
+<li>"node product_seeder"</li> 
+<li>"node user_seeder"</li> 
+<li>"node bill_seeder"</li> 
+>>>>>>> 5d873c4fed13f0e77a7b85e9aa7f23fd48cb556e
