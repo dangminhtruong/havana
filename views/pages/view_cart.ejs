@@ -43,9 +43,9 @@
                                 <td  class="name"><a href="#">{{ item.product_name }}</a></td>
                                 <td class="model">Purchased Product</td>
                                 <td class="quantity">
-                                    <input type="text" size="1" :value="item.product_quantity" 
-                                          v-model="items[index].product_quantity" @change="updateItemQuantity(item.product_id, index)" 
-                                          class="col-lg-1">
+                                    <input type="text" size="5" :value="item.product_quantity" 
+                                          v-model="items[index].product_quantity" 
+                                          @change="updateItemQuantity(item.product_id, index)" >
                                 </td>
                                 <td class="price" v-if="item.promo_price !== 0">${{ item.promo_price }}</td>
                                 <td class="price" v-else>${{ item.unit_price }}</td>
@@ -54,7 +54,6 @@
                                     <b v-else>${{ item.unit_price * item.product_quantity }}</b>
                                 </td>
                                 <td class="total"> 
-                                    <a href="#"><img class="tooltip-test" data-original-title="Update" src="/img/update.png" alt=""></a>
                                     <span>
                                       <img class="tooltip-test" data-original-title="Remove" @click="removeItem(item.product_id)"  src="/img/remove.png" alt="">
                                     </span>
@@ -63,37 +62,7 @@
                         </table>
                     </div>
                     <div class="cartoptionbox">
-                        <h4 class="heading4"> 
-                            Choose if you have a discount code or reward points you want 
-                            to use or would like to estimate your delivery cost. 
-                        </h4>
-                        <input type="radio" class="radio"/>
-                          Use Coupon Code <br/>
-                        <input type="radio" class="radio"/>
-                          Use Gift Voucher <br/>
-                        <input type="radio" class="radio" checked="checked">
-                          Estimate Shipping & Taxes <br><br>
-                        <form class="form-vertical form-inline">
-                            <h4 class="heading4"> Enter your destination to get a shipping estimate.</h4>
-                            <fieldset>
-                                <div class="control-group">
-                                    <label  class="control-label">Select list</label>
-                                    <div class="controls">
-                                        <select  class="col-lg-3 cartcountry">
-                                            <option>Country:</option>
-                                            <option>United Kindom</option>
-                                            <option>United States</option>
-                                        </select>
-                                        <select class="col-lg-3 cartstate">
-                                            <option>Region / State:</option>
-                                            <option>Angus</option>
-                                            <option>highlands</option>
-                                        </select>
-                                        <input type="submit" value="Get Quotes" class="btn btn-orange">
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </form>
+                      
                     </div>
                     <div class="container">
                         <div>
@@ -101,23 +70,19 @@
                                 <table class="table table-striped table-bordered ">
                                     <tr>
                                         <td><span class="extra bold">Sub-Total :</span></td>
-                                        <td><span class="bold">$101.0</span></td>
+                                        <td><span class="bold">{{ totalSum}}</span></td>
                                     </tr>
                                     <tr>
-                                        <td><span class="extra bold">Eco Tax (-5.00) :</span></td>
-                                        <td><span class="bold">$11.0</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span class="extra bold">VAT (18.2%) :</span></td>
-                                        <td><span class="bold">$21.0</span></td>
+                                        <td><span class="extra bold"><%= __('Ship fee') %> :</span></td>
+                                        <td><span class="bold"><%= __('freeship') %></span></td>
                                     </tr>
                                     <tr>
                                         <td><span class="extra bold totalamout">Total :</span></td>
                                         <td><span class="bold totalamout">$150.28</span></td>
                                     </tr>
                                 </table>
-                                <input type="submit" value="CheckOut" class="btn btn-orange pull-right">
-                                <input type="submit" value="Continue Shopping" class="btn btn-orange pull-right mr10">
+                                <a href="/"><button type="button" class="btn btn-orange pull-right">Continue Shopping</button></a>
+                                <button type="button" class="btn btn-orange pull-right mr10">CheckOut</button>
                             </div>
                         </div>
                     </div>

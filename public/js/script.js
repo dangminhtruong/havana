@@ -26,13 +26,21 @@ let app = new Vue({
 const shoppingCart = new Vue({
 	el : '#shopping_cart',
 	data : {
-		items : []
+		items : [], 
+		totalSum : 0
 	},
 	methods : {
 		getImgPath : function(fileName){
 			return `/img/${ fileName }`;
 		},
-
+		validateChangeQuantity : function(index){
+			let quantity = this.items[index].product_quantity;
+			if(quantity > 0){
+				return true;
+			}
+			return false;
+		},
+		
 		removeItem :  function(index){
 			axios.get(`/shoping-cart/remove/${ index }`)
 			.then((response) => {
@@ -43,14 +51,19 @@ const shoppingCart = new Vue({
 		},
 
 		updateItemQuantity : function(productId, index){
-			axios.get(`/shoping-cart/update-quantity/${ productId }`, {
-				params : {
-					newQuantity : this.items[index].product_quantity
-				}
-			})
-			.then((response) => {
-				this.items = response.data.items;
-			});
+			if(this.validateChangeQuantity(index)){
+				axios.get(`/shoping-cart/update-quantity/${ productId }`, {
+					params : {
+						newQuantity : this.items[index].product_quantity
+					}
+				})
+				.then((response) => {
+					this.items = response.data.items;
+				});
+			}
+			else{
+				alert('hell');
+			}
 		}
 	},
 	mounted : function(){
