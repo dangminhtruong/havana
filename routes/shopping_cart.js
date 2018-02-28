@@ -79,7 +79,8 @@ router.get('/remove/:id', (req, res, next) => {
 
 router.get('/details', function(req, res, next) {
 	res.render('./pages/view_cart', {
-		cart : req.session.cart
+		cart : req.session.cart,
+		user : req.user
 	});
 });
 
@@ -93,10 +94,15 @@ router.get('/cart-data', function(req, res){
 router.get('/update-quantity/:id', (req, res) => {
 	
 	req.session.cart[_.findIndex(req.session.cart, { product_id : req.params.id })]
-					.product_quantity = req.query.newQuantity;
+		.product_quantity = req.query.newQuantity;
 	res.send({
 		items : req.session.cart
 	});
 });
+
+router.post('/order', (req, res) => {
+
+});
+
 
 module.exports = router;

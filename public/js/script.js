@@ -27,7 +27,8 @@ const shoppingCart = new Vue({
 	el : '#shopping_cart',
 	data : {
 		items : [], 
-		totalSum : 0
+		totalSum : 0,
+		quickCheckout : false
 	},
 	methods : {
 		getImgPath : function(fileName){
@@ -64,6 +65,14 @@ const shoppingCart = new Vue({
 			else{
 				alert('hell');
 			}
+		},
+		 
+		order :  function(){
+			axios.post('/shoping-cart/order',
+				{
+
+				}
+			);
 		}
 	},
 	mounted : function(){

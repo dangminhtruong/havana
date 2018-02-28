@@ -152,7 +152,7 @@ router.post('/login', function(req, res, next) {
 
 		if (!user) { 
 			return res.render('./pages/login', {
-				failureMessage : "Invalid user name or password!"
+				failureMessage : 'Invalid user name or password!'
 			}); 
 		}
 
@@ -162,7 +162,7 @@ router.post('/login', function(req, res, next) {
 		});
 
 	})(req, res, next);
-  });
+});
 
 router.get('/login', (req, res, next) => {
 	return res.render('./pages/login', {
