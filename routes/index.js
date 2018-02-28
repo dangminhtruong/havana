@@ -136,13 +136,33 @@ router.get('/category/:id', function(req, res, next) {
 /*--------------------------------------------------------*/
 
 
-router.post('/login',
+/* router.post('/login',
 	passport.authenticate('local', 
 		{ successRedirect: '/',
 			failureRedirect: '/login'
 		})
 	
 );
+ */
+
+
+router.post('/login', function(req, res, next) {
+	passport.authenticate('local', function(err, user, info) {
+		if (err) {  throw new errr; }
+
+		if (!user) { 
+			return res.render('./pages/login', {
+				failureMessage : "Invalid user name or password!"
+			}); 
+		}
+
+		req.logIn(user, function(err) {
+			if (err) {  throw new errr; }
+			return res.redirect('/');
+		});
+
+	})(req, res, next);
+  });
 
 router.get('/login', (req, res, next) => {
 	return res.render('./pages/login', {
