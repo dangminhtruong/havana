@@ -37,7 +37,7 @@
         <div class="col-lg-9">
           <h1 class="heading1"><span class="maintext">Login</span><span class="subtext">First Login here to View All your account information</span></h1>
           <section class="newcustomer">
-            <h2 class="heading2">New Customer </h2>
+            <h2 class="heading2"><New Customer> </h2>
             <div class="loginbox">
               <h4 class="heading4"> Register Account</h4>
               <p>By creating an account you will be able to shop faster, be up to date on an order's status, and keep track of the orders you have previously made.</p>
@@ -51,7 +51,11 @@
           <section class="returncustomer">
             <h2 class="heading2">Returning Customer </h2>
             <div class="loginbox">
-              <h4 class="heading4">I am a returning customer</h4>
+              <h4 class="heading4" style="color:red;">
+                <% if(typeof failureMessage !== 'undefined') {%> 
+                  <%= failureMessage %>
+                <% } %>
+              </h4>
               <form class="form-vertical" method="post" action="/login">
                 <fieldset>
                   <div class="control-group">

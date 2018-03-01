@@ -92,7 +92,8 @@ router.get('/cart-data', function(req, res){
 
 router.get('/update-quantity/:id', (req, res) => {
 	
-	req.session.cart[_.findIndex(req.session.cart, { product_id : req.params.id })].product_quantity = req.query.newQuantity;
+	req.session.cart[_.findIndex(req.session.cart, { product_id : req.params.id })]
+					.product_quantity = req.query.newQuantity;
 	res.send({
 		items : req.session.cart
 	});
