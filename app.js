@@ -9,6 +9,7 @@ mongoose.Promise = require('bluebird');
 var i18n = require('i18n');
 var session = require('express-session');
 var passport = require('passport');
+var cors = require('cors');
 
 var index = require('./routes/index');
 var shoping_cart = require('./routes/shopping_cart');
@@ -29,6 +30,7 @@ app.use(session({secret: 'no'}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
 
 //-----------------CUSTOM CONTROLLER------------------
@@ -59,6 +61,8 @@ app.use(function(err, req, res, next) {
 	res.status(err.status || 500);
 	res.render('error');
 });
+
+
 //-------------------------------------------------------
 passport.serializeUser(function(user, done) {
 	done(null, user);
