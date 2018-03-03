@@ -27,7 +27,8 @@ const shoppingCart = new Vue({
 	el : '#shopping_cart',
 	data : {
 		items : [], 
-		totalSum : 0
+		totalSum : 0,
+		quickCheckout : false
 	},
 	methods : {
 		getImgPath : function(fileName){
@@ -64,6 +65,19 @@ const shoppingCart = new Vue({
 			else{
 				alert('hell');
 			}
+		},
+		 
+		order :  function(){
+			axios.post('/shoping-cart/sign-in-order',
+				{
+					"total" : 5000,
+					"status" : 2,
+					"note ": "Giao hang som nhe",
+					"address" : "Quang binh",
+					"phone": "206165165165",
+					"user" : "5a921dec28082a0043b97f6c"
+				}
+			).then( respon =>  console.log(respon));
 		}
 	},
 	mounted : function(){

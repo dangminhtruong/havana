@@ -10,7 +10,7 @@ var Schema = mongoose.Schema,
 
 var ProductSchema = new mongoose.Schema({
 	name : String,
-	unit_price : Number,
+	unit_price : { type : Number, default : 0 },
 	promo_price : Number,
 	slug_name : String,
 	descript: String,

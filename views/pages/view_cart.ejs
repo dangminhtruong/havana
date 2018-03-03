@@ -15,7 +15,7 @@
         <!-- Header End -->
         <section >
             <div class="container" id="shopping_cart">
-                <div v-if="items.length > 0">
+                <div v-if="items.length > 0" class="col-md-12">
                     <ul class="breadcrumb">
                         <li>
                             <a href="#">Home</a>
@@ -27,7 +27,7 @@
                         <span class="maintext"> Shopping Cart</span>
                         <span class="subtext"> All items in your  Shopping Cart</span>
                     </h1>
-                    <div class="cart-info">
+                    <div class="cart-info col-md-12">
                         <table class="table table-striped table-bordered">
                             <tr>
                                 <th class="image">Image</th>
@@ -61,8 +61,47 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="cartoptionbox">
-                      
+                    <div class="col-md-12 cartoptionbox" v-if="quickCheckout">
+                        <form>
+                            <div class="col-md-6 haft_form">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Customer name</label>
+                                    <input type="email" class="form-control" id="" aria-describedby="emailHelp" placeholder="Enter your name">
+                                    <small id="" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Customer address</label>
+                                    <input type="email" class="form-control" id="" aria-describedby="emailHelp" placeholder="Enter your address">
+                                    <small id="" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Customer phone</label>
+                                    <input type="email" class="form-control" id="" aria-describedby="emailHelp" placeholder="Enter your phone">
+                                    <small id="" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Customer Email</label>
+                                    <input type="email" class="form-control" id="" aria-describedby="emailHelp" placeholder="Enter your email">
+                                    <small id="" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sel1">Select list:</label>
+                                    <select class="form-control" id="sel1">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 haft_form">
+                                <div class="form-group">
+                                    <label for="comment">Comment:</label>
+                                    <textarea class="form-control" rows="19" id="comment"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
                     </div>
                     <div class="container">
                         <div>
@@ -81,8 +120,15 @@
                                         <td><span class="bold totalamout">$150.28</span></td>
                                     </tr>
                                 </table>
-                                <a href="/"><button type="button" class="btn btn-orange pull-right">Continue Shopping</button></a>
-                                <button type="button" class="btn btn-orange pull-right mr10">CheckOut</button>
+                                <div style="display:inline-block">
+                                        
+                                        <% if(typeof user !== 'undefined'){ %>
+                                            <button type="button" class="btn btn-orange" @click="order" >CheckOut</button>
+                                        <% } else { %>
+                                            <button type="button" class="btn btn-orange" @click="quickCheckout = !quickCheckout">Quick checkOut</button>
+                                            <button type="button" class="btn btn-orange">Login to checkout</button>
+                                        <% } %>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -120,16 +166,7 @@
                         </div>
                         <div class="col-lg-3 facebook col-sm-6">
                             <h2>Facebook </h2>
-                            <div id="fb-root"></div>
-                            <script>(function(d, s, id) {
-                                var js, fjs = d.getElementsByTagName(s)[0];
-                                if (d.getElementById(id)) return;
-                                js = d.createElement(s); js.id = id;
-                                js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-                                fjs.parentNode.insertBefore(js, fjs);
-                                }(document, 'script', 'facebook-jssdk'));
-                            </script>
-                            <div class="fb-like-box" data-href="http://www.facebook.com/envato" data-width="292" data-show-faces="true" data-colorscheme="light" data-stream="false" data-show-border="false" data-header="false"  data-height="240"></div>
+                           
                         </div>
                     </div>
                 </div>
