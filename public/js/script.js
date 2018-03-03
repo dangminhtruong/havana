@@ -68,11 +68,16 @@ const shoppingCart = new Vue({
 		},
 		 
 		order :  function(){
-			axios.post('/shoping-cart/order',
+			axios.post('/shoping-cart/sign-in-order',
 				{
-
+					"total" : 5000,
+					"status" : 2,
+					"note ": "Giao hang som nhe",
+					"address" : "Quang binh",
+					"phone": "206165165165",
+					"user" : "5a921dec28082a0043b97f6c"
 				}
-			);
+			).then( respon =>  console.log(respon));
 		}
 	},
 	mounted : function(){

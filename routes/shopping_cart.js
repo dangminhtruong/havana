@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const _ = require('lodash');
 const Product = require('../model/product');
-
+const Bill = require('../model/bill');
+const bodyParser = require('body-parser');
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
 /*------------------------------------
 * Author : Dang Minh Truong
 * Email : mr.dangminhtruong@gmail.com
@@ -100,8 +102,42 @@ router.get('/update-quantity/:id', (req, res) => {
 	});
 });
 
-router.post('/order', (req, res) => {
+router.post('/sign-in-order', urlencodedParser , (req, res) => {
+	let details = (cart) => {
+		let restoreDetails = [];
+		cart.forEach(detail => {
+			restoreDetails.push({
+				product_id : detail.product_id,
+				product_name : detail.product_name,
+				price : (detail.promo_price !== 0 ) ? detail.unit_price : null,
+				quantity : detail.product_quantity
+			});
+		});
 
+		return restoreDetails;
+	} 
+
+	let bill = new Bill({
+		total : 5000,
+		status : 2,
+		note: req.body.note,
+		address : req.body.address,
+		phone: req.body.phone,
+		user : req.body.user,
+		detais : details(req.session.cart)
+	}); 
+
+	bill.save(function (err, results) {
+		if(err){
+			return res.send({
+				messages : err
+			});
+		} 
+		req.session.cart = undefined;
+		return res.send({
+			messages : ' sucessfull!'
+		});
+	}); 
 });
 
 
