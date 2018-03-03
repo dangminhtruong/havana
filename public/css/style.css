@@ -2861,3 +2861,13 @@
         padding-left: 2%;
     }
 }
+
+#thongTinDonHang{
+	margin-bottom: 4vh;
+	min-height: 35vh;
+}
+#loiCamOn{
+	text-align: center;
+	margin-top: 10vh;
+	margin-bottom: 0px;
+}

@@ -13,8 +13,60 @@
         <!-- Header Start -->
         <%- include('../blocks/header')  %>
         <!-- Header End -->
+       
+
         <section >
             <div class="container" id="shopping_cart">
+                 <!-- Modal -->
+        <div class="modal fade" id="datHangThanhCong" role="dialog">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header well">
+                      <h4 class="modal-title"><strong>Đặt hàng thành công</strong><strong id="maDonHang"></strong></h4>
+                    </div>
+                    <div class="modal-body" id="thongTinDonHang" v-if = "customer !==  null">
+                        <div class="col-md-12">
+                           <div class="col-md-6">
+                               <span><b>Họ tên: </b> {{ customer.username }}</span><br/>
+                               <span><b>Số điện thoại: </b>{{ customer.phone }}</span><br/>
+                               <span><b>Địa chỉ: </b>{{ customer.address }}</span><br/>
+                            </div>
+                           <div class="col-md-6">
+                                <span><b>Hình thức thanh toán: </b>Khi nhận hàng</span><br/>
+                                <span><b>Tổng đơn hàng: </b>{{ totalSum }}</span><br/>
+                           </div>
+                        </div>
+                        <div class="col-md-12">
+                                <table class="table table-striped" v-if = "typeof detail !==  null">
+                                        <thead>
+                                          <tr>
+                                            <th>Tên sp</th>
+                                            <th>Đơn giá</th>
+                                            <th>Số lượng</th>
+                                            <th>Thành tiền</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="detail in details" :key="detail.product_id">
+                                                <td>{{ detail.product_name }}</td>
+                                                <td>{{ detail.price }}</td>
+                                                <td>{{ detail.quantity }}</td>
+                                                <td>{{ detail.price *  detail.quantity }}</td>
+                                            </tr>
+                                        </tbody>
+                                      </table>
+                        </div>
+                        <div class="col-md-12" id="loiCamOn">
+                            <strong>Cảm ơn bạn đã ủng hộ cửa hàng chúng tôi. Sản phẩm sẽ được chuyển đến bạn trong vòng 3 ngày tới...</strong>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" id="closeDatHangThanhCong">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <!---------->
                 <div v-if="items.length > 0" class="col-md-12">
                     <ul class="breadcrumb">
                         <li>
@@ -117,7 +169,7 @@
                                     </tr>
                                     <tr>
                                         <td><span class="extra bold totalamout">Total :</span></td>
-                                        <td><span class="bold totalamout">$150.28</span></td>
+                                        <td><span class="bold totalamout">{{ totalSum }}</span></td>
                                     </tr>
                                 </table>
                                 <div style="display:inline-block">
@@ -126,7 +178,7 @@
                                             <button type="button" class="btn btn-orange" @click="order" >CheckOut</button>
                                         <% } else { %>
                                             <button type="button" class="btn btn-orange" @click="quickCheckout = !quickCheckout">Quick checkOut</button>
-                                            <button type="button" class="btn btn-orange">Login to checkout</button>
+                                            <a href="/login"><button type="button" class="btn btn-orange">Login to checkout</button></a>
                                         <% } %>
                                 </div>
                             </div>

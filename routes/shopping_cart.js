@@ -5,6 +5,8 @@ const Product = require('../model/product');
 const Bill = require('../model/bill');
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
+const config = require('../config/config');
+let coutCartTotal = require('../helpers/cart_total');
 /*------------------------------------
 * Author : Dang Minh Truong
 * Email : mr.dangminhtruong@gmail.com
@@ -71,7 +73,8 @@ router.get('/remove/:id', (req, res, next) => {
 			return obj.product_id === req.params.id;
 		});
 		res.send({
-			items : req.session.cart
+			items : req.session.cart,
+			total : coutCartTotal(req.session.cart)
 		});
 	} catch (error) {
 		res.send('failed');
@@ -80,52 +83,65 @@ router.get('/remove/:id', (req, res, next) => {
 });
 
 router.get('/details', function(req, res, next) {
-	res.render('./pages/view_cart', {
+	return res.render('./pages/view_cart', {
 		cart : req.session.cart,
-		user : req.user
+		user : req.user,
+		total : coutCartTotal(req.session.cart)
 	});
 });
 
 
-router.get('/cart-data', function(req, res){
-	res.send({
-		items : req.session.cart
+router.get('/cart-data', function(req, res, next){
+	console.log(req.session.cart);
+	return res.send({
+		items : req.session.cart,
+		user : req.user,
+		total : coutCartTotal(req.session.cart)
 	});
 });
 
 router.get('/update-quantity/:id', (req, res) => {
-	
-	req.session.cart[_.findIndex(req.session.cart, { product_id : req.params.id })]
-		.product_quantity = req.query.newQuantity;
-	res.send({
-		items : req.session.cart
+	let index = _.findIndex(req.session.cart, { product_id : req.params.id });
+	req.session.cart[index].product_quantity = req.query.newQuantity;
+
+	return res.json({
+		items : req.session.cart,
+		total : coutCartTotal(req.session.cart)
 	});
 });
 
 router.post('/sign-in-order', urlencodedParser , (req, res) => {
 	let details = (cart) => {
 		let restoreDetails = [];
+		let total = 0;
 		cart.forEach(detail => {
+			total += (detail.promo_price !== 0 ) ? detail.unit_price : detail.promo_price;
 			restoreDetails.push({
 				product_id : detail.product_id,
 				product_name : detail.product_name,
-				price : (detail.promo_price !== 0 ) ? detail.unit_price : null,
+				price : (detail.promo_price !== 0 ) ? detail.unit_price : detail.promo_price,
 				quantity : detail.product_quantity
 			});
 		});
 
-		return restoreDetails;
+		return {
+			detailsArr : restoreDetails,
+			billTotal : total
+		};
 	} 
 
+	let data = details(req.session.cart);
+
 	let bill = new Bill({
-		total : 5000,
-		status : 2,
+		total : data.billTotal,
+		status : config.status.new,
 		note: req.body.note,
-		address : req.body.address,
-		phone: req.body.phone,
-		user : req.body.user,
-		detais : details(req.session.cart)
+		address : req.user.address,
+		phone: req.user.phone,
+		user : req.user._id,
+		detais : data.detailsArr
 	}); 
+
 
 	bill.save(function (err, results) {
 		if(err){
@@ -135,7 +151,10 @@ router.post('/sign-in-order', urlencodedParser , (req, res) => {
 		} 
 		req.session.cart = undefined;
 		return res.send({
-			messages : ' sucessfull!'
+			messages : 'sucessfull!',
+			details : data.detailsArr,
+			total : data.billTotal,
+			user : req.user
 		});
 	}); 
 });
