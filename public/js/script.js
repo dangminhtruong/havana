@@ -28,7 +28,9 @@ const shoppingCart = new Vue({
 	data : {
 		items : [], 
 		totalSum : 0,
-		quickCheckout : false
+		quickCheckout : false,
+		details : [],
+		customer : null
 	},
 	methods : {
 		getImgPath : function(fileName){
@@ -46,7 +48,9 @@ const shoppingCart = new Vue({
 			axios.get(`/shoping-cart/remove/${ index }`)
 			.then((response) => {
 				if(typeof response.data.items !== 'undefined'){
+					console.log(response);
 					this.items = response.data.items;
+					this.totalSum = response.data.total;
 				}
 			});
 		},
@@ -59,7 +63,9 @@ const shoppingCart = new Vue({
 					}
 				})
 				.then((response) => {
+					console.log(response);
 					this.items = response.data.items;
+					this.totalSum = response.data.total;
 				});
 			}
 			else{
@@ -70,21 +76,25 @@ const shoppingCart = new Vue({
 		order :  function(){
 			axios.post('/shoping-cart/sign-in-order',
 				{
-					"total" : 5000,
-					"status" : 2,
-					"note ": "Giao hang som nhe",
-					"address" : "Quang binh",
-					"phone": "206165165165",
-					"user" : "5a921dec28082a0043b97f6c"
+					note : "Giao hang som nhe",
 				}
-			).then( respon =>  console.log(respon));
+			).then( (respon) => {
+				console.log(respon);
+				this.details = respon.data.details;
+				this.customer = respon.data.user;
+				this.totalSum = respon.data.total;
+				$('#datHangThanhCong').modal('show');
+				
+			});
 		}
 	},
 	mounted : function(){
 		axios.get('/shoping-cart/cart-data')
 		.then((response) => {
 			this.items = response.data.items;
+			this.totalSum = response.data.total;
+			console.log(response);
 		})
-		.catch(err => console.log(err));
+		.catch(err => { throw new err});
 	}
 });
