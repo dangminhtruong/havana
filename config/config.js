@@ -1,7 +1,9 @@
 const config = {
     status : {
-        new : 0,
-        pedding : 1
+        new : 1,
+        confirm : 2,
+        shipping : 3,
+        done : 4
     }
 }
 

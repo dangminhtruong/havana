@@ -135,7 +135,7 @@ router.get('/category/:id', function(req, res) {
 });
 /*--------------------------------------------------------*/
 
-router.post('/login', function(req, res) {
+router.post('/login', function(req, res, next) {
 	passport.authenticate('local', function(err, user, info) {
 		if (err) {  throw new errr; }
 

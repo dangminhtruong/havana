@@ -106,11 +106,6 @@ if(document.getElementById('admin_index')){
 	});	
 }
   
-
-
-
-
-
 const bills = new Vue({
 	el : '#bills',
 	data : {
@@ -119,6 +114,7 @@ const bills = new Vue({
 		endDay : null,
 		byStage : null,
 		byStatus : null,
+		showStage : false
 	},
 	methods : {
 		fill : function(){
@@ -149,24 +145,6 @@ const bills = new Vue({
 				    && this.startDay === '' && this.endDay === ''){
 
 				if(this.byStatus == 'done'){
-					axios.get('/admin/bills/status-data?status=1')
-						.then( (response) => {
-							this.bills = response.data;
-							this.byStatus = null;
-						})
-						.catch(function (error) {
-							throw new error;
-						});
-				}else if(this.byStatus == 'pendding'){
-					axios.get('/admin/bills/status-data?status=2')
-						.then( (response) => {
-							this.bills = response.data;
-							this.byStatus = null;
-						})
-						.catch(function (error) {
-							throw new error;
-						});
-				}else if(this.byStatus == 'shipping'){
 					axios.get('/admin/bills/status-data?status=4')
 						.then( (response) => {
 							this.bills = response.data;
@@ -175,8 +153,26 @@ const bills = new Vue({
 						.catch(function (error) {
 							throw new error;
 						});
-				}else {
+				}else if(this.byStatus == 'pendding'){
+					axios.get('/admin/bills/status-data?status=1')
+						.then( (response) => {
+							this.bills = response.data;
+							this.byStatus = null;
+						})
+						.catch(function (error) {
+							throw new error;
+						});
+				}else if(this.byStatus == 'shipping'){
 					axios.get('/admin/bills/status-data?status=3')
+						.then( (response) => {
+							this.bills = response.data;
+							this.byStatus = null;
+						})
+						.catch(function (error) {
+							throw new error;
+						});
+				}else {
+					axios.get('/admin/bills/status-data?status=2')
 						.then( (response) => {
 							this.bills = response.data;
 							this.byStatus = null;
@@ -286,6 +282,46 @@ const bills = new Vue({
 						throw new error;
 					});
 			}
+			else if(this.startDay !== '' && this.endDay !== '' 
+			&& this.byStage == null && this.byStatus !== null){
+					if(this.byStatus == 'pendding'){
+						axios.post('/admin/bills/start-end-pedding', {
+							startDay: this.startDay,
+							endDay: this.endDay
+						}).then((response) => {
+							this.bills = response.data;
+							this.startDay = null;
+							this.endDay = null;
+						});
+					}else if(this.byStatus == 'confirmed'){
+						axios.post('/admin/bills/start-end-confirmed', {
+							startDay: this.startDay,
+							endDay: this.endDay
+						}).then((response) => {
+							this.bills = response.data;
+							this.startDay = null;
+							this.endDay = null;
+						});
+					}else if(this.byStatus == 'shipping'){
+						axios.post('/admin/bills/start-end-shipping', {
+							startDay: this.startDay,
+							endDay: this.endDay
+						}).then((response) => {
+							this.bills = response.data;
+							this.startDay = null;
+							this.endDay = null;
+						});
+					}else if(this.byStatus == 'done'){
+						axios.post('/admin/bills/start-end-done', {
+							startDay: this.startDay,
+							endDay: this.endDay
+						}).then((response) => {
+							this.bills = response.data;
+							this.startDay = null;
+							this.endDay = null;
+						});
+					}
+			}
 		}
 
       
@@ -377,5 +413,49 @@ const addProduct = new Vue({
 		adMoreColor : function(){
 			this.colors.push('#F25C27');
 		}
+	}
+});
+
+
+let analytic = new Vue({
+	el : '#analytic',
+	data : {
+
+	},
+	mounted : function(){
+		new Chart(document.getElementById("pie-chart-men"), {
+			type: 'pie',
+			data: {
+			  labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+			  datasets: [{
+				label: "Population (millions)",
+				backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+				data: [2478,5267,734,784,433]
+			  }]
+			},
+			options: {
+			  title: {
+				display: true,
+				text: 'Predicted world population (millions) in 2050'
+			  }
+			}
+		});
+		new Chart(document.getElementById("pie-chart-women"), {
+			type: 'pie',
+			data: {
+			  labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+			  datasets: [{
+				label: "Population (millions)",
+				backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+				data: [2478,5267,734,784,433]
+			  }]
+			},
+			options: {
+			  title: {
+				display: true,
+				text: 'Predicted world population (millions) in 2050'
+			  }
+			}
+		});
 	}
 });

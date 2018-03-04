@@ -14,6 +14,7 @@ var weekly = require('../helpers/line_chart_data');
 var multer  = require('multer');
 var upload = multer({ dest: 'public/img' });
 var fs = require('fs');
+var config = require('../config/config');
  
 
 
@@ -111,7 +112,7 @@ router.get('/bills/week-done-data', (req, res) => {
 			$gt : moment().startOf('week'),
 			$lt : moment().endOf('week')
 		},
-		status : '1'
+		status : config.status.done
 	})
 		.populate('user')
 		.populate({
@@ -129,7 +130,7 @@ router.get('/bills/week-pendding-data', (req, res) => {
 			$gt : moment().startOf('week'),
 			$lt : moment().endOf('week')
 		},
-		status : '2'
+		status : config.status.new
 	})
 		.populate('user')
 		.populate({
@@ -147,7 +148,7 @@ router.get('/bills/week-shipping-data', (req, res) => {
 			$gt : moment().startOf('week'),
 			$lt : moment().endOf('week')
 		},
-		status : '4'
+		status : config.status.shipping
 	})
 		.populate('user')
 		.populate({
@@ -165,7 +166,7 @@ router.get('/bills/week-confirm-data', (req, res) => {
 			$gt : moment().startOf('week'),
 			$lt : moment().endOf('week')
 		},
-		status : '3'
+		status : config.status.confirm
 	})
 		.populate('user')
 		.populate({
@@ -184,7 +185,7 @@ router.get('/bills/month-done-data', (req, res) => {
 			$gt : moment().startOf('month'),
 			$lt : moment().endOf('month')
 		},
-		status : '1'
+		status : config.status.done
 	})
 		.populate('user')
 		.populate({
@@ -202,7 +203,7 @@ router.get('/bills/month-pendding-data', (req, res) => {
 			$gt : moment().startOf('month'),
 			$lt : moment().endOf('month')
 		},
-		status : '2'
+		status : config.status.new
 	})
 		.populate('user')
 		.populate({
@@ -220,7 +221,7 @@ router.get('/bills/month-shipping-data', (req, res) => {
 			$gt : moment().startOf('month'),
 			$lt : moment().endOf('month')
 		},
-		status : '4'
+		status : config.status.shipping
 	})
 		.populate('user')
 		.populate({
@@ -238,7 +239,7 @@ router.get('/bills/month-confirm-data', (req, res) => {
 			$gt : moment().startOf('month'),
 			$lt : moment().endOf('month')
 		},
-		status : '3'
+		status : config.status.confirm
 	})
 		.populate('user')
 		.populate({
@@ -285,12 +286,84 @@ router.get('/bills/status-data', (req, res) => {
     
 });
 /*--------------------------------------------------------*/
-router.get('/product/add', (req, res, next) => {
-	Category.find({}, { _id : 1, name : 1 })
-		.exec((err, category) => {
-			res.render('./admin/pages/add_product');
+router.post('/bills/start-end-pedding', urlencodedParser,(req, res) => {
+	Bill.find({
+		createdOn : {
+			$gt : req.body.startDay,
+			$lt : req.body.endDay
+		},
+		status : config.status.new
+	})
+		.populate('user')
+		.populate({
+			path : 'detais.product_id',
+			select : 'name'
+		})
+		.exec((err, bills) => {
+			return res.send(bills); 
 		});
-	
+});
+/*------------------------------------------------------*/
+
+router.post('/bills/start-end-confirmed', urlencodedParser, (req, res) => {
+	Bill.find({
+		createdOn : {
+			$gt : req.body.startDay,
+			$lt : req.body.endDay
+		},
+		status : config.status.confirm
+	})
+		.populate('user')
+		.populate({
+			path : 'detais.product_id',
+			select : 'name'
+		})
+		.exec((err, bills) => {
+			return res.send(bills); 
+		});
+});
+
+/*-------------------------------------------------------*/
+
+router.post('/bills/start-end-shipping', urlencodedParser, (req, res) => {
+	Bill.find({
+		createdOn : {
+			$gt : req.body.startDay,
+			$lt : req.body.endDay
+		},
+		status : config.status.shipping
+	})
+		.populate('user')
+		.populate({
+			path : 'detais.product_id',
+			select : 'name'
+		})
+		.exec((err, bills) => {
+			return res.send(bills); 
+		});
+})
+/*-------------------------------------------------------*/
+router.post('/bills/start-end-done', urlencodedParser, (req, res) => {
+	Bill.find({
+		createdOn : {
+			$gt : req.body.startDay,
+			$lt : req.body.endDay
+		},
+		status : config.status.done
+	})
+		.populate('user')
+		.populate({
+			path : 'detais.product_id',
+			select : 'name'
+		})
+		.exec((err, bills) => {
+			return res.send(bills); 
+		});
+});
+
+/*--------------------------------------------------------*/
+router.get('/product/add', (req, res, next) => {
+	res.render('./admin/pages/add_product');
 });
 /*--------------------------------------------------------*/
 router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
@@ -326,6 +399,70 @@ router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
 		});
 		 }); 
 	
+});
+
+/*-------------------------------------------------*/
+
+router.get('/analytic', (req, res) => {
+	
+	console.log(moment().valueOf());
+
+	var start = new Date();
+	start.setHours(0,0,0,0);
+
+	var end = new Date();
+	end.setHours(23,59,59,999);
+	console.log(start, end);
+
+
+
+
+ 	Bill.aggregate(
+		{$unwind:'$detais'},
+		{ $match : {
+			createdOn : {
+					$gt : start,
+					$lt : end
+				}
+			} 
+		},
+		{
+			$group : {
+				_id : '$detais.product_id',
+				total : { $sum : '$detais.quantity' },
+			}
+		},
+		{ $sort :{ total: -1 } }
+	)
+	.limit(10)
+	.exec((err, records) => {
+		if (err) {console.log(err)};
+		res.send({
+			data : records
+		});
+	});  
+
+
+/* 
+	var o = {};
+	o.map = function () { emit(this.detais, 1) };
+	o.reduce = function (k, vals) { return vals };
+	o.query = {
+		createdOn : {
+			$gt : moment().startOf('day'),
+			$lt : moment().endOf('day')
+		}
+	};
+
+	Bill.mapReduce(
+			o, 
+			function (err, results) {
+		  	res.send({ data : results });
+		}
+	)
+	 */
+	
+	//res.render('./admin/pages/analytic');
 });
 
 module.exports = router;
