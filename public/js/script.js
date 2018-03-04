@@ -11,7 +11,6 @@ let app = new Vue({
 		addCart : function(productId){
 			axios.get('/shoping-cart/add/' + productId)
 				.then(function (response) {
-					console.log(response.data);
 					swal('Thank you!', 'You just added new item!', 'success');
 					$('#show_cart').html(` ${response.data.cart_items} item(s)`);
 				})
@@ -22,6 +21,7 @@ let app = new Vue({
 	}
 });
 
+//-----------------------------------------------
 
 const shoppingCart = new Vue({
 	el : '#shopping_cart',
@@ -48,7 +48,6 @@ const shoppingCart = new Vue({
 			axios.get(`/shoping-cart/remove/${ index }`)
 			.then((response) => {
 				if(typeof response.data.items !== 'undefined'){
-					console.log(response);
 					this.items = response.data.items;
 					this.totalSum = response.data.total;
 				}
@@ -63,7 +62,6 @@ const shoppingCart = new Vue({
 					}
 				})
 				.then((response) => {
-					console.log(response);
 					this.items = response.data.items;
 					this.totalSum = response.data.total;
 				});
@@ -79,12 +77,13 @@ const shoppingCart = new Vue({
 					note : "Giao hang som nhe",
 				}
 			).then( (respon) => {
-				console.log(respon);
 				this.details = respon.data.details;
 				this.customer = respon.data.user;
 				this.totalSum = respon.data.total;
 				$('#datHangThanhCong').modal('show');
-				
+				setTimeout(() => {
+					window.location.replace("/");
+				}, 3000);
 			});
 		}
 	},

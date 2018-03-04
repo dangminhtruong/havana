@@ -128,7 +128,7 @@ router.post('/sign-in-order', urlencodedParser , (req, res) => {
 			detailsArr : restoreDetails,
 			billTotal : total
 		};
-	} 
+	}; 
 
 	let data = details(req.session.cart);
 
