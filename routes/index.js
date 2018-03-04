@@ -27,12 +27,12 @@ passport.use(new LocalStrategy(
 * Email : mr.dangminhtruong@gmail.com
 *-----------------------------------*/
 
-router.get('/change-languages/:lang', function(req, res, next) {
+router.get('/change-languages/:lang', function(req, res) {
 	res.cookie('lang', req.params.lang, { maxAge: 900000 });
 	res.redirect('back');
 });
 /*--------------------------------------------------------*/
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
 	async.parallel([
 		function(callback){
 			Product.find().sort( { createdOn: -1 } ).limit(4)
@@ -61,7 +61,7 @@ router.get('/', function(req, res, next) {
 	});
 });
 /*--------------------------------------------------------*/
-router.get('/product/:id', function(req, res, next) {
+router.get('/product/:id', function(req, res) {
 	async.parallel([
 		function(callback){
 			Product.find({ _id : req.params.id})
@@ -86,7 +86,7 @@ router.get('/product/:id', function(req, res, next) {
   
 });
 /*--------------------------------------------------------*/
-router.get('/category/:id', function(req, res, next) {
+router.get('/category/:id', function(req, res) {
 	async.parallel([
 		(callback) => {
 			if(req.query.pages != null){
@@ -135,18 +135,7 @@ router.get('/category/:id', function(req, res, next) {
 });
 /*--------------------------------------------------------*/
 
-
-/* router.post('/login',
-	passport.authenticate('local', 
-		{ successRedirect: '/',
-			failureRedirect: '/login'
-		})
-	
-);
- */
-
-
-router.post('/login', function(req, res, next) {
+router.post('/login', function(req, res) {
 	passport.authenticate('local', function(err, user, info) {
 		if (err) {  throw new errr; }
 
@@ -164,7 +153,7 @@ router.post('/login', function(req, res, next) {
 	})(req, res, next);
 });
 
-router.get('/login', (req, res, next) => {
+router.get('/login', (req, res) => {
 	return res.render('./pages/login', {
 		user: req.session.user
 	});
