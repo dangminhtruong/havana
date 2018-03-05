@@ -405,64 +405,134 @@ router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
 
 router.get('/analytic', (req, res) => {
 	
-	console.log(moment().valueOf());
 
-	var start = new Date();
-	start.setHours(0,0,0,0);
+	let startDay = new Date(moment().startOf('day'));
+	let endDay = new Date(moment().endOf('day'));
+	let startWeek = new Date(moment().startOf('week'));
+	let endWeek = new Date(moment().endOf('week'));
+	let startMonth = new Date(moment().startOf('month'));
+	let endMonth = new Date(moment().endOf('month'));
 
-	var end = new Date();
-	end.setHours(23,59,59,999);
-	console.log(start, end);
-
-
-
-
- 	Bill.aggregate(
-		{$unwind:'$detais'},
-		{ $match : {
-			createdOn : {
-					$gt : start,
-					$lt : end
-				}
-			} 
+	async.parallel([
+		function(callback){
+			Bill.aggregate(
+				{$unwind:'$detais'},
+				{ $match : {
+					createdOn : {
+							$gt : startDay,
+							$lt : endDay
+						}
+					} 
+				},
+				{
+					$group : {
+						_id : '$detais.product_id',
+						total : { $sum : '$detais.quantity' },
+						earned : { $sum : '$detais.price' },
+					}
+				},
+				{ $sort :{ total: -1 } }
+			)
+			.limit(10)
+			.exec((err, records) => {
+			/* 	Product.find( { _id: { $in: records } }, { name : 1 } )
+				.exec((resu) => {
+					callback(null, records);
+				}); */
+				callback(null, records);
+			});  
 		},
-		{
-			$group : {
-				_id : '$detais.product_id',
-				total : { $sum : '$detais.quantity' },
-			}
+		function(callback){
+			Bill.aggregate(
+				{$unwind:'$detais'},
+				{ $match : {
+					createdOn : {
+							$gt : startWeek,
+							$lt : endWeek
+						}
+					} 
+				},
+				{
+					$group : {
+						_id : '$detais.product_id',
+						total : { $sum : '$detais.quantity' },
+						earned : { $sum : '$detais.price' },
+					}
+				},
+				{ $sort :{ total: -1 } }
+			)
+			.limit(10)
+			.exec((err, records) => {
+				callback(null, records);
+			});  
 		},
-		{ $sort :{ total: -1 } }
-	)
-	.limit(10)
-	.exec((err, records) => {
-		if (err) {console.log(err)};
-		res.send({
-			data : records
+		function(callback){
+			Bill.aggregate(
+				{$unwind:'$detais'},
+				{ $match : {
+					createdOn : {
+							$gt : startMonth,
+							$lt : endMonth
+						}
+					} 
+				},
+				{
+					$group : {
+						_id : '$detais.product_id',
+						total : { $sum : '$detais.quantity' },
+						earned : { $sum : '$detais.price' },
+					}
+				},
+				{ $sort :{ total: -1 } }
+			)
+			.limit(10)
+			.exec((err, records) => {
+				callback(null, records);
+			});  
+		},
+		function(callback){
+			Bill.aggregate(
+				{$unwind:'$detais'},
+				{ $match : {
+					createdOn : {
+							$gt : startMonth,
+							$lt : endMonth
+						}
+					} 
+				},
+				{
+					$group : {
+						_id : '$detais.category_id',
+						total : { $sum : '$detais.quantity' },
+					}
+				},
+				{ $sort :{ total: -1 } }
+			)
+			.limit(10)
+			.exec((err, records) => {
+				callback(null, records);
+			});  
+		}
+	],
+	function(err, results) {
+		if(err){
+			throw new err;
+		}
+
+		
+		Product.find( { _id: { $in: _.map(results[0], '_id') } }, { name : 1 },function(err, teamData) {
+			console.log('das',teamData);
+			console.log(_.map(results[0], '_id'));
 		});
-	});  
 
-
-/* 
-	var o = {};
-	o.map = function () { emit(this.detais, 1) };
-	o.reduce = function (k, vals) { return vals };
-	o.query = {
-		createdOn : {
-			$gt : moment().startOf('day'),
-			$lt : moment().endOf('day')
-		}
-	};
-
-	Bill.mapReduce(
-			o, 
-			function (err, results) {
-		  	res.send({ data : results });
-		}
-	)
-	 */
-	
-	//res.render('./admin/pages/analytic');
+		return res.send({
+			days : results[0],
+			week : results[1],
+			month : results[2],
+			chart : results[3]
+		});
+	}
+);
 });
 
 module.exports = router;

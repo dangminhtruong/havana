@@ -25,7 +25,8 @@ router.get('/add/:id', function(req, res, next) {
 						unit_price : product.unit_price,
 						promo_price : product.promo_price,
 						product_quantity : 1,
-						product_img : product.image
+						product_img : product.image,
+						product_category : product.category_id
 					}
 				];
 			}).then(() => {
@@ -54,7 +55,8 @@ router.get('/add/:id', function(req, res, next) {
 							unit_price : product.unit_price,
 							promo_price : product.promo_price,
 							product_quantity : 1,
-							product_img : product.image
+							product_img : product.image,
+							product_category : product.category_id
 						}
 					);
 				}).then(() => {
@@ -120,7 +122,8 @@ router.post('/sign-in-order', urlencodedParser , (req, res) => {
 				product_id : detail.product_id,
 				product_name : detail.product_name,
 				price : (detail.promo_price !== 0 ) ? detail.unit_price : detail.promo_price,
-				quantity : detail.product_quantity
+				quantity : detail.product_quantity,
+				category_id : detail.product_category
 			});
 		});
 

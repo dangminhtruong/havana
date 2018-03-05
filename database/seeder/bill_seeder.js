@@ -8,6 +8,7 @@ mongoose.Promise = require('bluebird');
 const seeder = require('mongoose-seed');
 const async = require('async');
 const Product = require('../../model/product');
+const Category = require('../../model/category');
 const User = require('../../model/user');
 const _ = require('lodash');
 var faker = require('faker');
@@ -29,6 +30,12 @@ new Promise((resolve) => {
 				.exec((err, user_ids) => {
 					callback(null, user_ids);
 				});
+		},
+		(callback) => {
+			Category.find({}, { _id : 1 })
+				.exec((err, category_ids) => {
+					callback(null, category_ids);
+				}); 
 		}
 	], 
 	(err, results) => {
@@ -52,39 +59,32 @@ new Promise((resolve) => {
 						{
 							product_id : _.sample(results[0])._id,
 							product_name : _.sample(results[0]).name,
-							price : _.sample(results[0]).unit_price,
-							quantity : faker.random.number()
+							price : faker.random.number(),
+							quantity : faker.random.number(),
+							category_id : _.sample(results[2])._id
 						},
 						{
 							product_id : _.sample(results[0])._id,
 							product_name : _.sample(results[0]).name,
-							price : _.sample(results[0]).unit_price,
-							quantity : faker.random.number()
+							price : faker.random.number(),
+							quantity : faker.random.number(),
+							category_id : _.sample(results[2])._id
 						},
 						{
 							product_id : _.sample(results[0])._id,
 							product_name : _.sample(results[0]).name,
-							price : _.sample(results[0]).unit_price,
-							quantity : faker.random.number()
+							price : faker.random.number(),
+							quantity : faker.random.number(),
+							category_id : _.sample(results[2])._id
 						},
 						{
 							product_id : _.sample(results[0])._id,
 							product_name : _.sample(results[0]).name,
-							price : _.sample(results[0]).unit_price,
-							quantity : faker.random.number()
+							price : faker.random.number(),
+							quantity : faker.random.number(),
+							category_id : _.sample(results[2])._id
 						},
-						{
-							product_id : _.sample(results[0])._id,
-							product_name : _.sample(results[0]).name,
-							price : _.sample(results[1]).unit_price,
-							quantity : faker.random.number()
-						},
-						{
-							product_id : _.sample(results[0])._id,
-							product_name : _.sample(results[0]).name,
-							price : _.sample(results[1]).unit_price,
-							quantity : faker.random.number()
-						}
+						
 					]
 				}
 			);
