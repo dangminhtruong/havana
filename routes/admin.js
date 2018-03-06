@@ -66,6 +66,7 @@ router.get('/bills/today-data', (req, res) => {
 			select : 'name'
 		})
 		.exec((err, bills) => {
+			console.log(bills);
 			res.send(bills); 
 		});
     
@@ -403,7 +404,7 @@ router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
 
 /*-------------------------------------------------*/
 
-router.get('/analytic', (req, res) => {
+router.get('/analytic-data', (req, res) => {
 	
 
 	let startDay = new Date(moment().startOf('day'));
@@ -426,20 +427,19 @@ router.get('/analytic', (req, res) => {
 				},
 				{
 					$group : {
-						_id : '$detais.product_id',
+						_id : '$detais.product_name',
 						total : { $sum : '$detais.quantity' },
-						earned : { $sum : '$detais.price' },
+						earned : { $sum : '$detais.price' }
 					}
 				},
 				{ $sort :{ total: -1 } }
 			)
 			.limit(10)
 			.exec((err, records) => {
-			/* 	Product.find( { _id: { $in: records } }, { name : 1 } )
+			 	Product.find( { _id: { $in: records } }, { name : 1 } )
 				.exec((resu) => {
 					callback(null, records);
-				}); */
-				callback(null, records);
+				}); 
 			});  
 		},
 		function(callback){
@@ -454,7 +454,7 @@ router.get('/analytic', (req, res) => {
 				},
 				{
 					$group : {
-						_id : '$detais.product_id',
+						_id : '$detais.product_name',
 						total : { $sum : '$detais.quantity' },
 						earned : { $sum : '$detais.price' },
 					}
@@ -478,7 +478,7 @@ router.get('/analytic', (req, res) => {
 				},
 				{
 					$group : {
-						_id : '$detais.product_id',
+						_id : '$detais.product_name',
 						total : { $sum : '$detais.quantity' },
 						earned : { $sum : '$detais.price' },
 					}
@@ -502,7 +502,7 @@ router.get('/analytic', (req, res) => {
 				},
 				{
 					$group : {
-						_id : '$detais.category_id',
+						_id : '$detais.category_name',
 						total : { $sum : '$detais.quantity' },
 					}
 				},
@@ -518,12 +518,7 @@ router.get('/analytic', (req, res) => {
 		if(err){
 			throw new err;
 		}
-
 		
-		Product.find( { _id: { $in: _.map(results[0], '_id') } }, { name : 1 },function(err, teamData) {
-			console.log('das',teamData);
-			console.log(_.map(results[0], '_id'));
-		});
 
 		return res.send({
 			days : results[0],
@@ -534,5 +529,8 @@ router.get('/analytic', (req, res) => {
 	}
 );
 });
-
+/*-------------------------------------------------*/
+router.get('/analytic', (req, res) => {
+	res.render('./admin/pages/analytic');
+});
 module.exports = router;

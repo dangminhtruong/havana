@@ -20,7 +20,7 @@ new Promise((resolve) => {
 	});
 	async.parallel([
 		(callback) => {
-			Product.find({}, { _id : 1 })
+			Product.find({}, { _id : 1, name : 1 })
 				.exec((err, product_ids) => {
 					callback(null, product_ids);
 				}); 
@@ -46,7 +46,7 @@ new Promise((resolve) => {
 	return new Promise((resolve) => {
 		let items = [];
 		let status = [1, 2, 3, 4];
-		for(i=0; i< 150; i++){
+		for(i=0; i< 1; i++){
 			items.push(
 				{
 					total : faker.commerce.price(),
@@ -61,28 +61,28 @@ new Promise((resolve) => {
 							product_name : _.sample(results[0]).name,
 							price : faker.random.number(),
 							quantity : faker.random.number(),
-							category_id : _.sample(results[2])._id
+							category_name : faker.commerce.productName()
 						},
 						{
 							product_id : _.sample(results[0])._id,
 							product_name : _.sample(results[0]).name,
 							price : faker.random.number(),
 							quantity : faker.random.number(),
-							category_id : _.sample(results[2])._id
+							category_name : faker.commerce.productName()
 						},
 						{
 							product_id : _.sample(results[0])._id,
 							product_name : _.sample(results[0]).name,
 							price : faker.random.number(),
 							quantity : faker.random.number(),
-							category_id : _.sample(results[2])._id
+							category_name : faker.commerce.productName()
 						},
 						{
 							product_id : _.sample(results[0])._id,
 							product_name : _.sample(results[0]).name,
 							price : faker.random.number(),
 							quantity : faker.random.number(),
-							category_id : _.sample(results[2])._id
+							category_name : faker.commerce.productName()
 						},
 						
 					]

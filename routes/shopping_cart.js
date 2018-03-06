@@ -17,7 +17,12 @@ router.get('/add/:id', function(req, res, next) {
     
 	if(!sess.cart){
 		Product.findOne({ _id : req.params.id })
+			.populate({
+				path : 'category_id',
+				select : 'name'
+			})
 			.exec((err, product) => {
+				console.log(product.category_id.name);
 				sess.cart = [
 					{
 						product_id : req.params.id,
@@ -26,10 +31,11 @@ router.get('/add/:id', function(req, res, next) {
 						promo_price : product.promo_price,
 						product_quantity : 1,
 						product_img : product.image,
-						product_category : product.category_id
+						product_category : product.category_id.name
 					}
 				];
 			}).then(() => {
+				
 				res.send({
 					cart_items : 1
 				});
@@ -47,6 +53,10 @@ router.get('/add/:id', function(req, res, next) {
 		//------------------------
 		else{
 			Product.findOne({ _id : req.params.id })
+				.populate({
+					path : 'category_id',
+					select : 'name'
+				})
 				.exec((err, product) => {
 					sess.cart.push(
 						{
@@ -56,7 +66,7 @@ router.get('/add/:id', function(req, res, next) {
 							promo_price : product.promo_price,
 							product_quantity : 1,
 							product_img : product.image,
-							product_category : product.category_id
+							product_category : product.category_id.name
 						}
 					);
 				}).then(() => {
@@ -123,7 +133,7 @@ router.post('/sign-in-order', urlencodedParser , (req, res) => {
 				product_name : detail.product_name,
 				price : (detail.promo_price !== 0 ) ? detail.unit_price : detail.promo_price,
 				quantity : detail.product_quantity,
-				category_id : detail.product_category
+				category_name : detail.product_category
 			});
 		});
 
