@@ -524,7 +524,13 @@ router.get('/analytic-data', (req, res) => {
 			days : results[0],
 			week : results[1],
 			month : results[2],
-			chart : results[3]
+			chart : results[3],
+			daySum :  _.sumBy(results[0], function(o) { return o.total; }),
+			weekSum : _.sumBy(results[1], function(o) { return o.total; }),
+			monthSum : _.sumBy(results[2], function(o) { return o.total; }),
+			dayEarn :  _.sumBy(results[0], function(o) { return o.earned; }),
+			weekEarn :  _.sumBy(results[1], function(o) { return o.earned; }),
+			monthEarn :  _.sumBy(results[2], function(o) { return o.earned; }),
 		});
 	}
 );

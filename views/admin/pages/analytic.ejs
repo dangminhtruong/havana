@@ -157,19 +157,19 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>Tổng doanh thu: <b class="highlight">dasd.vnđ </b></td>
+                                                    <td>Tổng doanh thu: <b class="highlight">{{ earnedDay }} vnđ </b></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Số sản phẩm bán ra: <b class="highlight">asdas</b></td>
+                                                    <td>Số sản phẩm bán ra: <b class="highlight">{{ daySummary }}</b></td>
                                                 </tr>
                                                 <tr>
                                                     <td>
                                                         <b class="highlight">Top 10 sản phẩm bán chạy nhất</b> <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                                <tr v-for="(item, index) in topDay">
                                                     <td>
-                                                        dqwd <span class="badge">dqww</span>
+                                                        {{ item._id }} <span class="badge">{{ item.total }}</span>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -188,20 +188,20 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>Tổng doanh thu: <b class="highlight">67567.vnđ</b></td>
+                                                    <td>Tổng doanh thu: <b class="highlight">{{ earnedWeek }} vnđ</b></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Số sản phẩm bán ra: <b class="highlight">75675</b></td>
+                                                    <td>Số sản phẩm bán ra: <b class="highlight">{{ weekSummary }}</b></td>
                                                 </tr>
                                                 <tr>
                                                     <td>
                                                         <b class="highlight">Top 10 sản phẩm bán chạy nhất</b> <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                                <tr v-for="(item, index) in topWeek">
                                                     <td>
-                                                        dgvfg
-                                                        <span class="badge">gdfg</span>
+                                                        {{ item._id }}
+                                                        <span class="badge">{{ item.total }}</span>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -220,19 +220,19 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>Tổng doanh thu: <b class="highlight">32424.vnđ</b></td>
+                                                    <td>Tổng doanh thu: <b class="highlight">{{ earnedMonth }} vnđ</b></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Số sản phẩm bán ra: <b class="highlight">eweq</b></td>
+                                                    <td>Số sản phẩm bán ra: <b class="highlight">{{ monthSummary }}</b></td>
                                                 </tr>
                                                 <tr>
                                                     <td>
                                                         <b class="highlight">Top 10 sản phẩm bán chạy nhất</b> <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                                <tr v-for="(item, index) in topMonth">
                                                     <td>
-                                                        efwefe <span class="badge">dqwd</span>
+                                                        {{ item._id }} <span class="badge">{{ item.total }}</span>
                                                     </td>
                                                 </tr>
                                             </tbody>

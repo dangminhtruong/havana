@@ -420,42 +420,67 @@ const addProduct = new Vue({
 let analytic = new Vue({
 	el : '#analytic',
 	data : {
-
+		daySummary : 0,
+		weekSummary : 0,
+		monthSummary : 0,
+		topDay : 0,
+		topWeek : 0,
+		topMonth : 0,
+		earnedDay : 0,
+		earnedWeek : 0,
+		earnedMonth : 0
+	},
+	methods : {
+		getRandomColor() {
+			var letters = '0123456789ABCDEF';
+			var color = '#';
+			for (var i = 0; i < 6; i++) {
+				color += letters[Math.floor(Math.random() * 16)];
+			}
+			return color;
+		}
 	},
 	mounted : function(){
-		new Chart(document.getElementById("pie-chart-men"), {
-			type: 'pie',
-			data: {
-			  labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
-			  datasets: [{
-				label: "Population (millions)",
-				backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-				data: [2478,5267,734,784,433]
-			  }]
-			},
-			options: {
-			  title: {
-				display: true,
-				text: 'Predicted world population (millions) in 2050'
-			  }
-			}
-		});
-		new Chart(document.getElementById("pie-chart-women"), {
-			type: 'pie',
-			data: {
-			  labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
-			  datasets: [{
-				label: "Population (millions)",
-				backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-				data: [2478,5267,734,784,433]
-			  }]
-			},
-			options: {
-			  title: {
-				display: true,
-				text: 'Predicted world population (millions) in 2050'
-			  }
-			}
+
+		axios.get('/admin/analytic-data')
+		.then((response) => {
+
+			this.earnedDay = response.data.dayEarn;
+			this.earnedWeek = response.data.weekEarn;
+			this.earnedMonth = response.data.monthEarn;
+			this.daySummary = response.data.daySum;
+			this.weekSummary = response.data.weekSum;
+			this.monthSummary = response.data.monthSum;
+			this.topDay = response.data.days;
+			this.topWeek = response.data.week;
+			this.topMonth = response.data.month;
+
+			let label = [];
+			let summary = [];
+			let bg_color = [];
+
+			response.data.chart.forEach(item => {
+				label.push(item._id);
+				summary.push(item.total);
+				bg_color.push(this.getRandomColor());
+			});
+			new Chart(document.getElementById("pie-chart-men"), {
+				type: 'pie',
+				data: {
+				  labels: label,
+				  datasets: [{
+					label: "Population (millions)",
+					backgroundColor: bg_color,
+					data: summary
+				  }]
+				},
+				options: {
+				  title: {
+					display: true,
+					text: 'Tỷ lệ loại sản phẩm bán ra'
+				  }
+				}
+			});
 		});
 	}
 });
