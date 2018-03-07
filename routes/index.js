@@ -164,13 +164,80 @@ router.get('/logout', function (req, res) {
 	res.redirect('/');
 });
 
-router.get('/new-product', (req, res) => {
-	Product.find({ status: 2 }, { _id : 1, name:1, unit_price : 1, promo_price : 1, image : 1 }).limit(4)
-		.exec((err, features) => {
-			res.json({
-				featuresProduct: features
+router.get('/index-data', (req, res) => {
+	async.parallel([
+		function (callback) {
+			Product.find().sort({ createdOn: -1 }).limit(4)
+				.exec((err, news) => {
+					callback(null, news);
+				});
+		},
+		function (callback) {
+			Product.find({ status: 2 }).limit(4)
+				.exec((err, features) => {
+					callback(null, features);
+				});
+		}
+	],
+		// Call back
+	function (err, results) {
+		if (err) {
+			throw new err;
+		}
+		return res.json(
+			{
+				newProducts: results[0],
+				featuresProduct: results[1]
 			});
+	});
+});
+
+router.get('/category-data/:id', (req, res) => {
+	async.parallel([
+		(callback) => {
+			if (req.query.pages != null) {
+				Product.find({ category_id: req.params.id }).limit(6).skip((req.query.pages - 1) * 6)
+					.exec((err, category_products) => {
+						callback(null, category_products);
+					});
+			} else {
+				Product.find({ category_id: req.params.id }).limit(6)
+					.exec((err, category_products) => {
+						callback(null, category_products);
+					});
+			}
+
+		},
+		(callback) => {
+			Product.find().sort({ createdOn: -1 }).limit(3)
+				.exec((err, latest_products) => {
+					callback(null, latest_products);
+				});
+		},
+		(callback) => {
+			Product.find().sort({ saled: -1 }).limit(3)
+				.exec((err, best_sales) => {
+					callback(null, best_sales);
+				});
+		},
+		(callback) => {
+			Product.find({ category_id: req.params.id }).count()
+				.exec((err, total_records) => {
+					callback(null, total_records);
+				});
+		}
+	],
+	(err, results) => {
+		res.json({
+			list: results[0],
+			latest: results[1],
+			best: results[2],
+			pages: Math.ceil(results[3] / 6),
+			categoryId: req.params.id,
+			cart: req.session.cart
 		});
+	});
+
 });
 
 module.exports = router;
