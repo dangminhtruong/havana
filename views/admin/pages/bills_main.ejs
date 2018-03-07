@@ -51,7 +51,7 @@
 							<div class="col-md-6 col-xs-12">
 								<div class="form-group">
 									<label class="sr-only" for=""></label>
-									<input type="text" class="form-control" placeholder="Tìm từ ngày" id="fill-start-day">
+									<input type="text" class="form-control" @focus="showStage = !showStage" placeholder="Tìm từ ngày" id="fill-start-day">
 								</div>
 							</div>
 							<div class="col-md-6 col-xs-12">
@@ -65,7 +65,7 @@
 						<div class="col-md-6">
 						<div class="col-md-6 col-xs-12">
 							<div class="form-group">
-							<select class="form-control" v-model="byStage">
+							<select class="form-control" :disabled="showStage" v-model="byStage">
 								<option value="null">Tìm trong</option>
 								<option value="week">Tuần này</option>
 								<option value="month">Tháng này</option>
@@ -124,17 +124,17 @@
 								{{ bill.note }}
 							</div>
 							<div class="col-md-1 col-lg-1">
-								<span v-if = "bill.status == 2 ">
+								<span v-if = "bill.status == 1 ">
 									<span class="label label-primary">pedding</span>
 								</span>
-								<span v-else-if = "bill.status == 1">
-									<span class="label label-success">done</span>
-								</span>
-								<span v-else-if = "bill.status == 3">
+								<span v-else-if = "bill.status == 2">
 									<span class="label label-info">confirm</span>
 								</span>
-								<span v-else-if = "bill.status == 4">
+								<span v-else-if = "bill.status == 3">
 									<span class="label label-default">shipping</span>
+								</span>
+								<span v-else-if = "bill.status == 4">
+									<span class="label label-success">done</span>
 								</span>
 							</div>
 							<div class="col-md-2 col-lg-2">
