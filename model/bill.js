@@ -19,6 +19,7 @@ var BillSchema = new mongoose.Schema({
 	detais : [
 		{
 			product_id : { type: ObjectId, ref : 'Product'},
+			category_name : String,
 			product_name : String,
 			price : Number,
 			quantity : Number

@@ -11,7 +11,6 @@ let app = new Vue({
 		addCart : function(productId){
 			axios.get('/shoping-cart/add/' + productId)
 				.then(function (response) {
-					console.log(response.data);
 					swal('Thank you!', 'You just added new item!', 'success');
 					$('#show_cart').html(` ${response.data.cart_items} item(s)`);
 				})
@@ -22,12 +21,16 @@ let app = new Vue({
 	}
 });
 
+//-----------------------------------------------
 
 const shoppingCart = new Vue({
 	el : '#shopping_cart',
 	data : {
 		items : [], 
-		totalSum : 0
+		totalSum : 0,
+		quickCheckout : false,
+		details : [],
+		customer : null
 	},
 	methods : {
 		getImgPath : function(fileName){
@@ -46,6 +49,7 @@ const shoppingCart = new Vue({
 			.then((response) => {
 				if(typeof response.data.items !== 'undefined'){
 					this.items = response.data.items;
+					this.totalSum = response.data.total;
 				}
 			});
 		},
@@ -59,18 +63,37 @@ const shoppingCart = new Vue({
 				})
 				.then((response) => {
 					this.items = response.data.items;
+					this.totalSum = response.data.total;
 				});
 			}
 			else{
 				alert('hell');
 			}
+		},
+		 
+		order :  function(){
+			axios.post('/shoping-cart/sign-in-order',
+				{
+					note : "Giao hang som nhe",
+				}
+			).then( (respon) => {
+				this.details = respon.data.details;
+				this.customer = respon.data.user;
+				this.totalSum = respon.data.total;
+				$('#datHangThanhCong').modal('show');
+				setTimeout(() => {
+					window.location.replace("/");
+				}, 3000);
+			});
 		}
 	},
 	mounted : function(){
 		axios.get('/shoping-cart/cart-data')
 		.then((response) => {
 			this.items = response.data.items;
+			this.totalSum = response.data.total;
+			console.log(response);
 		})
-		.catch(err => console.log(err));
+		.catch(err => { throw new err});
 	}
 });

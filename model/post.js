@@ -22,7 +22,7 @@ var PostSchema = new mongoose.Schema({
             }
         ]
     },
-    createdOn: { type: Date, 'default': Date.now }
+    createdOn : { type: Date, 'default': Date.now }
 });
 
 module.exports = mongoose.model('Category', PostSchema);

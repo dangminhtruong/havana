@@ -2847,3 +2847,27 @@
     background-repeat: no-repeat;
     background-position: right;
 }
+
+.haft_form {
+    width:45%; 
+    padding-right:2%; 
+    display:inline-block;
+}
+
+@media(max-width: 400px){
+    .haft_form {
+        width: 100%;
+        display: inherit;
+        padding-left: 2%;
+    }
+}
+
+#thongTinDonHang{
+	margin-bottom: 4vh;
+	min-height: 35vh;
+}
+#loiCamOn{
+	text-align: center;
+	margin-top: 10vh;
+	margin-bottom: 0px;
+}

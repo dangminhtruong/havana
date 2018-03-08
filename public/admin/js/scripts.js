@@ -106,11 +106,6 @@ if(document.getElementById('admin_index')){
 	});	
 }
   
-
-
-
-
-
 const bills = new Vue({
 	el : '#bills',
 	data : {
@@ -119,6 +114,7 @@ const bills = new Vue({
 		endDay : null,
 		byStage : null,
 		byStatus : null,
+		showStage : false
 	},
 	methods : {
 		fill : function(){
@@ -149,24 +145,6 @@ const bills = new Vue({
 				    && this.startDay === '' && this.endDay === ''){
 
 				if(this.byStatus == 'done'){
-					axios.get('/admin/bills/status-data?status=1')
-						.then( (response) => {
-							this.bills = response.data;
-							this.byStatus = null;
-						})
-						.catch(function (error) {
-							throw new error;
-						});
-				}else if(this.byStatus == 'pendding'){
-					axios.get('/admin/bills/status-data?status=2')
-						.then( (response) => {
-							this.bills = response.data;
-							this.byStatus = null;
-						})
-						.catch(function (error) {
-							throw new error;
-						});
-				}else if(this.byStatus == 'shipping'){
 					axios.get('/admin/bills/status-data?status=4')
 						.then( (response) => {
 							this.bills = response.data;
@@ -175,8 +153,26 @@ const bills = new Vue({
 						.catch(function (error) {
 							throw new error;
 						});
-				}else {
+				}else if(this.byStatus == 'pendding'){
+					axios.get('/admin/bills/status-data?status=1')
+						.then( (response) => {
+							this.bills = response.data;
+							this.byStatus = null;
+						})
+						.catch(function (error) {
+							throw new error;
+						});
+				}else if(this.byStatus == 'shipping'){
 					axios.get('/admin/bills/status-data?status=3')
+						.then( (response) => {
+							this.bills = response.data;
+							this.byStatus = null;
+						})
+						.catch(function (error) {
+							throw new error;
+						});
+				}else {
+					axios.get('/admin/bills/status-data?status=2')
 						.then( (response) => {
 							this.bills = response.data;
 							this.byStatus = null;
@@ -286,6 +282,46 @@ const bills = new Vue({
 						throw new error;
 					});
 			}
+			else if(this.startDay !== '' && this.endDay !== '' 
+			&& this.byStage == null && this.byStatus !== null){
+					if(this.byStatus == 'pendding'){
+						axios.post('/admin/bills/start-end-pedding', {
+							startDay: this.startDay,
+							endDay: this.endDay
+						}).then((response) => {
+							this.bills = response.data;
+							this.startDay = null;
+							this.endDay = null;
+						});
+					}else if(this.byStatus == 'confirmed'){
+						axios.post('/admin/bills/start-end-confirmed', {
+							startDay: this.startDay,
+							endDay: this.endDay
+						}).then((response) => {
+							this.bills = response.data;
+							this.startDay = null;
+							this.endDay = null;
+						});
+					}else if(this.byStatus == 'shipping'){
+						axios.post('/admin/bills/start-end-shipping', {
+							startDay: this.startDay,
+							endDay: this.endDay
+						}).then((response) => {
+							this.bills = response.data;
+							this.startDay = null;
+							this.endDay = null;
+						});
+					}else if(this.byStatus == 'done'){
+						axios.post('/admin/bills/start-end-done', {
+							startDay: this.startDay,
+							endDay: this.endDay
+						}).then((response) => {
+							this.bills = response.data;
+							this.startDay = null;
+							this.endDay = null;
+						});
+					}
+			}
 		}
 
       
@@ -377,5 +413,74 @@ const addProduct = new Vue({
 		adMoreColor : function(){
 			this.colors.push('#F25C27');
 		}
+	}
+});
+
+
+let analytic = new Vue({
+	el : '#analytic',
+	data : {
+		daySummary : 0,
+		weekSummary : 0,
+		monthSummary : 0,
+		topDay : 0,
+		topWeek : 0,
+		topMonth : 0,
+		earnedDay : 0,
+		earnedWeek : 0,
+		earnedMonth : 0
+	},
+	methods : {
+		getRandomColor() {
+			var letters = '0123456789ABCDEF';
+			var color = '#';
+			for (var i = 0; i < 6; i++) {
+				color += letters[Math.floor(Math.random() * 16)];
+			}
+			return color;
+		}
+	},
+	mounted : function(){
+
+		axios.get('/admin/analytic-data')
+		.then((response) => {
+
+			this.earnedDay = response.data.dayEarn;
+			this.earnedWeek = response.data.weekEarn;
+			this.earnedMonth = response.data.monthEarn;
+			this.daySummary = response.data.daySum;
+			this.weekSummary = response.data.weekSum;
+			this.monthSummary = response.data.monthSum;
+			this.topDay = response.data.days;
+			this.topWeek = response.data.week;
+			this.topMonth = response.data.month;
+
+			let label = [];
+			let summary = [];
+			let bg_color = [];
+
+			response.data.chart.forEach(item => {
+				label.push(item._id);
+				summary.push(item.total);
+				bg_color.push(this.getRandomColor());
+			});
+			new Chart(document.getElementById("pie-chart-men"), {
+				type: 'pie',
+				data: {
+				  labels: label,
+				  datasets: [{
+					label: "Population (millions)",
+					backgroundColor: bg_color,
+					data: summary
+				  }]
+				},
+				options: {
+				  title: {
+					display: true,
+					text: 'Tỷ lệ loại sản phẩm bán ra'
+				  }
+				}
+			});
+		});
 	}
 });
