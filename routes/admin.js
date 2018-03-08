@@ -342,7 +342,7 @@ router.post('/bills/start-end-shipping', urlencodedParser, (req, res) => {
 		.exec((err, bills) => {
 			return res.send(bills); 
 		});
-})
+});
 /*-------------------------------------------------------*/
 router.post('/bills/start-end-done', urlencodedParser, (req, res) => {
 	Bill.find({
@@ -420,10 +420,10 @@ router.get('/analytic-data', (req, res) => {
 				{$unwind:'$detais'},
 				{ $match : {
 					createdOn : {
-							$gt : startDay,
-							$lt : endDay
-						}
-					} 
+						$gt : startDay,
+						$lt : endDay
+					}
+				} 
 				},
 				{
 					$group : {
@@ -434,23 +434,47 @@ router.get('/analytic-data', (req, res) => {
 				},
 				{ $sort :{ total: -1 } }
 			)
-			.limit(10)
-			.exec((err, records) => {
+				.limit(10)
+				.exec((err, records) => {
 			 	Product.find( { _id: { $in: records } }, { name : 1 } )
-				.exec((resu) => {
+						.exec((resu) => {
+							callback(null, records);
+						}); 
+				});  
+		},
+		function(callback){
+			Bill.aggregate(
+				{$unwind:'$detais'},
+				{ $match : {
+					createdOn : {
+						$gt : startWeek,
+						$lt : endWeek
+					}
+				} 
+				},
+				{
+					$group : {
+						_id : '$detais.product_name',
+						total : { $sum : '$detais.quantity' },
+						earned : { $sum : '$detais.price' },
+					}
+				},
+				{ $sort :{ total: -1 } }
+			)
+				.limit(10)
+				.exec((err, records) => {
 					callback(null, records);
-				}); 
-			});  
+				});  
 		},
 		function(callback){
 			Bill.aggregate(
 				{$unwind:'$detais'},
 				{ $match : {
 					createdOn : {
-							$gt : startWeek,
-							$lt : endWeek
-						}
-					} 
+						$gt : startMonth,
+						$lt : endMonth
+					}
+				} 
 				},
 				{
 					$group : {
@@ -461,44 +485,20 @@ router.get('/analytic-data', (req, res) => {
 				},
 				{ $sort :{ total: -1 } }
 			)
-			.limit(10)
-			.exec((err, records) => {
-				callback(null, records);
-			});  
+				.limit(10)
+				.exec((err, records) => {
+					callback(null, records);
+				});  
 		},
 		function(callback){
 			Bill.aggregate(
 				{$unwind:'$detais'},
 				{ $match : {
 					createdOn : {
-							$gt : startMonth,
-							$lt : endMonth
-						}
-					} 
-				},
-				{
-					$group : {
-						_id : '$detais.product_name',
-						total : { $sum : '$detais.quantity' },
-						earned : { $sum : '$detais.price' },
+						$gt : startMonth,
+						$lt : endMonth
 					}
-				},
-				{ $sort :{ total: -1 } }
-			)
-			.limit(10)
-			.exec((err, records) => {
-				callback(null, records);
-			});  
-		},
-		function(callback){
-			Bill.aggregate(
-				{$unwind:'$detais'},
-				{ $match : {
-					createdOn : {
-							$gt : startMonth,
-							$lt : endMonth
-						}
-					} 
+				} 
 				},
 				{
 					$group : {
@@ -508,10 +508,10 @@ router.get('/analytic-data', (req, res) => {
 				},
 				{ $sort :{ total: -1 } }
 			)
-			.limit(10)
-			.exec((err, records) => {
-				callback(null, records);
-			});  
+				.limit(10)
+				.exec((err, records) => {
+					callback(null, records);
+				});  
 		}
 	],
 	function(err, results) {
@@ -533,7 +533,7 @@ router.get('/analytic-data', (req, res) => {
 			monthEarn :  _.sumBy(results[2], function(o) { return o.earned; }),
 		});
 	}
-);
+	);
 });
 /*-------------------------------------------------*/
 router.get('/analytic', (req, res) => {
