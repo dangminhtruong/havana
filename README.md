@@ -20,7 +20,7 @@
 <li>"node category_seeder"</li>
 <li>"node product_seeder"</li>
 <li>"node user_seeder"</li>
-<li>"node bill_seeder"</li>
+<li>"node bill_seeder"</li> 
 <br/>
 <h6>Notice !</h6>
 Cause this project just a my first project using nodejs, mongodb. So, source maybe confusing !
