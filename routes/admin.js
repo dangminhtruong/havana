@@ -13,8 +13,6 @@ var weekly = require('../helpers/line_chart_data');
 var multer  = require('multer');
 var upload = multer({ dest: 'public/img' });
 var config = require('../config/config');
- 
-
 
 /*------------------------------------
 * Author : Dang Minh Truong
@@ -432,8 +430,8 @@ router.get('/analytic-data', (req, res) => {
 			)
 				.limit(10)
 				.exec((err, records) => {
-			 	Product.find( { _id: { $in: records } }, { name : 1 } )
-						.exec((resu) => {
+					Product.find( { _id: { $in: records } }, { name : 1 } )
+						.exec(() => {
 							callback(null, records);
 						}); 
 				});  
