@@ -10,16 +10,16 @@ var passport = require('passport')
 	, LocalStrategy = require('passport-local').Strategy;
 passport.use(new LocalStrategy(
 	function(username, password, done) {
-		  User.findOne({ username : username }, function (err, user) {
+		User.findOne({ username : username }, function (err, user) {
 			if (err) { return done(err); }
 			if (!user) {
-					  return done(null, false, { message: 'Incorrect username.' });
+				return done(null, false, { message: 'Incorrect username.' });
 			}
 			if (!user.validPassword(password)) {
-					  return done(null, false, { message: 'Incorrect password.' });
+				return done(null, false, { message: 'Incorrect password.' });
 			}
 			return done(null, user);
-		  });
+		});
 	}
 ));
 /*------------------------------------
@@ -137,7 +137,7 @@ router.get('/category/:id', function(req, res) {
 
 router.post('/login', function(req, res, next) {
 	passport.authenticate('local', function(err, user, info) {
-		if (err) {  throw new errr; }
+		if (err) {  throw new err; }
 
 		if (!user) { 
 			return res.render('./pages/login', {
@@ -146,7 +146,7 @@ router.post('/login', function(req, res, next) {
 		}
 
 		req.logIn(user, function(err) {
-			if (err) {  throw new errr; }
+			if (err) {  throw new err; }
 			return res.redirect('/');
 		});
 
