@@ -17,6 +17,10 @@ router.get('/add/:id', function(req, res, next) {
     
 	if(!sess.cart){
 		Product.findOne({ _id : req.params.id })
+			.populate({
+				path : 'category_id',
+				select : 'name'
+			})
 			.exec((err, product) => {
 				sess.cart = [
 					{
@@ -25,10 +29,12 @@ router.get('/add/:id', function(req, res, next) {
 						unit_price : product.unit_price,
 						promo_price : product.promo_price,
 						product_quantity : 1,
-						product_img : product.image
+						product_img : product.image,
+						product_category : product.category_id.name
 					}
 				];
 			}).then(() => {
+				
 				res.send({
 					cart_items : 1
 				});
@@ -46,6 +52,10 @@ router.get('/add/:id', function(req, res, next) {
 		//------------------------
 		else{
 			Product.findOne({ _id : req.params.id })
+				.populate({
+					path : 'category_id',
+					select : 'name'
+				})
 				.exec((err, product) => {
 					sess.cart.push(
 						{
@@ -54,7 +64,8 @@ router.get('/add/:id', function(req, res, next) {
 							unit_price : product.unit_price,
 							promo_price : product.promo_price,
 							product_quantity : 1,
-							product_img : product.image
+							product_img : product.image,
+							product_category : product.category_id.name
 						}
 					);
 				}).then(() => {
@@ -92,7 +103,6 @@ router.get('/details', function(req, res, next) {
 
 
 router.get('/cart-data', function(req, res, next){
-	console.log(req.session.cart);
 	return res.send({
 		items : req.session.cart,
 		user : req.user,
@@ -120,7 +130,8 @@ router.post('/sign-in-order', urlencodedParser , (req, res) => {
 				product_id : detail.product_id,
 				product_name : detail.product_name,
 				price : (detail.promo_price !== 0 ) ? detail.unit_price : detail.promo_price,
-				quantity : detail.product_quantity
+				quantity : detail.product_quantity,
+				category_name : detail.product_category
 			});
 		});
 

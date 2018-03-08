@@ -41,5 +41,8 @@
 	" Product's type ": " Product's type ",
 	"Category's name ": "Category's name ",
 	"Category's  description": "Category's  description",
-	"Finish": "Finish"
+	"Finish": "Finish",
+	"Bill": "Bill",
+	"Bills": "Bills",
+	"List": "List"
 }
