@@ -4,7 +4,6 @@ const async = require('async');
 const Category = require('../model/category');
 const Bill = require('../model/bill');
 const Product = require('../model/product');
-const User = require('../model/user');
 const _ = require('lodash');
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -13,31 +12,28 @@ var moment = require('moment');
 var weekly = require('../helpers/line_chart_data');
 var multer  = require('multer');
 var upload = multer({ dest: 'public/img' });
-var fs = require('fs');
 var config = require('../config/config');
- 
-
 
 /*------------------------------------
 * Author : Dang Minh Truong
 * Email : mr.dangminhtruong@gmail.com
 *-----------------------------------*/
 
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
 	res.render('./admin/index');
 });
 /*--------------------------------------------------------*/
-router.get('/category/add', (req, res, next) => {
+router.get('/category/add', (req, res) => {
 	res.render('./admin/pages/add_category');
 });
 /*--------------------------------------------------------*/
-router.post('/category/add', urlencodedParser , (req, res, next) => {
+router.post('/category/add', urlencodedParser , (req, res) => {
 	let cate = new Category({
 		name : req.body.name,
 		type : req.body.type,
 		descript : req.body.desc
 	});
-	cate.save(function (err, results) {
+	cate.save(function () {
 		res.send({
 			status : 'inserted'
 		});
@@ -45,11 +41,11 @@ router.post('/category/add', urlencodedParser , (req, res, next) => {
     
 });
 /*--------------------------------------------------------*/
-router.get('/line-chart', (req, res, next) => {
+router.get('/line-chart', (req, res) => {
 	weekly(req, res);
 });
 /*--------------------------------------------------------*/
-router.get('/bills/index', (req, res, next) => {
+router.get('/bills/index', (req, res) => {
 	res.render('./admin/pages/bills_main'); 
 });
 /*--------------------------------------------------------*/
@@ -66,7 +62,6 @@ router.get('/bills/today-data', (req, res) => {
 			select : 'name'
 		})
 		.exec((err, bills) => {
-			console.log(bills);
 			res.send(bills); 
 		});
     
@@ -342,7 +337,7 @@ router.post('/bills/start-end-shipping', urlencodedParser, (req, res) => {
 		.exec((err, bills) => {
 			return res.send(bills); 
 		});
-})
+});
 /*-------------------------------------------------------*/
 router.post('/bills/start-end-done', urlencodedParser, (req, res) => {
 	Bill.find({
@@ -363,15 +358,14 @@ router.post('/bills/start-end-done', urlencodedParser, (req, res) => {
 });
 
 /*--------------------------------------------------------*/
-router.get('/product/add', (req, res, next) => {
+router.get('/product/add', (req, res) => {
 	res.render('./admin/pages/add_product');
 });
 /*--------------------------------------------------------*/
 router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
 	let cpUpload = upload.fields([{ name: 'avatar', maxCount: 1 }, 
 		{ name: 'details', maxCount: 8 }]);
-
-		 let product = new Product({
+	let product = new Product({
 		name : req.body.product_name,
 		unit_price : req.body.unit_price,
 		promo_price : req.body.promo_price,
@@ -389,7 +383,7 @@ router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
 		comment : []
 	});
  
-		 product.save(function (err, results) {
+	product.save(function (err) {
 		if(err){
 			return res.render('./admin/pages/add_product', {
 				messages : 'Opps! somethings went wrong'
@@ -398,7 +392,7 @@ router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
 		return res.render('./admin/pages/add_product', {
 			messages : 'Add product sucessfull!'
 		});
-		 }); 
+	}); 
 	
 });
 
@@ -420,10 +414,10 @@ router.get('/analytic-data', (req, res) => {
 				{$unwind:'$detais'},
 				{ $match : {
 					createdOn : {
-							$gt : startDay,
-							$lt : endDay
-						}
-					} 
+						$gt : startDay,
+						$lt : endDay
+					}
+				} 
 				},
 				{
 					$group : {
@@ -434,23 +428,47 @@ router.get('/analytic-data', (req, res) => {
 				},
 				{ $sort :{ total: -1 } }
 			)
-			.limit(10)
-			.exec((err, records) => {
-			 	Product.find( { _id: { $in: records } }, { name : 1 } )
-				.exec((resu) => {
+				.limit(10)
+				.exec((err, records) => {
+					Product.find( { _id: { $in: records } }, { name : 1 } )
+						.exec(() => {
+							callback(null, records);
+						}); 
+				});  
+		},
+		function(callback){
+			Bill.aggregate(
+				{$unwind:'$detais'},
+				{ $match : {
+					createdOn : {
+						$gt : startWeek,
+						$lt : endWeek
+					}
+				} 
+				},
+				{
+					$group : {
+						_id : '$detais.product_name',
+						total : { $sum : '$detais.quantity' },
+						earned : { $sum : '$detais.price' },
+					}
+				},
+				{ $sort :{ total: -1 } }
+			)
+				.limit(10)
+				.exec((err, records) => {
 					callback(null, records);
-				}); 
-			});  
+				});  
 		},
 		function(callback){
 			Bill.aggregate(
 				{$unwind:'$detais'},
 				{ $match : {
 					createdOn : {
-							$gt : startWeek,
-							$lt : endWeek
-						}
-					} 
+						$gt : startMonth,
+						$lt : endMonth
+					}
+				} 
 				},
 				{
 					$group : {
@@ -461,44 +479,20 @@ router.get('/analytic-data', (req, res) => {
 				},
 				{ $sort :{ total: -1 } }
 			)
-			.limit(10)
-			.exec((err, records) => {
-				callback(null, records);
-			});  
+				.limit(10)
+				.exec((err, records) => {
+					callback(null, records);
+				});  
 		},
 		function(callback){
 			Bill.aggregate(
 				{$unwind:'$detais'},
 				{ $match : {
 					createdOn : {
-							$gt : startMonth,
-							$lt : endMonth
-						}
-					} 
-				},
-				{
-					$group : {
-						_id : '$detais.product_name',
-						total : { $sum : '$detais.quantity' },
-						earned : { $sum : '$detais.price' },
+						$gt : startMonth,
+						$lt : endMonth
 					}
-				},
-				{ $sort :{ total: -1 } }
-			)
-			.limit(10)
-			.exec((err, records) => {
-				callback(null, records);
-			});  
-		},
-		function(callback){
-			Bill.aggregate(
-				{$unwind:'$detais'},
-				{ $match : {
-					createdOn : {
-							$gt : startMonth,
-							$lt : endMonth
-						}
-					} 
+				} 
 				},
 				{
 					$group : {
@@ -508,10 +502,10 @@ router.get('/analytic-data', (req, res) => {
 				},
 				{ $sort :{ total: -1 } }
 			)
-			.limit(10)
-			.exec((err, records) => {
-				callback(null, records);
-			});  
+				.limit(10)
+				.exec((err, records) => {
+					callback(null, records);
+				});  
 		}
 	],
 	function(err, results) {
@@ -533,7 +527,7 @@ router.get('/analytic-data', (req, res) => {
 			monthEarn :  _.sumBy(results[2], function(o) { return o.earned; }),
 		});
 	}
-);
+	);
 });
 /*-------------------------------------------------*/
 router.get('/analytic', (req, res) => {

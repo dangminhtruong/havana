@@ -22,7 +22,6 @@ router.get('/add/:id', function(req, res, next) {
 				select : 'name'
 			})
 			.exec((err, product) => {
-				console.log(product.category_id.name);
 				sess.cart = [
 					{
 						product_id : req.params.id,
@@ -104,7 +103,6 @@ router.get('/details', function(req, res, next) {
 
 
 router.get('/cart-data', function(req, res, next){
-	console.log(req.session.cart);
 	return res.send({
 		items : req.session.cart,
 		user : req.user,
