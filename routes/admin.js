@@ -539,4 +539,17 @@ router.get('/analytic-data', (req, res) => {
 router.get('/analytic', (req, res) => {
 	res.render('./admin/pages/analytic');
 });
+/*-----------------------------------------------*/
+router.get('/product/list-data', (req, res) => {
+	Product.find()
+	.exec((err, products) => {
+		res.json({
+			products : products
+		});
+	});
+});
+/*-----------------------------------------------*/
+router.get('/product/list', (req, res) => {
+	res.render('./admin/pages/list_product');
+});
 module.exports = router;
