@@ -468,7 +468,7 @@ let analytic = new Vue({
 				type: 'pie',
 				data: {
 				  labels: label,
-				  datasets: [{
+				  datasets: [{ 
 					label: "Population (millions)",
 					backgroundColor: bg_color,
 					data: summary
@@ -481,6 +481,20 @@ let analytic = new Vue({
 				  }
 				}
 			});
+		});
+	}
+});
+
+
+let list_product = new Vue({
+	el : '#list_product',
+	data : {
+		list : []
+	},
+	mounted : function(){
+		axios.get('/admin/product/list-data')
+		.then((err, response) => {
+			this.list = response.data.products;
 		});
 	}
 });
