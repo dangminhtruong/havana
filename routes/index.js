@@ -167,13 +167,13 @@ router.get('/logout', function (req, res) {
 router.get('/index-data', (req, res) => {
 	async.parallel([
 		function (callback) {
-			Product.find().sort({ createdOn: -1 }).limit(4)
+			Product.find().sort({ createdOn: -1 }).limit(8)
 				.exec((err, news) => {
 					callback(null, news);
 				});
 		},
 		function (callback) {
-			Product.find({ status: 2 }).limit(4)
+			Product.find({ status: 2 }).limit(8)
 				.exec((err, features) => {
 					callback(null, features);
 				});
