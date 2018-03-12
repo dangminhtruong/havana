@@ -46,7 +46,7 @@ new Promise((resolve) => {
 	return new Promise((resolve) => {
 		let items = [];
 		let status = [1, 2, 3, 4];
-		for(i=0; i< 1; i++){
+		for(i=0; i< 150; i++){
 			items.push(
 				{
 					total : faker.commerce.price(),
