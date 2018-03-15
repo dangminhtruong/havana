@@ -74,6 +74,7 @@ mongoose.connect('mongodb://mongodb:27017/havana', {
 	promiseLibrary: require('bluebird')
 });
 
+
 const Category = require('./model/category');
 Category.find({}, {_id : 1, name : 1, type : 1})
 	.exec((err, category) => {
