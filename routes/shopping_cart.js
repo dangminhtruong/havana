@@ -46,7 +46,8 @@ router.get('/add/:id', function(req, res, next) {
 		let check = _.findIndex(sess.cart, { 'product_id': req.params.id });
 		if(check >= 0 ){
 			sess.cart[check].product_quantity += 1;
-			res.send({
+			console.log(req.session.cart.length);
+			return res.json({
 				cart_items : sess.cart.length
 			});
 		}
@@ -70,7 +71,8 @@ router.get('/add/:id', function(req, res, next) {
 						}
 					);
 				}).then(() => {
-					res.send({
+					console.log(req.session.cart.length);
+					return res.json({
 						cart_items : sess.cart.length
 					});
 				});

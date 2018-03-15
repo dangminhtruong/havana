@@ -177,6 +177,12 @@ router.get('/index-data', (req, res) => {
 				.exec((err, features) => {
 					callback(null, features);
 				});
+		},
+		function(callback) {
+			Category.find({}, {_id : 1, name : 1, type : 1})
+			.exec((err, category) => {
+				callback(null, category);
+			});
 		}
 	],
 		// Call back
@@ -186,8 +192,10 @@ router.get('/index-data', (req, res) => {
 		}
 		return res.json(
 			{
+				cart_items : (req.session.cart) ? req.session.cart.length : 0,
 				newProducts: results[0],
-				featuresProduct: results[1]
+				featuresProduct: results[1],
+				category : results[2]
 			});
 	});
 });
@@ -196,12 +204,12 @@ router.get('/category-data/:id', (req, res) => {
 	async.parallel([
 		(callback) => {
 			if (req.query.pages != null) {
-				Product.find({ category_id: req.params.id }).limit(6).skip((req.query.pages - 1) * 6)
+				Product.find({ category_id: req.params.id }).limit(9).skip((req.query.pages - 1) * 9)
 					.exec((err, category_products) => {
 						callback(null, category_products);
 					});
 			} else {
-				Product.find({ category_id: req.params.id }).limit(6)
+				Product.find({ category_id: req.params.id }).limit(9)
 					.exec((err, category_products) => {
 						callback(null, category_products);
 					});
@@ -209,13 +217,13 @@ router.get('/category-data/:id', (req, res) => {
 
 		},
 		(callback) => {
-			Product.find().sort({ createdOn: -1 }).limit(3)
+			Product.find().sort({ createdOn: -1 }).limit(4)
 				.exec((err, latest_products) => {
 					callback(null, latest_products);
 				});
 		},
 		(callback) => {
-			Product.find().sort({ saled: -1 }).limit(3)
+			Product.find().sort({ saled: -1 }).limit(4)
 				.exec((err, best_sales) => {
 					callback(null, best_sales);
 				});
@@ -225,19 +233,77 @@ router.get('/category-data/:id', (req, res) => {
 				.exec((err, total_records) => {
 					callback(null, total_records);
 				});
+		},
+		(callback) => {
+			Category.find({}, {_id : 1, name : 1, type : 1})
+			.exec((err, category) => {
+				callback(null, category);
+			});
 		}
 	],
 	(err, results) => {
-		res.json({
-			list: results[0],
+		res.send({
+			products: results[0],
 			latest: results[1],
 			best: results[2],
-			pages: Math.ceil(results[3] / 6),
+			category : results[4],
+			pages: Math.ceil(results[3] / 9),
 			categoryId: req.params.id,
-			cart: req.session.cart
+			cart: (req.session.cart) ? req.session.cart.length : 0,
 		});
 	});
 
+});
+
+
+router.get('/product-data/:id', function (req, res) {
+	async.parallel([
+		function (callback) {
+			Product.find({ _id: req.params.id })
+				.exec((err, product) => {
+					callback(null, product);
+				});
+		},
+		function (callback) {
+			Product.find().sort({ createdOn: -1 }).limit(3)
+				.exec((err, related_product) => {
+					callback(null, related_product);
+				});
+		},
+		(callback) => {
+			Category.find({}, {_id : 1, name : 1, type : 1})
+			.exec((err, category) => {
+				callback(null, category);
+			});
+		},
+		(callback) => {
+			Product.find().sort({ saled: -1 }).limit(4)
+				.exec((err, best_sales) => {
+					callback(null, best_sales);
+				});
+		}
+	],
+	function (err, results) {
+		res.json({
+			product: results[0][0],
+			related_product: results[1],
+			cart: (req.session.cart) ? req.session.cart.length : 0,
+			category : results[2],
+			best_sales : results[3]
+		});
+	});
+
+});
+
+
+router.get('/category', (req, res) => {
+	Category.find({}, {_id : 1, name : 1, type : 1})
+			.exec((err, categories) => {
+				res.json({
+					category : categories,
+					cart : (req.session.cart) ? req.session.cart.length : 0
+				})
+			});
 });
 
 module.exports = router;
