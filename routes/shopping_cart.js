@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const config = require('../config/config');
 let coutCartTotal = require('../helpers/cart_total');
+const Category = require('../model/category');
 /*------------------------------------
 * Author : Dang Minh Truong
 * Email : mr.dangminhtruong@gmail.com
@@ -172,7 +173,22 @@ router.post('/sign-in-order', urlencodedParser , (req, res) => {
 			user : req.user
 		});
 	}); 
+
 });
+
+router.get('/cart-data-api', function(req, res, next){
+
+		Category.find({}, {_id : 1, name : 1, type : 1})
+			.exec((err, categories) => {
+				return res.send({
+					cart : (req.session.cart) ? req.session.cart.length : 0,
+					user : req.user,
+					total : coutCartTotal(req.session.cart),
+					category : categories,
+					products : (req.session.cart ) ? req.session.cart : []
+				});
+			});
+	});
 
 
 module.exports = router;
