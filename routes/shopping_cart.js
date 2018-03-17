@@ -13,7 +13,7 @@ const Category = require('../model/category');
 * Email : mr.dangminhtruong@gmail.com
 *-----------------------------------*/
 
-router.get('/add/:id', function(req, res, next) {
+router.post('/add/:id', function(req, res, next) {
 	let sess = req.session;
     
 	if(!sess.cart){
@@ -23,7 +23,6 @@ router.get('/add/:id', function(req, res, next) {
 				select : 'name'
 			})
 			.exec((err, product) => {
-				console.log(product.category_id.name);
 				sess.cart = [
 					{
 						product_id : req.params.id,
@@ -32,11 +31,12 @@ router.get('/add/:id', function(req, res, next) {
 						promo_price : product.promo_price,
 						product_quantity : 1,
 						product_img : product.image,
-						product_category : product.category_id.name
+						product_category : product.category_id.name,
+						color : req.body.color,
+						size : req.body.size,
 					}
 				];
 			}).then(() => {
-				
 				res.send({
 					cart_items : 1
 				});
@@ -45,9 +45,8 @@ router.get('/add/:id', function(req, res, next) {
 	//----------------------------
 	else{
 		let check = _.findIndex(sess.cart, { 'product_id': req.params.id });
-		if(check >= 0 ){
+		if(check !== -1 ){
 			sess.cart[check].product_quantity += 1;
-			console.log(req.session.cart.length);
 			return res.json({
 				cart_items : sess.cart.length
 			});
@@ -68,11 +67,12 @@ router.get('/add/:id', function(req, res, next) {
 							promo_price : product.promo_price,
 							product_quantity : 1,
 							product_img : product.image,
-							product_category : product.category_id.name
+							product_category : product.category_id.name,
+							color : req.body.color,
+							size : req.body.size,
 						}
 					);
 				}).then(() => {
-					console.log(req.session.cart.length);
 					return res.json({
 						cart_items : sess.cart.length
 					});

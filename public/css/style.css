@@ -2871,3 +2871,7 @@
 	margin-top: 10vh;
 	margin-bottom: 0px;
 }
+
+.viewmorebtn:hover{
+    text-decoration: none;
+}

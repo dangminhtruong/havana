@@ -27,7 +27,8 @@ new Promise((resolve) => {
 		for(i=0; i< 150; i++){
 			items.push(
 				{
-					username : faker.name.findName(),
+					username : 'dangminhtruong',
+					avata : 'avata.jpg',
 					address : faker.internet.email(),
 					email : faker.address.streetAddress(),
 					password : '777',

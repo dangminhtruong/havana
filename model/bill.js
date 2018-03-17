@@ -23,14 +23,8 @@ var BillSchema = new mongoose.Schema({
 			product_name : String,
 			price : Number,
 			quantity : Number,
-			color : [
-				{
-					size : [
-						{type : String}
-					],
-					quantity : Number
-				}
-			]
+			colors : String,
+			size : String
 		}
 	],
 	createdOn: { type: Date, 'default': Date.now }

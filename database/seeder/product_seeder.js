@@ -37,19 +37,40 @@ new Promise((resolve) => {
 					quantity : faker.random.number(),
 					saled : 0,
 					category_id : _.sample(category_ids)._id,
-					size : ['XL','L','M'],
-					color : [
+					colors : [
 						{
 							code : faker.commerce.color(),
-							quantity : 10
+							quantity : faker.random.number()
 						},
 						{
 							code : faker.commerce.color(),
-							quantity : 15
+							quantity : faker.random.number()
 						},
 						{
 							code : faker.commerce.color(),
-							quantity : 5
+							quantity : faker.random.number()
+						},
+						{
+							code : faker.commerce.color(),
+							quantity : faker.random.number()
+						}
+					],
+					size : [
+						{
+							code : faker.commerce.color(),
+							quantity : faker.random.number()
+						},
+						{
+							code : faker.commerce.color(),
+							quantity : faker.random.number()
+						},
+						{
+							code : faker.commerce.color(),
+							quantity : faker.random.number()
+						},
+						{
+							code : faker.commerce.color(),
+							quantity : faker.random.number()
 						}
 					],
 					image_detais : [],

@@ -45,6 +45,7 @@ new Promise((resolve) => {
 }).then((results) => {
 	return new Promise((resolve) => {
 		let items = [];
+		let sizes = ["XXL", "XL", "L", "M"]
 		let status = [1, 2, 3, 4];
 		for(i=0; i< 150; i++){
 			items.push(
@@ -62,8 +63,8 @@ new Promise((resolve) => {
 							price : faker.random.number(),
 							quantity : faker.random.number(),
 							category_name : faker.commerce.productName(),
-							size : "Xl",
-							color : "#F25C27"
+							colors : faker.commerce.color(),
+							size : _.sample(sizes)
 						},
 						{
 							product_id : _.sample(results[0])._id,
@@ -71,8 +72,8 @@ new Promise((resolve) => {
 							price : faker.random.number(),
 							quantity : faker.random.number(),
 							category_name : faker.commerce.productName(),
-							size : "Xl",
-							color : "#F25C27"
+							colors : faker.commerce.color(),
+							size : _.sample(sizes)
 						},
 						{
 							product_id : _.sample(results[0])._id,
@@ -80,8 +81,8 @@ new Promise((resolve) => {
 							price : faker.random.number(),
 							quantity : faker.random.number(),
 							category_name : faker.commerce.productName(),
-							size : "Xl",
-							color : "#F25C27"
+							colors : faker.commerce.color(),
+							size : _.sample(sizes)
 						},
 						{
 							product_id : _.sample(results[0])._id,
@@ -89,9 +90,9 @@ new Promise((resolve) => {
 							price : faker.random.number(),
 							quantity : faker.random.number(),
 							category_name : faker.commerce.productName(),
-							size : "Xl",
-							color : "#F25C27"
-						},
+							colors : faker.commerce.color(),
+							size : _.sample(sizes)
+						}
 						
 					]
 				}
