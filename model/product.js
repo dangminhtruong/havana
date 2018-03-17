@@ -18,8 +18,18 @@ var ProductSchema = new mongoose.Schema({
 	quantity : Number,
 	saled : Number,
 	category_id : { type: ObjectId, ref : 'Category'},
-	size : [String],
-	color : [String],
+	color : [
+		{
+			code : String,
+			quantity : Number,
+			size : [
+				{
+					type : String,
+					quantity: Number
+				}
+			]
+		}
+	],
 	image_detais : [String],
 	rate : [
 		{

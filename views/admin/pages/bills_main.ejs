@@ -22,15 +22,12 @@
 		</div>
 		<div class=" border-bottom">
 			<%- include('../blocks/top_nav') %>
-			<!-------------------------------------->
 			<div class="clearfix">
 			</div>
-			<!-------------------------------------->
 			<%- include('../blocks/main_menu') %>
 		</nav>
 		<div id="page-wrapper" class="gray-bg dashbard-1">
 		<div class="content-main">
-		<!--banner-->	
 		<div class="banner">
 		<h2>
 		<a href="index.html">Home</a>
@@ -40,8 +37,6 @@
 		<span><%= __('List') %></span>
 		</h2>
 		</div>
-		<!--//banner-->
-		<!--content-->
 		<div class="content-top">
 		<div class="col-md-12 " style="min-height:65vh;" id="bills">
 			<div class="col-md-12 panel-content">
@@ -91,13 +86,13 @@
 					</form>
 					<div class="col-md-12" style="color:black">
 							<div class="col-md-12 row">
-								<div class="col-md-3 col-lg-3">
+								<div class="col-md-4 col-lg-4">
 									Details
 								</div>
 								<div class="col-md-3 col-lg-3">
-									Custom infor
+									Customer infor
 								</div>
-								<div class="col-md-3 col-lg-3" >
+								<div class="col-md-2 col-lg-2" >
 									Note
 								</div>
 								<div class="col-md-1 col-lg-1">
@@ -110,17 +105,25 @@
 					</div>
 					<div class="col-md-12 col-sm-12" style="min-height:60vh; max-height:60vh; text-align:left; overflow-y: scroll">
 						<div class="col-md-12 row" v-for = "bill in bills" style="padding:2vh; border-bottom: 1px solid;">
-							<div class="col-md-3 col-lg-3">
-								<span v-for = "item in bill.detais">{{ item.product_id.name }} 
-									<span class="badge">{{ item.quantity }}</span><br/>
-								</span>
+							<div class="col-md-4 col-lg-4">
+								<div v-for = "item in bill.detais" class="col-md-12 well row" style="padding:1vh;">
+									<div class="col-md-12 row">
+										<span style="color:red">{{ item.product_id.name }} </span>
+									</div>
+									<div class="col-md-12 row">
+										<b>Số lượng: </b><span style="color:red">{{ item.quantity }}</span><br/>
+									</div>
+									<div class="col-md-12 row">
+											<b>Size: </b><span style="color:red">{{ item.size }}</span><br/>
+									</div>
+								</div>
 							</div>
 							<div class="col-md-3 col-lg-3">
 								{{ bill.user.user_name }} <br/>
 								{{ bill.user.address }} <br/>
 								{{ bill.user.email }} <br/>
 							</div>
-							<div class="col-md-3 col-lg-3" >
+							<div class="col-md-2 col-lg-2" >
 								{{ bill.note }}
 							</div>
 							<div class="col-md-1 col-lg-1">

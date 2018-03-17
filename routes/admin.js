@@ -24,14 +24,13 @@ var config = require('../config/config');
 *-----------------------------------*/
 
 router.get('/', function(req, res, next) {
-	console.log(req.user);
 	res.render('./admin/index', {
 		user : req.user
 	});
 });
 /*--------------------------------------------------------*/
 router.get('/category/add', (req, res, next) => {
-	res.render('./admin/pages/add_category');
+	res.render('./admin/pages/add_category', {user : req.user});
 });
 /*--------------------------------------------------------*/
 router.post('/category/add', urlencodedParser , (req, res, next) => {
@@ -53,7 +52,7 @@ router.get('/line-chart', (req, res, next) => {
 });
 /*--------------------------------------------------------*/
 router.get('/bills/index', (req, res, next) => {
-	res.render('./admin/pages/bills_main'); 
+	res.render('./admin/pages/bills_main',{user : req.user}); 
 });
 /*--------------------------------------------------------*/
 router.get('/bills/today-data', (req, res) => {
@@ -367,7 +366,7 @@ router.post('/bills/start-end-done', urlencodedParser, (req, res) => {
 
 /*--------------------------------------------------------*/
 router.get('/product/add', (req, res, next) => {
-	res.render('./admin/pages/add_product');
+	res.render('./admin/pages/add_product',{user : req.user});
 });
 /*--------------------------------------------------------*/
 router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
@@ -395,11 +394,13 @@ router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
 		 product.save(function (err, results) {
 		if(err){
 			return res.render('./admin/pages/add_product', {
-				messages : 'Opps! somethings went wrong'
+				messages : 'Opps! somethings went wrong',
+				user : req.user
 			});
 		} 
 		return res.render('./admin/pages/add_product', {
-			messages : 'Add product sucessfull!'
+			messages : 'Add product sucessfull!',
+			user : req.user
 		});
 		 }); 
 	
@@ -540,11 +541,11 @@ router.get('/analytic-data', (req, res) => {
 });
 /*-------------------------------------------------*/
 router.get('/analytic', (req, res) => {
-	res.render('./admin/pages/analytic');
+	res.render('./admin/pages/analytic',{user : req.user});
 });
 /*-----------------------------------------------*/
 router.get('/product/list', (req, res) => {
-	res.render('./admin/pages/list_product');
+	res.render('./admin/pages/list_product',{user : req.user});
 });
 
 router.get('/product/list-data', (req, res) => {
@@ -586,7 +587,7 @@ router.get('/product/list-data', (req, res) => {
 });
 
 router.get('/category/list', (req, res) => {
-	res.render('./admin/pages/list_category');
+	res.render('./admin/pages/list_category', {user : req.user});
 });
 
 router.get('/category/list-data', (req, res) => {

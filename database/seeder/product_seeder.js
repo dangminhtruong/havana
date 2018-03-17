@@ -39,11 +39,18 @@ new Promise((resolve) => {
 					category_id : _.sample(category_ids)._id,
 					size : ['XL','L','M'],
 					color : [
-						faker.commerce.color(),
-						faker.commerce.color(),
-						faker.commerce.color(),
-						faker.commerce.color(),
-						faker.commerce.color() 
+						{
+							code : faker.commerce.color(),
+							quantity : 10
+						},
+						{
+							code : faker.commerce.color(),
+							quantity : 15
+						},
+						{
+							code : faker.commerce.color(),
+							quantity : 5
+						}
 					],
 					image_detais : [],
 					rate : [],

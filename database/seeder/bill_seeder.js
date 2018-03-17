@@ -51,7 +51,7 @@ new Promise((resolve) => {
 				{
 					total : faker.commerce.price(),
 					status : _.sample(status),
-					note: faker.lorem.text(),
+					note: faker.lorem.sentences(),
 					address : faker.address.streetName(),
 					phone: faker.phone.phoneNumber(),
 					user : _.sample(results[1])._id,
@@ -61,28 +61,36 @@ new Promise((resolve) => {
 							product_name : _.sample(results[0]).name,
 							price : faker.random.number(),
 							quantity : faker.random.number(),
-							category_name : faker.commerce.productName()
+							category_name : faker.commerce.productName(),
+							size : "Xl",
+							color : "#F25C27"
 						},
 						{
 							product_id : _.sample(results[0])._id,
 							product_name : _.sample(results[0]).name,
 							price : faker.random.number(),
 							quantity : faker.random.number(),
-							category_name : faker.commerce.productName()
+							category_name : faker.commerce.productName(),
+							size : "Xl",
+							color : "#F25C27"
 						},
 						{
 							product_id : _.sample(results[0])._id,
 							product_name : _.sample(results[0]).name,
 							price : faker.random.number(),
 							quantity : faker.random.number(),
-							category_name : faker.commerce.productName()
+							category_name : faker.commerce.productName(),
+							size : "Xl",
+							color : "#F25C27"
 						},
 						{
 							product_id : _.sample(results[0])._id,
 							product_name : _.sample(results[0]).name,
 							price : faker.random.number(),
 							quantity : faker.random.number(),
-							category_name : faker.commerce.productName()
+							category_name : faker.commerce.productName(),
+							size : "Xl",
+							color : "#F25C27"
 						},
 						
 					]
