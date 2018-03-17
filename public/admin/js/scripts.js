@@ -489,12 +489,60 @@ let analytic = new Vue({
 let list_product = new Vue({
 	el : '#list_product',
 	data : {
-		list : []
+		list : [],
+		curretnPage : 1,
+		totalPages: 5
 	},
+
+	methods : {
+		paginate : function(page){
+			axios.get(`/admin/product/list-data?pages=${page}`)
+			.then((response) => {
+				this.list = response.data.products;
+				this.totalPages = response.data.pages;
+				this.curretnPage = response.data.currentPages;
+				console.log(this.curretnPage);
+			});
+		}
+	},
+
 	mounted : function(){
 		axios.get('/admin/product/list-data')
-		.then((err, response) => {
+		.then((response) => {
 			this.list = response.data.products;
+			this.totalPages = response.data.pages;
+			this.curretnPage = response.data.currentPages;
+		});
+	}
+});
+
+
+let list_category = new Vue({
+	el : '#list_category',
+	data : {
+		list : [],
+		curretnPage : 1,
+		totalPages: 5
+	},
+
+	methods : {
+		paginate : function(page){
+			axios.get(`/admin/category/list-data?pages=${page}`)
+			.then((response) => {
+				this.list = response.data.category;
+				this.totalPages = response.data.pages;
+				this.curretnPage = response.data.currentPages;
+				console.log(this.curretnPage);
+			});
+		}
+	},
+
+	mounted : function(){
+		axios.get('/admin/category/list-data')
+		.then((response) => {
+			this.list = response.data.category;
+			this.totalPages = response.data.pages;
+			this.curretnPage = response.data.currentPages;
 		});
 	}
 });

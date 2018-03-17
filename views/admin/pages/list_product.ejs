@@ -31,95 +31,13 @@
 				</form>
 				<div class="clearfix"> </div>
 			</div>
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="drop-men" >
-				<ul class=" nav_1">
-					<li class="dropdown at-drop">
-					<a href="#" class="dropdown-toggle dropdown-at " data-toggle="dropdown"><i class="fa fa-globe"></i> <span class="number">5</span></a>
-					<ul class="dropdown-menu menu1 " role="menu">
-						<li>
-							<a href="#">
-								<div class="user-new">
-								<p>New user registered</p>
-								<span>40 seconds ago</span>
-								</div>
-								<div class="user-new-left">
-								<i class="fa fa-user-plus"></i>
-								</div>
-								<div class="clearfix"> </div>
-							</a>
-						</li>
-						<li>
-							<a href="#">
-								<div class="user-new">
-								<p>Someone special liked this</p>
-								<span>3 minutes ago</span>
-								</div>
-								<div class="user-new-left">
-								<i class="fa fa-heart"></i>
-								</div>
-								<div class="clearfix"> </div>
-							</a>
-						</li>
-						<li>
-							<a href="#">
-								<div class="user-new">
-								<p>John cancelled the event</p>
-								<span>4 hours ago</span>
-								</div>
-								<div class="user-new-left">
-								<i class="fa fa-times"></i>
-								</div>
-								<div class="clearfix"> </div>
-							</a>
-						</li>
-						<li>
-							<a href="#">
-								<div class="user-new">
-								<p>The server is status is stable</p>
-								<span>yesterday at 08:30am</span>
-								</div>
-								<div class="user-new-left">
-								<i class="fa fa-info"></i>
-								</div>
-								<div class="clearfix"> </div>
-							</a>
-						</li>
-						<li>
-							<a href="#">
-								<div class="user-new">
-								<p>New comments waiting approval</p>
-								<span>Last Week</span>
-								</div>
-								<div class="user-new-left">
-								<i class="fa fa-rss"></i>
-								</div>
-								<div class="clearfix"> </div>
-							</a>
-						</li>
-						<li><a href="#" class="view">View all messages</a></li>
-					</ul>
-					</li>
-					<li class="dropdown">
-					<a href="#" class="dropdown-toggle dropdown-at" data-toggle="dropdown"><span class=" name-caret">Rackham<i class="caret"></i></span><img src="/admin/images/wo.jpg"></a>
-					<ul class="dropdown-menu " role="menu">
-						<li><a href="profile.html"><i class="fa fa-user"></i>Edit Profile</a></li>
-						<li><a href="inbox.html"><i class="fa fa-envelope"></i>Inbox</a></li>
-						<li><a href="calendar.html"><i class="fa fa-calendar"></i>Calender</a></li>
-						<li><a href="inbox.html"><i class="fa fa-clipboard"></i>Tasks</a></li>
-					</ul>
-					</li>
-				</ul>
-			</div>
-			<!-- /.navbar-collapse -->
+			<%- include('../blocks/top_nav') %>
 			<div class="clearfix">
 			</div>
 			<%- include('../blocks/main_menu') %>
 		</nav>
 		<div id="page-wrapper" class="gray-bg dashbard-1">
 		<div class="content-main">
-		<!--banner-->	
 		<div class="banner">
 		<h2>
 		<a href="index.html">Home</a>
@@ -129,43 +47,48 @@
 		<span><%= __('Add') %></span>
 		</h2>
 		</div>
-		<!--//banner-->
-		<!--content-->
 		<div class="content-top">
-		<div class="col-md-12 " style="min-height:65vh;" id="list_product">
-            <div >
-				<table class="table table-striped">
-					<thead>
-					  <tr>
-						<th>Product name</th>
-						<th>Price</th>
-						<th>Quantity</th>
-					  </tr>
-					</thead>
-					<tbody>
-					  <tr>
-						<td>John</td>
-						<td>Doe</td>
-						<td>john@example.com</td>
-					  </tr>
-					  <tr>
-						<td>Mary</td>
-						<td>Moe</td>
-						<td>mary@example.com</td>
-					  </tr>
-					  <tr>
-						<td>July</td>
-						<td>Dooley</td>
-						<td>july@example.com</td>
-					  </tr>
-					</tbody>
-				  </table>
-            </div>
+		<div class="col-md-12 " style="min-height:65vh" id="list_product">
+        <div class="col-md-12" style="background-color:#fff">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+							<th>Avata</th>
+							<th>Product name</th>
+							<th>Unit Price</th>
+							<th>Promo Price</th>
+							<th>Quantity</th>
+							<th>
+								Action
+							</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="(item, index) in list">
+								<td><img :src= " `/img/${item.image}`" class="img-responsive" width="30px" height="50px"></td>
+								<td>{{ item.name }}</td>
+								<td>{{ item.unit_price }} vnđ</td>
+								<td>{{ item.promo_price }} vnđ</td>
+								<td>{{ item.quantity }}</td>
+								<td>
+									<button type="button" class="btn btn-warning btn-xs">Warning</button>
+									<button type="button" class="btn btn-danger btn-xs">Danger</button>
+								</td>
+							</tr>
+						</tbody>
+						</table>
+						<div class="col-md-12">
+								<ul class="pagination pagination-sm">
+										<li v-for="n in totalPages" @click="paginate(n)">
+											<span v-if="n == curretnPage" style="color:red">{{n}}</span>
+											<span v-else>{{n}}</span>
+										</li>
+									</ul>
+						</div>
+        </div>
 		</div>
 		<div class="clearfix"> </div>
 		</div>
-		<!--//content-->
-		<!---->
 		<div class="copy">
 		<p> &copy; 2016 Minimal. All Rights Reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
 		</div>
