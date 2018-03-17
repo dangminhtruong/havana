@@ -180,9 +180,9 @@ router.get('/index-data', (req, res) => {
 		},
 		function(callback) {
 			Category.find({}, {_id : 1, name : 1, type : 1})
-			.exec((err, category) => {
-				callback(null, category);
-			});
+				.exec((err, category) => {
+					callback(null, category);
+				});
 		}
 	],
 		// Call back
@@ -236,9 +236,9 @@ router.get('/category-data/:id', (req, res) => {
 		},
 		(callback) => {
 			Category.find({}, {_id : 1, name : 1, type : 1})
-			.exec((err, category) => {
-				callback(null, category);
-			});
+				.exec((err, category) => {
+					callback(null, category);
+				});
 		}
 	],
 	(err, results) => {
@@ -272,9 +272,9 @@ router.get('/product-data/:id', function (req, res) {
 		},
 		(callback) => {
 			Category.find({}, {_id : 1, name : 1, type : 1})
-			.exec((err, category) => {
-				callback(null, category);
-			});
+				.exec((err, category) => {
+					callback(null, category);
+				});
 		},
 		(callback) => {
 			Product.find().sort({ saled: -1 }).limit(4)
@@ -298,12 +298,12 @@ router.get('/product-data/:id', function (req, res) {
 
 router.get('/category', (req, res) => {
 	Category.find({}, {_id : 1, name : 1, type : 1})
-			.exec((err, categories) => {
-				res.json({
-					category : categories,
-					cart : (req.session.cart) ? req.session.cart.length : 0
-				})
+		.exec((err, categories) => {
+			res.json({
+				category : categories,
+				cart : (req.session.cart) ? req.session.cart.length : 0
 			});
+		});
 });
 
 module.exports = router;

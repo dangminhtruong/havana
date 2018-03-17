@@ -583,7 +583,7 @@ router.get('/product/list-data', (req, res) => {
 			currentPages : (req.query.pages) ? req.query.pages : 1
 		});
 	}
-);
+	);
 });
 
 router.get('/category/list', (req, res) => {
@@ -623,7 +623,7 @@ router.get('/category/list-data', (req, res) => {
 			pages :  Math.ceil(results[1] / 6),
 			currentPages : (req.query.pages) ? req.query.pages : 1
 		});
-	})
+	});
 });
 
 module.exports = router;
