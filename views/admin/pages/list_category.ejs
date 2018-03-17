@@ -48,33 +48,38 @@
 		</h2>
 		</div>
 		<div class="content-top">
-		<div class="col-md-12 " style="min-height:65vh;" id="category_add">
-            <div >
-                <div class="col-md-12 panel-content">
-                    <form action="/admin/category/add" method="post"  v-on:submit.prevent="onSubmit">
-                        <div class="form-group">
-                            <label for="sel1"><%= __(' Product\'s type ') %> :</label>
-                            <select class="form-control" v-model="categoryType" required>
-								<option value="1">Thời trang nam</option>
-								<option value="2">Thời trang nữ</option>
-							</select>
-							<p style="color :red;">{{ alertTypeNull }}</p>
-                        </div>
-                        <div class="form-group">
-                            <label for="email"><%= __('Category\'s name ') %>:</label>
-							<input type="text" class="form-control" v-model="categoryName" required>
-							<p style="color :red;">{{ alertNameNull }}</p>
-                        </div>
-                        <div class="form-group">
-                            <label for="pwd"><%= __('Category\'s  description') %>:</label>
-							<textarea class="form-control" rows="5" v-model="categoryDesc" required></textarea>
-							<p style="color :red;">{{ alertDescNull }}</p>
-                        </div>
-                        <button type="button" class="btn btn-default" @click="submited" style="color: #999;"><%= __('Finish') %></button>
-                    </form>
-                </div>
-            </div>
-            
+		<div class="col-md-12 " style="min-height:65vh" id="list_category">
+        <div class="col-md-12" style="background-color:#fff">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+                            <th>Name</th>
+                            <th>Description</th>
+							<th>
+								Action
+							</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="(item, index) in list">
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.descript }}</td>
+								<td>
+									<button type="button" class="btn btn-warning btn-xs">Edit</button>
+									<button type="button" class="btn btn-danger btn-xs">Remove</button>
+								</td>
+							</tr>
+						</tbody>
+						</table>
+						<div class="col-md-12">
+								<ul class="pagination pagination-sm">
+										<li v-for="n in totalPages" @click="paginate(n)">
+											<span v-if="n == curretnPage" style="color:red">{{n}}</span>
+											<span v-else>{{n}}</span>
+										</li>
+									</ul>
+						</div>
+        </div>
 		</div>
 		<div class="clearfix"> </div>
 		</div>

@@ -40,6 +40,13 @@ i18n.configure({
 });
 app.use('/', index);
 app.use('/shoping-cart',shoping_cart);
+app.use('/admin', (req, res, next) => {
+	if(req.user && req.user.role == 1){
+		next();
+	}else{
+		res.redirect('/login');
+	}
+});
 app.use('/admin', admin);
 //--------------------------------------------------
 // catch 404 and forward to error handler
