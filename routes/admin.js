@@ -15,7 +15,7 @@ var multer  = require('multer');
 var upload = multer({ dest: 'public/img' });
 var fs = require('fs');
 var config = require('../config/config');
- 
+var covertToObj = require('../helpers/to_array_objects'); 
 
 
 /*------------------------------------
@@ -68,7 +68,7 @@ router.get('/bills/today-data', (req, res) => {
 			select : 'name'
 		})
 		.exec((err, bills) => {
-			console.log(bills);
+	
 			res.send(bills); 
 		});
     
@@ -370,7 +370,11 @@ router.get('/product/add', (req, res, next) => {
 });
 /*--------------------------------------------------------*/
 router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
-	let cpUpload = upload.fields([{ name: 'avatar', maxCount: 1 }, 
+	let me = covertToObj(req.body.color);
+
+	console.log(me);
+
+	 let cpUpload = upload.fields([{ name: 'avatar', maxCount: 1 }, 
 		{ name: 'details', maxCount: 8 }]);
 
 		 let product = new Product({
@@ -384,8 +388,8 @@ router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
 		quantity : req.body.quantity,
 		saled : 0,
 		category_id : req.body.product_type,
-		size : _.split(req.body.size[0], ','),
-		color : req.body.color,
+		size : covertToObj(req.body.color),
+		colors : covertToObj(req.body.color),
 		image_detais : _.map(_.filter(req.files, { 'fieldname': 'details[]' }), 'originalname'),
 		rate : [],
 		comment : []
@@ -402,7 +406,7 @@ router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
 			messages : 'Add product sucessfull!',
 			user : req.user
 		});
-		 }); 
+		 });  
 	
 });
 

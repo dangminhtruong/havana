@@ -21,13 +21,13 @@ var ProductSchema = new mongoose.Schema({
 	colors : [
 		{
 			code : String,
-			quantity : Number
+			quantity : { type : Number, 'default' : 0 }
 		}
 	],
 	size : [
 		{
 			code : String,
-			quantity : Number
+			quantity : { type : Number, 'default' : 0 }
 		}
 	],
 	image_detais : [String],

@@ -350,7 +350,12 @@ const addProduct = new Vue({
 		quantity : null,
 		product_type : null,
 		imgDetailsNum : 1,
-		colors : ['#F25C27'],
+		colors : [
+			{
+				code : '#F25C27',
+				quantity : 1
+			}
+		],
 		promoPriceAlert : null,
 		unitPriceAlert : null,
 		quantityAlert : null
