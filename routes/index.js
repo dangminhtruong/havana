@@ -153,6 +153,29 @@ router.post('/login', function(req, res, next) {
 	})(req, res, next);
 });
 
+
+router.post('/login/client', function(req, res, next) {
+	passport.authenticate('local', function(err, user, info) {
+		if (err) {  throw new errr; }
+
+		if (!user) {
+			return res.json(
+				{
+					status : 401
+				}
+			); 
+		}
+
+		req.logIn(user, function (err) {
+			if (err) { throw new err; }
+			return res.json({
+				status : 200
+			});
+		});
+
+	})(req, res, next);
+});
+
 router.get('/login', (req, res) => {
 	return res.render('./pages/login', {
 		user: req.session.user
@@ -303,6 +326,13 @@ router.get('/category', (req, res) => {
 				category : categories,
 				cart : (req.session.cart) ? req.session.cart.length : 0
 			});
+		});
+});
+
+router.get('/authenticate', (req, res) => {
+		return res.json({
+			status : 200,
+			user : req.user
 		});
 });
 

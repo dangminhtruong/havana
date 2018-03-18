@@ -30,7 +30,7 @@ var ProductSchema = new mongoose.Schema({
 			quantity : { type : Number, 'default' : 0 }
 		}
 	],
-	image_detais : [String],
+	image_details : [String],
 	rate : [
 		{
 			star : Number,

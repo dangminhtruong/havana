@@ -73,7 +73,7 @@ new Promise((resolve) => {
 							quantity : faker.random.number()
 						}
 					],
-					image_detais : [],
+					image_details : ['pi.png', 'pi2.png', 'pi3.png'],
 					rate : [],
 					comment : []
 				}
