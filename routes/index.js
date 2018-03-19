@@ -227,7 +227,9 @@ router.get('/category-data/:id', (req, res) => {
 	async.parallel([
 		(callback) => {
 			if (req.query.pages != null) {
-				Product.find({ category_id: req.params.id }).limit(9).skip((req.query.pages - 1) * 9)
+				Product.find({ category_id: req.params.id })
+					.skip((req.query.pages - 1) * 9)
+					.limit(9)
 					.exec((err, category_products) => {
 						callback(null, category_products);
 					});
@@ -265,6 +267,7 @@ router.get('/category-data/:id', (req, res) => {
 		}
 	],
 	(err, results) => {
+		console.log(Math.ceil(results[3] / 9));
 		res.send({
 			products: results[0],
 			latest: results[1],
@@ -273,6 +276,7 @@ router.get('/category-data/:id', (req, res) => {
 			pages: Math.ceil(results[3] / 9),
 			categoryId: req.params.id,
 			cart: (req.session.cart) ? req.session.cart.length : 0,
+			currentPage : (req.query.pages != null) ? req.query.pages : 1
 		});
 	});
 
@@ -335,5 +339,9 @@ router.get('/authenticate', (req, res) => {
 			user : req.user
 		});
 });
+
+
+
+
 
 module.exports = router;

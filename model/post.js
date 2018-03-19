@@ -9,7 +9,7 @@ var Schema = mongoose.Schema,
 *-----------------------------------*/
 
 var PostSchema = new mongoose.Schema({
-    {
+    
         title : String,
         content : String,
         user_id :  { type: ObjectId, ref : 'User'},
@@ -21,8 +21,8 @@ var PostSchema = new mongoose.Schema({
                 createdOn: { type: Date, 'default': Date.now }
             }
         ]
-    },
+    ,
     createdOn : { type: Date, 'default': Date.now }
 });
 
-module.exports = mongoose.model('Category', PostSchema);
+module.exports = mongoose.model('PostSchema', PostSchema);
