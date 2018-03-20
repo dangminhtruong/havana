@@ -72,7 +72,7 @@
 								<td>{{ item.quantity }}</td>
 								<td>
 									<button type="button" class="btn btn-warning btn-xs">Warning</button>
-									<button type="button" class="btn btn-danger btn-xs">Danger</button>
+									<button type="button" class="btn btn-danger btn-xs" @click="removeProduct(item._id)">Remove</button>
 								</td>
 							</tr>
 						</tbody>

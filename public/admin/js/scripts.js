@@ -100,7 +100,7 @@ if(document.getElementById('admin_index')){
 					});
 				})
 				.catch(function (error) {
-					console.log(error);
+					throw new error;
 				});
 		}
 	});	
@@ -356,6 +356,12 @@ const addProduct = new Vue({
 				quantity : 1
 			}
 		],
+		sizes : [
+			{
+				code : 'XL',
+				quantity : 1
+			}
+		],
 		promoPriceAlert : null,
 		unitPriceAlert : null,
 		quantityAlert : null
@@ -416,7 +422,13 @@ const addProduct = new Vue({
 			this.colors.splice(index, 1);
 		},
 		adMoreColor : function(){
-			this.colors.push('#F25C27');
+			this.colors.push({ code : '#F25C27' , quantity : 1});
+		},
+		removeSize : function(index){
+			this.sizes.splice(index, 1);
+		},
+		adMoreSize : function(){
+			this.sizes.push({ code : 'XL' , quantity : 1});
 		}
 	}
 });
@@ -506,8 +518,29 @@ let list_product = new Vue({
 					this.list = response.data.products;
 					this.totalPages = response.data.pages;
 					this.curretnPage = response.data.currentPages;
-					console.log(this.curretnPage);
 				});
+		},
+
+		removeProduct : function(id){
+			swal({
+				title: 'Bạn có chắc chắn muốn xóa ?',
+				text: 'Loại sản phẩm này sẽ bị xóa bỏ khỏi hệ thống!',
+				icon: 'warning',
+				buttons: true,
+				dangerMode: true,
+			  })
+			  .then((willDelete) => {
+				if (willDelete) {
+					axios.get(`/admin/product/remove/${id}`)
+					.then((response) => {
+						this.list = response.data.products;
+						this.totalPages = response.data.pages;
+						this.curretnPage = response.data.currentPages;
+					});
+				} else {
+			  		swal('Hủy xóa thành công!');
+				}
+		  	});
 		}
 	},
 
