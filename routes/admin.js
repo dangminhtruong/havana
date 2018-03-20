@@ -655,10 +655,10 @@ router.get('/category/remove/:id', (req, res) => {
 		],
 		(err, results) => {
 			return res.status(200).json({
-					category : results[0],
-					pages :  Math.ceil(results[1] / 6),
-					currentPages : 1
-				});
+				category : results[0],
+				pages :  Math.ceil(results[1] / 6),
+				currentPages : 1
+			});
 		});
 
 

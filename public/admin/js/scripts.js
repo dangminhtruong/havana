@@ -561,7 +561,7 @@ let list_category = new Vue({
 							});
 					} else {
 				  swal('Hủy xóa thành công!');
-				}
+					}
 			  });
 		}
 	},
