@@ -4,11 +4,6 @@ WORKDIR /app
 ADD . /app
 RUN npm install
 RUN npm i -g nodemon
-RUN cd databse/seeder/
-RUN node category_seeder
-RUN node product_seeder
-RUn node user_seeder
-RUn node bill_seeder
 
-CMD ["nodemon", "-L"]
+CMD ["nodemon", "-L", "cd databse/seeder && node category_seeder && node product_seeder && node user_seeder && node bill_seeder"]
 EXPOSE 3000
