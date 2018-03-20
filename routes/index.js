@@ -176,16 +176,39 @@ router.post('/login/client', function(req, res, next) {
 	})(req, res, next);
 });
 
-router.get('/login', (req, res) => {
-	return res.render('./pages/login', {
-		user: req.session.user
-	});
-});
 
 router.get('/logout', function (req, res) {
 	req.logout();
 	res.redirect('/');
 });
+
+
+router.get('/login/admin', (req, res) => {
+	return res.render('./pages/login', {
+		user: req.session.user
+	});
+});
+
+
+router.post('/login/admin', function(req, res, next) {
+	passport.authenticate('local', function(err, user, info) {
+		if (err) {  throw new errr; }
+
+		if (!user) {
+			return res.render('./pages/login', {
+				failureMessage : 'Invalid username or password!'
+			}); 
+		}
+
+		req.logIn(user, function (err) {
+			return res.redirect('/admin');
+		});
+
+	})(req, res, next);
+});
+
+
+
 
 router.get('/index-data', (req, res) => {
 	async.parallel([
@@ -267,9 +290,6 @@ router.get('/category-data/:id', (req, res) => {
 		}
 	],
 	(err, results) => {
-
-		console.log(req.param.currentPage);
-
 		res.send({
 			products: results[0],
 			latest: results[1],

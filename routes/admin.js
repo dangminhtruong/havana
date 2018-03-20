@@ -368,7 +368,7 @@ router.get('/product/add', (req, res, next) => {
 	res.render('./admin/pages/add_product',{user : req.user});
 });
 /*--------------------------------------------------------*/
-router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
+router.post('/product/add/new',upload.any(),urlencodedParser, (req, res) => {
 	 let cpUpload = upload.fields([{ name: 'avatar', maxCount: 1 }, 
 		{ name: 'details', maxCount: 8 }]);
 		let product = new Product({
@@ -382,9 +382,9 @@ router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
 		quantity : req.body.quantity,
 		saled : 0,
 		category_id : req.body.product_type,
-		size : covertToObj(req.body.color),
+		size : covertToObj(req.body.size),
 		colors : covertToObj(req.body.color),
-		image_detais : _.map(_.filter(req.files, { 'fieldname': 'details[]' }), 'originalname'),
+		image_details : _.map(_.filter(req.files, { 'fieldname': 'details[]' }), 'originalname'),
 		rate : [],
 		comment : []
 	});
@@ -690,5 +690,6 @@ router.get('/product/remove/:id', (req, res) => {
 		);
 	});
 });
+
 
 module.exports = router;

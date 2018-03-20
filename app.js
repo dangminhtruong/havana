@@ -61,7 +61,7 @@ app.use('/admin', (req, res, next) => {
 	if(req.user && req.user.role == 1){
 		next();
 	}else{
-		res.redirect('/login');
+		res.redirect('/login/admin');
 	}
 });
 app.use('/admin', admin);

@@ -57,7 +57,7 @@
                 <div class="col-md-12 " style="min-height:65vh;" id="add_product">
                     <div>
                         <div class="col-md-12 panel-content">
-                            <form method="post" ref="form" action="/admin/product/add" enctype="multipart/form-data" v-on:submit.prevent="checkValidate">
+                            <form method="post" ref="form" action="/admin/product/add/new" enctype="multipart/form-data" v-on:submit.prevent="checkValidate">
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label for="exampleFormControlSelect1">
@@ -112,7 +112,7 @@
                                                 <input class="form-control" type="color" name="color[]" :key="index">
                                             </div>
                                             <div class="col-xs-6">
-                                                <label for="ex1">Product quantity for this color</label>
+                                                <label for="ex1">Color quantity</label>
                                                 <div class="input-group">
                                     
                                                 <input type="text" class="form-control" :key="index" name=color[]>
@@ -133,7 +133,7 @@
                                     <div class="form-group" v-for="(size, index) in sizes" :key="index">
                                             <div class="form-group row">
                                                 <div class="col-xs-6">
-                                                    <label for="ex1">Product Size</label>
+                                                    <label for="ex1">Size quantity</label>
                                                     <input class="form-control" type="text" name="size[]" :key="index">
                                                 </div>
                                                 <div class="col-xs-6">

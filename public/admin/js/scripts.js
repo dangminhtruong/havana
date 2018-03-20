@@ -331,6 +331,7 @@ const bills = new Vue({
 		$('#fill-end-day').datepicker( {dateFormat: 'yy-mm-dd' });
 		axios.get('/admin/bills/today-data')
 			.then( (response) => {
+				console.log(response.data);
 				this.bills = response.data;
 			})
 			.catch(function (error) {

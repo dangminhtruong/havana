@@ -116,12 +116,16 @@
 									<div class="col-md-12 row">
 											<b>Size: </b><span style="color:red">{{ item.size }}</span><br/>
 									</div>
+									<div class="col-md-12 row">
+										<b>Màu sắc: </b>
+										<div class="circle" v-bind:style="{ background: item.colors}"></div>
+									</div>
 								</div>
 							</div>
 							<div class="col-md-3 col-lg-3">
-								{{ bill.user.user_name }} <br/>
-								{{ bill.user.address }} <br/>
-								{{ bill.user.email }} <br/>
+								<span style="color:red">Customer name: <br/></span>{{ bill.user.username }} <br/>
+								<span style="color:red">Customer address: <br/></span>{{ bill.user.address }} <br/>
+								<span style="color:red">Customer email: <br/></span>{{ bill.user.email }} <br/>
 							</div>
 							<div class="col-md-2 col-lg-2" >
 								{{ bill.note }}
