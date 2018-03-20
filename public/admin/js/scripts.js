@@ -100,7 +100,7 @@ if(document.getElementById('admin_index')){
 					});
 				})
 				.catch(function (error) {
-					console.log(error);
+					throw new error;
 				});
 		}
 	});	
@@ -284,43 +284,43 @@ const bills = new Vue({
 			}
 			else if(this.startDay !== '' && this.endDay !== '' 
 			&& this.byStage == null && this.byStatus !== null){
-					if(this.byStatus == 'pendding'){
-						axios.post('/admin/bills/start-end-pedding', {
-							startDay: this.startDay,
-							endDay: this.endDay
-						}).then((response) => {
-							this.bills = response.data;
-							this.startDay = null;
-							this.endDay = null;
-						});
-					}else if(this.byStatus == 'confirmed'){
-						axios.post('/admin/bills/start-end-confirmed', {
-							startDay: this.startDay,
-							endDay: this.endDay
-						}).then((response) => {
-							this.bills = response.data;
-							this.startDay = null;
-							this.endDay = null;
-						});
-					}else if(this.byStatus == 'shipping'){
-						axios.post('/admin/bills/start-end-shipping', {
-							startDay: this.startDay,
-							endDay: this.endDay
-						}).then((response) => {
-							this.bills = response.data;
-							this.startDay = null;
-							this.endDay = null;
-						});
-					}else if(this.byStatus == 'done'){
-						axios.post('/admin/bills/start-end-done', {
-							startDay: this.startDay,
-							endDay: this.endDay
-						}).then((response) => {
-							this.bills = response.data;
-							this.startDay = null;
-							this.endDay = null;
-						});
-					}
+				if(this.byStatus == 'pendding'){
+					axios.post('/admin/bills/start-end-pedding', {
+						startDay: this.startDay,
+						endDay: this.endDay
+					}).then((response) => {
+						this.bills = response.data;
+						this.startDay = null;
+						this.endDay = null;
+					});
+				}else if(this.byStatus == 'confirmed'){
+					axios.post('/admin/bills/start-end-confirmed', {
+						startDay: this.startDay,
+						endDay: this.endDay
+					}).then((response) => {
+						this.bills = response.data;
+						this.startDay = null;
+						this.endDay = null;
+					});
+				}else if(this.byStatus == 'shipping'){
+					axios.post('/admin/bills/start-end-shipping', {
+						startDay: this.startDay,
+						endDay: this.endDay
+					}).then((response) => {
+						this.bills = response.data;
+						this.startDay = null;
+						this.endDay = null;
+					});
+				}else if(this.byStatus == 'done'){
+					axios.post('/admin/bills/start-end-done', {
+						startDay: this.startDay,
+						endDay: this.endDay
+					}).then((response) => {
+						this.bills = response.data;
+						this.startDay = null;
+						this.endDay = null;
+					});
+				}
 			}
 		}
 
@@ -353,6 +353,12 @@ const addProduct = new Vue({
 		colors : [
 			{
 				code : '#F25C27',
+				quantity : 1
+			}
+		],
+		sizes : [
+			{
+				code : 'XL',
 				quantity : 1
 			}
 		],
@@ -416,7 +422,13 @@ const addProduct = new Vue({
 			this.colors.splice(index, 1);
 		},
 		adMoreColor : function(){
-			this.colors.push('#F25C27');
+			this.colors.push({ code : '#F25C27' , quantity : 1});
+		},
+		removeSize : function(index){
+			this.sizes.splice(index, 1);
+		},
+		adMoreSize : function(){
+			this.sizes.push({ code : 'XL' , quantity : 1});
 		}
 	}
 });
@@ -448,45 +460,45 @@ let analytic = new Vue({
 	mounted : function(){
 
 		axios.get('/admin/analytic-data')
-		.then((response) => {
+			.then((response) => {
 
-			this.earnedDay = response.data.dayEarn;
-			this.earnedWeek = response.data.weekEarn;
-			this.earnedMonth = response.data.monthEarn;
-			this.daySummary = response.data.daySum;
-			this.weekSummary = response.data.weekSum;
-			this.monthSummary = response.data.monthSum;
-			this.topDay = response.data.days;
-			this.topWeek = response.data.week;
-			this.topMonth = response.data.month;
+				this.earnedDay = response.data.dayEarn;
+				this.earnedWeek = response.data.weekEarn;
+				this.earnedMonth = response.data.monthEarn;
+				this.daySummary = response.data.daySum;
+				this.weekSummary = response.data.weekSum;
+				this.monthSummary = response.data.monthSum;
+				this.topDay = response.data.days;
+				this.topWeek = response.data.week;
+				this.topMonth = response.data.month;
 
-			let label = [];
-			let summary = [];
-			let bg_color = [];
+				let label = [];
+				let summary = [];
+				let bg_color = [];
 
-			response.data.chart.forEach(item => {
-				label.push(item._id);
-				summary.push(item.total);
-				bg_color.push(this.getRandomColor());
-			});
-			new Chart(document.getElementById("pie-chart-men"), {
-				type: 'pie',
-				data: {
+				response.data.chart.forEach(item => {
+					label.push(item._id);
+					summary.push(item.total);
+					bg_color.push(this.getRandomColor());
+				});
+				new Chart(document.getElementById('pie-chart-men'), {
+					type: 'pie',
+					data: {
 				  labels: label,
 				  datasets: [{ 
-					label: "Population (millions)",
-					backgroundColor: bg_color,
-					data: summary
+							label: 'Population (millions)',
+							backgroundColor: bg_color,
+							data: summary
 				  }]
-				},
-				options: {
+					},
+					options: {
 				  title: {
-					display: true,
-					text: 'Tỷ lệ loại sản phẩm bán ra'
+							display: true,
+							text: 'Tỷ lệ loại sản phẩm bán ra'
 				  }
-				}
+					}
+				});
 			});
-		});
 	}
 });
 
@@ -502,22 +514,43 @@ let list_product = new Vue({
 	methods : {
 		paginate : function(page){
 			axios.get(`/admin/product/list-data?pages=${page}`)
-			.then((response) => {
-				this.list = response.data.products;
-				this.totalPages = response.data.pages;
-				this.curretnPage = response.data.currentPages;
-				console.log(this.curretnPage);
-			});
+				.then((response) => {
+					this.list = response.data.products;
+					this.totalPages = response.data.pages;
+					this.curretnPage = response.data.currentPages;
+				});
+		},
+
+		removeProduct : function(id){
+			swal({
+				title: 'Bạn có chắc chắn muốn xóa ?',
+				text: 'Loại sản phẩm này sẽ bị xóa bỏ khỏi hệ thống!',
+				icon: 'warning',
+				buttons: true,
+				dangerMode: true,
+			  })
+			  .then((willDelete) => {
+				if (willDelete) {
+					axios.get(`/admin/product/remove/${id}`)
+					.then((response) => {
+						this.list = response.data.products;
+						this.totalPages = response.data.pages;
+						this.curretnPage = response.data.currentPages;
+					});
+				} else {
+			  		swal('Hủy xóa thành công!');
+				}
+		  	});
 		}
 	},
 
 	mounted : function(){
 		axios.get('/admin/product/list-data')
-		.then((response) => {
-			this.list = response.data.products;
-			this.totalPages = response.data.pages;
-			this.curretnPage = response.data.currentPages;
-		});
+			.then((response) => {
+				this.list = response.data.products;
+				this.totalPages = response.data.pages;
+				this.curretnPage = response.data.currentPages;
+			});
 	}
 });
 
@@ -533,21 +566,45 @@ let list_category = new Vue({
 	methods : {
 		paginate : function(page){
 			axios.get(`/admin/category/list-data?pages=${page}`)
-			.then((response) => {
-				this.list = response.data.category;
-				this.totalPages = response.data.pages;
-				this.curretnPage = response.data.currentPages;
-				console.log(this.curretnPage);
-			});
+				.then((response) => {
+					this.list = response.data.category;
+					this.totalPages = response.data.pages;
+					this.curretnPage = response.data.currentPages;
+				});
+		},
+		removeCategory : function(id){
+
+			swal({
+				title: 'Bạn có chắc chắn muốn xóa ?',
+				text: 'Loại sản phẩm này sẽ bị xóa bỏ khỏi hệ thống!',
+				icon: 'warning',
+				buttons: true,
+				dangerMode: true,
+			  })
+			  .then((willDelete) => {
+					if (willDelete) {
+						axios.get(`/admin/category/remove/${id}`)
+							.then((response) => {
+								this.list = response.data.category;
+								this.totalPages = response.data.pages;
+								this.curretnPage = response.data.currentPages;
+								swal('Xóa thành công!', {
+									icon: 'success',
+								});
+							});
+					} else {
+				  swal('Hủy xóa thành công!');
+					}
+			  });
 		}
 	},
 
 	mounted : function(){
 		axios.get('/admin/category/list-data')
-		.then((response) => {
-			this.list = response.data.category;
-			this.totalPages = response.data.pages;
-			this.curretnPage = response.data.currentPages;
-		});
+			.then((response) => {
+				this.list = response.data.category;
+				this.totalPages = response.data.pages;
+				this.curretnPage = response.data.currentPages;
+			});
 	}
 });

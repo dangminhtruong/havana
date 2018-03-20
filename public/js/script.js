@@ -46,12 +46,12 @@ const shoppingCart = new Vue({
 		
 		removeItem :  function(index){
 			axios.get(`/shoping-cart/remove/${ index }`)
-			.then((response) => {
-				if(typeof response.data.items !== 'undefined'){
-					this.items = response.data.items;
-					this.totalSum = response.data.total;
-				}
-			});
+				.then((response) => {
+					if(typeof response.data.items !== 'undefined'){
+						this.items = response.data.items;
+						this.totalSum = response.data.total;
+					}
+				});
 		},
 
 		updateItemQuantity : function(productId, index){
@@ -61,10 +61,10 @@ const shoppingCart = new Vue({
 						newQuantity : this.items[index].product_quantity
 					}
 				})
-				.then((response) => {
-					this.items = response.data.items;
-					this.totalSum = response.data.total;
-				});
+					.then((response) => {
+						this.items = response.data.items;
+						this.totalSum = response.data.total;
+					});
 			}
 			else{
 				alert('hell');
@@ -74,7 +74,7 @@ const shoppingCart = new Vue({
 		order :  function(){
 			axios.post('/shoping-cart/sign-in-order',
 				{
-					note : "Giao hang som nhe",
+					note : 'Giao hang som nhe',
 				}
 			).then( (respon) => {
 				this.details = respon.data.details;
@@ -82,18 +82,18 @@ const shoppingCart = new Vue({
 				this.totalSum = respon.data.total;
 				$('#datHangThanhCong').modal('show');
 				setTimeout(() => {
-					window.location.replace("/");
+					window.location.replace('/');
 				}, 3000);
 			});
 		}
 	},
 	mounted : function(){
 		axios.get('/shoping-cart/cart-data')
-		.then((response) => {
-			this.items = response.data.items;
-			this.totalSum = response.data.total;
-			console.log(response);
-		})
-		.catch(err => { throw new err});
+			.then((response) => {
+				this.items = response.data.items;
+				this.totalSum = response.data.total;
+				console.log(response);
+			})
+			.catch(err => { throw new err;});
 	}
 });

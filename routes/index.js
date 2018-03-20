@@ -267,7 +267,9 @@ router.get('/category-data/:id', (req, res) => {
 		}
 	],
 	(err, results) => {
-		console.log(Math.ceil(results[3] / 9));
+
+		console.log(req.param.currentPage);
+
 		res.send({
 			products: results[0],
 			latest: results[1],
@@ -276,7 +278,7 @@ router.get('/category-data/:id', (req, res) => {
 			pages: Math.ceil(results[3] / 9),
 			categoryId: req.params.id,
 			cart: (req.session.cart) ? req.session.cart.length : 0,
-			currentPage : (req.query.pages != null) ? req.query.pages : 1
+			currentPage : (req.query.pages) ? req.query.pages : 1
 		});
 	});
 
@@ -334,10 +336,10 @@ router.get('/category', (req, res) => {
 });
 
 router.get('/authenticate', (req, res) => {
-		return res.json({
-			status : 200,
-			user : req.user
-		});
+	return res.json({
+		status : 200,
+		user : req.user
+	});
 });
 
 

@@ -1,7 +1,8 @@
 version: '3'
 services:
-  web:
-    build: .
+  application:
+    container_name: 'havana_web'
+    image: dangminhtruong/havana_api:latest
     ports:
      - "3000:3000"
     volumes:

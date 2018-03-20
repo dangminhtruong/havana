@@ -97,46 +97,72 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">
-                                            <%= __('Product\'s quantity') %>
+                                            <%= __('Product\'s total quantity') %>
                                         </label>
                                         <input type="text" class="form-control" v-model="quantity" @change="validateQuantity" name="quantity" placeholder="quantity">
                                         <small id="emailHelp" class="form-text text-muted">
 											<p style="color:red;">{{ quantityAlert }}</p>
 										</small>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">
-                                            <%= __('Product\'s size') %>
-                                        </label>
-                                        <input type="text" class="form-control" name="size[]" value="S,M,L,Xl,XXl" data-role="tagsinput" required>
 
-                                        <small id="emailHelp" class="form-text text-muted">
-											We'll never share your email with anyone else.
-										</small>
-                                    </div>
-
-                                </div>
-                                <div class="col-md-6 col-sm-12">
                                     <div class="form-group" v-for="(color, index) in colors" :key="index">
-                                        <label class="form-label">
-                                            <%= __('Product\'s color') %>
-                                        </label>
-										<input style="width:89%" type="color" name="color[]" :key="index" required>
-                                        <button type="button" v-if="index == 0" disabled class="btn-xs btn-remove-color" @click="removeColor(index)">
-                                            <i class="fa fa-trash-o" style="color:#F25C27;"></i>
-                                        </button>
-                                        <button type="button" v-else class="btn-xs btn-remove-color" @click="removeColor(index)">
-                                            <i class="fa fa-trash-o" style="color:#F25C27;"></i>
-										</button>
-										<label class="form-label" style="margin-top:1vh;">
-											<%= __('Product\'s quantity for this color') %>
-										</label>
-										<input style="width:89%" class="form-control" type="text" :key="index" name=color[] required/>
+                                        <div class="form-group row">
+                                            <div class="col-xs-6">
+                                                <label for="ex1">Product colors</label>
+                                                <input class="form-control" type="color" name="color[]" :key="index">
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <label for="ex1">Product quantity for this color</label>
+                                                <div class="input-group">
+                                    
+                                                <input type="text" class="form-control" :key="index" name=color[]>
+                                                <span class="input-group-btn">
+                                                        <button class="btn btn-secondary" type="button" @click="removeColor(index)"> 
+                                                            <i class="fa fa-trash-o" style="color:#F25C27;"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <button type="button" class="btn btn-primary btn-xs" @click="adMoreColor" style="background: #F25C27;
-										border-color: #F25C27;">More colors</button>
+										border-color: #F25C27;">More color</button>
                                     </div>
+
+                                    <div class="form-group" v-for="(size, index) in sizes" :key="index">
+                                            <div class="form-group row">
+                                                <div class="col-xs-6">
+                                                    <label for="ex1">Product Size</label>
+                                                    <input class="form-control" type="text" name="size[]" :key="index">
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <label for="ex1">Product quantity for this size</label>
+                                                    <div class="input-group">
+                                                    <input type="text" class="form-control" :key="index" name=size[]>
+                                                    <span class="input-group-btn">
+                                                            <button class="btn btn-secondary" type="button" @click="removeSize(index)"> 
+                                                                <i class="fa fa-trash-o" style="color:#F25C27;"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                                <button type="button" class="btn btn-primary btn-xs" @click="adMoreSize" style="background: #F25C27;
+                                                border-color: #F25C27;">More color</button>
+                                            </div>
+
+
+
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+
+
+
+
+
                                     <div class="form-group">
                                         <label for="exampleFormControlTextarea1">
                                             <%= __('Product\'s description') %>

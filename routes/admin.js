@@ -363,21 +363,15 @@ router.post('/bills/start-end-done', urlencodedParser, (req, res) => {
 			return res.send(bills); 
 		});
 });
-
 /*--------------------------------------------------------*/
 router.get('/product/add', (req, res, next) => {
 	res.render('./admin/pages/add_product',{user : req.user});
 });
 /*--------------------------------------------------------*/
 router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
-	let me = covertToObj(req.body.color);
-
-	console.log(me);
-
 	 let cpUpload = upload.fields([{ name: 'avatar', maxCount: 1 }, 
 		{ name: 'details', maxCount: 8 }]);
-
-		 let product = new Product({
+		let product = new Product({
 		name : req.body.product_name,
 		unit_price : req.body.unit_price,
 		promo_price : req.body.promo_price,
@@ -394,7 +388,6 @@ router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
 		rate : [],
 		comment : []
 	});
- 
 		 product.save(function (err, results) {
 		if(err){
 			return res.render('./admin/pages/add_product', {
@@ -407,14 +400,9 @@ router.post('/product/add',upload.any(),urlencodedParser, (req, res) => {
 			user : req.user
 		});
 		 });  
-	
 });
-
 /*-------------------------------------------------*/
-
 router.get('/analytic-data', (req, res) => {
-	
-
 	let startDay = new Date(moment().startOf('day'));
 	let endDay = new Date(moment().endOf('day'));
 	let startWeek = new Date(moment().startOf('week'));
@@ -526,8 +514,6 @@ router.get('/analytic-data', (req, res) => {
 		if(err){
 			throw new err;
 		}
-		
-
 		return res.send({
 			days : results[0],
 			week : results[1],
@@ -627,6 +613,81 @@ router.get('/category/list-data', (req, res) => {
 			pages :  Math.ceil(results[1] / 6),
 			currentPages : (req.query.pages) ? req.query.pages : 1
 		});
+	});
+});
+
+router.get('/category/remove/:id', (req, res) => {
+	Category.findByIdAndRemove(req.params.id, (err, category) => {
+		if (err) return res.status(500).send(err);
+		const response = {
+			message: 'Category successfully deleted',
+			id: category._id,
+		};
+		async.parallel([
+			(callback) => {
+				Category.find()
+					.sort({ createdOn : -1 })
+					.limit(6)
+					.exec((err, categories) => {
+						callback(null, categories);
+					});
+			},
+			(callback) => {
+				Category.find().count()
+					.exec((err, total_records) => {
+						callback(null, total_records);
+					});
+			}
+		],
+		(err, results) => {
+			return res.status(200).json({
+				category : results[0],
+				pages :  Math.ceil(results[1] / 6),
+				currentPages : 1
+			});
+		});
+	});
+});
+
+router.get('/product/remove/:id', (req, res) => {
+	Product.findByIdAndRemove(req.params.id, (err, product) => {
+		if(err){
+			return res.status(500).json({ message : 'Somethings went wrong' });
+		}
+		async.parallel([
+			(callback) => {
+				if(req.query.pages != null){
+					Product.find()
+						.sort({ createdOn : -1 })
+						.limit(6)
+						.skip((req.query.pages-1)* 6)
+						.exec((err, listProducts) => {
+							callback(null, listProducts);
+						});
+				}else{
+					Product.find()
+						.sort({ createdOn : -1 })
+						.limit(6)
+						.exec((err, listProducts) => {
+							callback(null, listProducts);
+						});
+				}
+			},
+			(callback) => {
+				Product.find().count()
+					.exec((err, total_records) => {
+						callback(null, total_records);
+					});
+			}
+		],
+		(err, results) => {
+			res.status(200).json({
+				products : results[0],
+				pages :  Math.ceil(results[1] / 6),
+				currentPages : 1
+			});
+		}
+		);
 	});
 });
 
