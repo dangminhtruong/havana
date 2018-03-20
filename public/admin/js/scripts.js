@@ -563,7 +563,6 @@ let list_category = new Vue({
 				  swal('Hủy xóa thành công!');
 				}
 			  });
-		
 		}
 	},
 
