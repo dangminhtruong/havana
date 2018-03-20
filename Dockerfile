@@ -12,5 +12,4 @@ RUN npm install
 RUN npm i -g nodemon
 CMD ["nodemon", "-L"]
 
-
 EXPOSE 3000
