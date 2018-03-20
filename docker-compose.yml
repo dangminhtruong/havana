@@ -16,3 +16,7 @@ services:
     container_name: "mongodb"
     ports:
     - 27017:27017
+  havana_api:
+    restart: always
+    image: dangminhtruong/havana_api:latest
+    container_name: "havana"
