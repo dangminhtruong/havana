@@ -630,4 +630,40 @@ router.get('/category/list-data', (req, res) => {
 	});
 });
 
+router.get('/category/remove/:id', (req, res) => {
+	Category.findByIdAndRemove(req.params.id, (err, category) => {
+		if (err) return res.status(500).send(err);
+		const response = {
+			message: 'Category successfully deleted',
+			id: category._id,
+		};
+		async.parallel([
+			(callback) => {
+				Category.find()
+					.sort({ createdOn : -1 })
+					.limit(6)
+					.exec((err, categories) => {
+						callback(null, categories);
+					});
+			},
+			(callback) => {
+				Category.find().count()
+					.exec((err, total_records) => {
+						callback(null, total_records);
+					});
+			}
+		],
+		(err, results) => {
+			return res.status(200).json({
+					category : results[0],
+					pages :  Math.ceil(results[1] / 6),
+					currentPages : 1
+				});
+		});
+
+
+		
+	});
+});
+
 module.exports = router;

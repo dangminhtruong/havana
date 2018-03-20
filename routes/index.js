@@ -334,10 +334,10 @@ router.get('/category', (req, res) => {
 });
 
 router.get('/authenticate', (req, res) => {
-		return res.json({
-			status : 200,
-			user : req.user
-		});
+	return res.json({
+		status : 200,
+		user : req.user
+	});
 });
 
 module.exports = router;
