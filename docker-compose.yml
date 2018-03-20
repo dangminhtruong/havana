@@ -1,7 +1,8 @@
 version: '3'
 services:
-  web:
-    build: .
+  application:
+    container_name: 'havana_web'
+    image: dangminhtruong/havana_api:latest
     ports:
      - "3000:3000"
     volumes:
@@ -16,7 +17,3 @@ services:
     container_name: "mongodb"
     ports:
     - 27017:27017
-  havana_api:
-    restart: always
-    image: dangminhtruong/havana_api:latest
-    container_name: "havana"
