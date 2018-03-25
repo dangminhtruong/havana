@@ -48,38 +48,39 @@
 		</h2>
 		</div>
 		<div class="content-top">
-		<div class="col-md-12 " style="min-height:65vh" id="list_category">
-        <div class="col-md-12" style="background-color:#fff">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-                            <th>Name</th>
-                            <th>Description</th>
-							<th>
-								Action
-							</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr v-for="(item, index) in list">
-                                <td>{{ item.name }}</td>
-                                <td>{{ item.descript }}</td>
-								<td>
-									<a  v-bind:href="`/admin/category/update?id=${item._id}`" type="button" class="btn btn-warning btn-xs">Edit</a>
-									<button type="button" class="btn btn-danger btn-xs" @click="removeCategory(item._id)">Remove</button>
-								</td>
-							</tr>
-						</tbody>
-						</table>
-						<div class="col-md-12">
-								<ul class="pagination pagination-sm">
-										<li v-for="n in totalPages" @click="paginate(n)">
-											<span v-if="n == curretnPage" style="color:red">{{n}}</span>
-											<span v-else>{{n}}</span>
-										</li>
-									</ul>
-						</div>
-        </div>
+		<div class="col-md-12 " style="min-height:65vh;" id="category_edit">
+            <div >
+                <div class="col-md-12 panel-content">
+                    <form action="/admin/category/update/<%= info[0]._id %>" method="post"  v-on:submit.prevent="onSubmit">
+                        <div class="form-group">
+                            <label for="sel1"><%= __(' Product\'s type ') %> :</label>
+                            <select class="form-control" name="type" required>
+								<% if( info[0].type !== 1 ){ %>
+									<option value="1">Thời trang nam</option>
+									<option value="2" selected>Thời trang nữ</option>
+								<% }else{ %>
+									<option value="1" selected>Thời trang nam</option>
+									<option value="2">Thời trang nữ</option>
+								<% } %>
+							</select>
+							<p style="color :red;"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="email"><%= __('Category\'s name ') %>:</label>
+							<input type="text" class="form-control"  value="<%= info[0].name %>" name="name" required>
+							<p style="color :red;"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd"><%= __('Category\'s  description') %>:</label>
+							<textarea class="form-control" name="descript" rows="5"  required ><%=  info[0].descript %></textarea>
+							<p style="color :red;"></p>
+                        </div>
+						<button type="submit" class="btn btn-default" @click="submited" style="color: #999;"><%= __('Finish') %></button>
+						<a type="button" href="/admin/category/list" class="btn btn-default" @click="submited" style="color: #999;"><%= __('Back') %></a>
+                    </form>
+                </div>
+            </div>
+            
 		</div>
 		<div class="clearfix"> </div>
 		</div>
@@ -91,11 +92,6 @@
 		</div>
 		</div>
 		<%- include('../blocks/footer_links') %>
-		<% if(typeof status !== 'undefined'){ %>
-			<script>
-				toastr.options.closeButton = true;
-				toastr.success('Updated!');
-			</script>
-			<% } %>
+		
 	</body>
 </html>
