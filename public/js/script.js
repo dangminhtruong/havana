@@ -97,3 +97,4 @@ const shoppingCart = new Vue({
 			.catch(err => { throw new err;});
 	}
 });
+

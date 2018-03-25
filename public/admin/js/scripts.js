@@ -609,3 +609,4 @@ let list_category = new Vue({
 			});
 	}
 });
+

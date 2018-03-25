@@ -577,7 +577,8 @@ router.get('/product/list-data', (req, res) => {
 });
 
 router.get('/category/list', (req, res) => {
-	res.render('./admin/pages/list_category', {user : req.user});
+	console.log(req.query.status);
+	res.render('./admin/pages/list_category', {user : req.user, status : req.query.status});
 });
 
 router.get('/category/list-data', (req, res) => {
@@ -689,6 +690,36 @@ router.get('/product/remove/:id', (req, res) => {
 		}
 		);
 	});
+});
+
+
+router.get('/category/update', (req, res) => {
+	Category.find({ _id : req.query.id})
+	.exec((err, category) => {
+		res.render('./admin/pages/update_category', {
+			info : category,
+			user : req.user,
+
+		});
+	});
+});
+
+
+router.post('/category/update/:id', (req, res) => {
+	console.log('-----',req.body.type);
+	Category.findByIdAndUpdate(
+		req.params.id, 
+		{
+			name : req.body.name,
+			descript : req.body.descript,
+			type : req.body.type
+		}, 
+		{ new : true },
+		(err, category) => {
+				if (err) return res.status(500).send(err);
+				res.redirect('/admin/category/list?status=200');
+			} 
+		);
 });
 
 
