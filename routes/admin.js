@@ -577,7 +577,6 @@ router.get('/product/list-data', (req, res) => {
 });
 
 router.get('/category/list', (req, res) => {
-	console.log(req.query.status);
 	res.render('./admin/pages/list_category', {user : req.user, status : req.query.status});
 });
 
@@ -699,14 +698,12 @@ router.get('/category/update', (req, res) => {
 		res.render('./admin/pages/update_category', {
 			info : category,
 			user : req.user,
-
 		});
 	});
 });
 
 
 router.post('/category/update/:id', (req, res) => {
-	console.log('-----',req.body.type);
 	Category.findByIdAndUpdate(
 		req.params.id, 
 		{
@@ -722,5 +719,79 @@ router.post('/category/update/:id', (req, res) => {
 		);
 });
 
+router.get('/user/list', (req, res) => {
+	res.render('./admin/pages/user_list', {
+		user : req.user
+	});
+});
+
+router.get('/user/list/data', (req, res) => {
+	async.parallel([
+		(callback) => {
+			if(req.query.pages != null){
+				User.find()
+					.sort({ createdOn : -1 })
+					.limit(6)
+					.skip((req.query.pages-1)* 6)
+					.exec((err, users) => {
+						callback(null, users);
+					});
+			}else{
+				User.find()
+					.sort({ createdOn : -1 })
+					.limit(6)
+					.exec((err, users) => {
+						callback(null, users);
+					});
+			}
+		},
+		(callback) => {
+			User.find().count()
+				.exec((err, total_records) => {
+					callback(null, total_records);
+				});
+		}
+	],
+	(err, results) => {
+		res.json({
+			users : results[0],
+			pages :  Math.ceil(results[1] / 6),
+			currentPages : (req.query.pages) ? req.query.pages : 1
+		});
+	});
+});
+
+router.get('/user/remove/:id', (req, res) => {
+	User.findByIdAndRemove(req.params.id, (err, user) => {
+		if (err) return res.status(500).send(err);
+		const response = {
+			message: 'User successfully deleted',
+			id: user._id,
+		};
+		async.parallel([
+			(callback) => {
+				User.find()
+					.sort({ createdOn : -1 })
+					.limit(6)
+					.exec((err, user) => {
+						callback(null, user);
+					});
+			},
+			(callback) => {
+				User.find().count()
+					.exec((err, total_records) => {
+						callback(null, total_records);
+					});
+			}
+		],
+		(err, results) => {
+			return res.status(200).json({
+				users : results[0],
+				pages :  Math.ceil(results[1] / 6),
+				currentPages : 1
+			});
+		});
+	});
+});
 
 module.exports = router;

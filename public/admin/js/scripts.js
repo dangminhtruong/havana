@@ -331,7 +331,6 @@ const bills = new Vue({
 		$('#fill-end-day').datepicker( {dateFormat: 'yy-mm-dd' });
 		axios.get('/admin/bills/today-data')
 			.then( (response) => {
-				console.log(response.data);
 				this.bills = response.data;
 			})
 			.catch(function (error) {
@@ -604,6 +603,62 @@ let list_category = new Vue({
 		axios.get('/admin/category/list-data')
 			.then((response) => {
 				this.list = response.data.category;
+				this.totalPages = response.data.pages;
+				this.curretnPage = response.data.currentPages;
+			});
+	}
+});
+
+
+
+let list_users = new Vue({
+	el : '#list_users',
+	data : {
+		list : [],
+		curretnPage : 1,
+		totalPages: 5
+	},
+
+	methods : {
+		paginate : function(page){
+			axios.get(`/admin/user/list/data?pages=${page}`)
+				.then((response) => {
+					this.list = response.data.users;
+					this.totalPages = response.data.pages;
+					this.curretnPage = response.data.currentPages;
+				});
+		},
+		removeCategory : function(id){
+
+			swal({
+				title: 'Bạn có chắc chắn muốn xóa ?',
+				text: 'Tài khoản này sẽ bị xóa bỏ khỏi hệ thống!',
+				icon: 'warning',
+				buttons: true,
+				dangerMode: true,
+			  })
+			  .then((willDelete) => {
+					if (willDelete) {
+						axios.get(`/admin/user/remove/${id}`)
+							.then((response) => {
+								this.list = response.data.users;
+								this.totalPages = response.data.pages;
+								this.curretnPage = response.data.currentPages;
+								swal('Xóa thành công!', {
+									icon: 'success',
+								});
+							});
+					} else {
+				  swal('Hủy xóa thành công!');
+					}
+			  });
+		}
+	},
+
+	mounted : function(){
+		axios.get('/admin/user/list/data')
+			.then((response) => {
+				this.list = response.data.users;
 				this.totalPages = response.data.pages;
 				this.curretnPage = response.data.currentPages;
 			});

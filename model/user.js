@@ -9,7 +9,7 @@ var Schema = mongoose.Schema,
 
 var UserSchema = new mongoose.Schema({
 	username : String,
-	avata : String,
+	avata : { type : String , 'default' : 'avtar.jpg' },
 	address : String,
 	email : String,
 	password : String,
