@@ -2891,3 +2891,7 @@ ul.dropdown-menu.dropdown-menu-right {
     border-radius: 50px;
     display: inline-block;
 }
+
+.highlight{
+    color: red;
+}

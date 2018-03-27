@@ -133,8 +133,15 @@
                                     <div class="form-group" v-for="(size, index) in sizes" :key="index">
                                             <div class="form-group row">
                                                 <div class="col-xs-6">
-                                                    <label for="ex1">Size quantity</label>
-                                                    <input class="form-control" type="text" name="size[]" :key="index">
+                                                    <label for="ex1">Size</label>
+                                                    <select name="size[]" class="form-control">
+                                                        <option disabled value="">Please select one</option>
+                                                        <option>XXL</option>
+                                                        <option>XL</option>
+                                                        <option>L</option>
+                                                        <option selected>M</option>
+                                                        <option>S</option>
+                                                    </select>
                                                 </div>
                                                 <div class="col-xs-6">
                                                     <label for="ex1">Product quantity for this size</label>
@@ -228,7 +235,7 @@
                 <!--//content-->
                 <!---->
                 <div class="copy">
-                    <p> &copy; 2016 Minimal. All Rights Reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
+                        <p> &copy; xdangminhtruongx@gmail.com | Design by <a href="#" target="_blank">Dang Minh Truong</a> </p>
                 </div>
             </div>
             <div class="clearfix"> </div>
