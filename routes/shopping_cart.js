@@ -34,6 +34,8 @@ router.post('/add/:id', function(req, res, next) {
 						product_category : product.category_id.name,
 						color : req.body.color,
 						size : req.body.size,
+						sizeAvai : product.size,
+						colorAvai : product.colors
 					}
 				];
 			}).then(() => {
@@ -70,6 +72,8 @@ router.post('/add/:id', function(req, res, next) {
 							product_category : product.category_id.name,
 							color : req.body.color,
 							size : req.body.size,
+							sizeAvai : product.size,
+							colorAvai : product.colors
 						}
 					);
 				}).then(() => {
@@ -125,6 +129,19 @@ router.get('/update-quantity/:id', (req, res) => {
 	});
 });
 
+router.post('/update-color', (req, res) => {
+	console.log(req.body.colorUpdate,'~~~~',req.body.currentId);
+	let index = _.findIndex(req.session.cart, { product_id : req.body.currentId});
+	req.session.cart[index].color = req.body.colorUpdate;
+
+		return res.json({
+			products : req.session.cart
+		});
+	
+	
+});
+
+
 router.post('/sign-in-order', urlencodedParser , (req, res) => {
 	let details = (cart) => {
 		let restoreDetails = [];
@@ -177,7 +194,6 @@ router.post('/sign-in-order', urlencodedParser , (req, res) => {
 });
 
 router.get('/cart-data-api', function(req, res, next){
-
 	Category.find({}, {_id : 1, name : 1, type : 1})
 		.exec((err, categories) => {
 			return res.send({
@@ -189,6 +205,5 @@ router.get('/cart-data-api', function(req, res, next){
 			});
 		});
 });
-
 
 module.exports = router;
