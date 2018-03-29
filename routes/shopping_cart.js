@@ -130,7 +130,6 @@ router.get('/update-quantity/:id', (req, res) => {
 });
 
 router.post('/update-color', (req, res) => {
-	console.log(req.body.colorUpdate,'~~~~',req.body.currentId);
 	let index = _.findIndex(req.session.cart, { product_id : req.body.currentId});
 	req.session.cart[index].color = req.body.colorUpdate;
 
@@ -140,6 +139,15 @@ router.post('/update-color', (req, res) => {
 	
 	
 });
+
+router.get('/update-size/:id', (req, res) => {
+	let index = _.findIndex(req.session.cart, { product_id : req.params.id});
+	req.session.cart[index].size = req.query.size;
+		return res.json({
+			products : req.session.cart
+		});
+});
+
 
 
 router.post('/sign-in-order', urlencodedParser , (req, res) => {
