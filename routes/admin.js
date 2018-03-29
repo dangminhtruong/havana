@@ -388,20 +388,80 @@ router.post('/product/add/new',upload.any(),urlencodedParser, (req, res) => {
 		rate : [],
 		comment : []
 	});
-		 product.save(function (err, results) {
+		product.save(function (err, results) {
 		if(err){
 			return res.render('./admin/pages/add_product', {
 				messages : 'Opps! somethings went wrong',
 				user : req.user
 			});
 		} 
-		return res.render('./admin/pages/add_product', {
-			messages : 'Add product sucessfull!',
-			user : req.user
-		});
-		 });  
+			return res.render('./admin/pages/list_product', {
+				messages : 'Add product sucessfull!',
+				user : req.user
+			});
+		});  
+		
 });
 /*-------------------------------------------------*/
+router.get('/product/remove/:id', (req, res) => {
+	Product.findByIdAndRemove(req.params.id, (err, product) => {
+		if(err){
+			return res.status(500).json({ message : 'Somethings went wrong' });
+		}
+		async.parallel([
+			(callback) => {
+				if(req.query.pages != null){
+					Product.find()
+						.sort({ createdOn : -1 })
+						.limit(6)
+						.skip((req.query.pages-1)* 6)
+						.exec((err, listProducts) => {
+							callback(null, listProducts);
+						});
+				}else{
+					Product.find()
+						.sort({ createdOn : -1 })
+						.limit(6)
+						.exec((err, listProducts) => {
+							callback(null, listProducts);
+						});
+				}
+			},
+			(callback) => {
+				Product.find().count()
+					.exec((err, total_records) => {
+						callback(null, total_records);
+					});
+			}
+		],
+		(err, results) => {
+			res.status(200).json({
+				products : results[0],
+				pages :  Math.ceil(results[1] / 6),
+				currentPages : 1
+			});
+		}
+		);
+	});
+});
+/*-----------------------------------------------------------*/
+router.get('/product/edit/:id', (req, res) => {
+
+	res.render('./admin/pages/edit_product',{
+		user : req.user,
+		productId : req.params.id
+	});
+
+});
+
+router.get('/product/edit-data/:id', (req, res) => {
+	Product.findById(req.params.id, (err, product) => {
+		res.json({
+			productInfor : product,
+		});
+	})
+});
+/*-----------------------------------------------------------*/
 router.get('/analytic-data', (req, res) => {
 	let startDay = new Date(moment().startOf('day'));
 	let endDay = new Date(moment().endOf('day'));
@@ -648,49 +708,6 @@ router.get('/category/remove/:id', (req, res) => {
 		});
 	});
 });
-
-router.get('/product/remove/:id', (req, res) => {
-	Product.findByIdAndRemove(req.params.id, (err, product) => {
-		if(err){
-			return res.status(500).json({ message : 'Somethings went wrong' });
-		}
-		async.parallel([
-			(callback) => {
-				if(req.query.pages != null){
-					Product.find()
-						.sort({ createdOn : -1 })
-						.limit(6)
-						.skip((req.query.pages-1)* 6)
-						.exec((err, listProducts) => {
-							callback(null, listProducts);
-						});
-				}else{
-					Product.find()
-						.sort({ createdOn : -1 })
-						.limit(6)
-						.exec((err, listProducts) => {
-							callback(null, listProducts);
-						});
-				}
-			},
-			(callback) => {
-				Product.find().count()
-					.exec((err, total_records) => {
-						callback(null, total_records);
-					});
-			}
-		],
-		(err, results) => {
-			res.status(200).json({
-				products : results[0],
-				pages :  Math.ceil(results[1] / 6),
-				currentPages : 1
-			});
-		}
-		);
-	});
-});
-
 
 router.get('/category/update', (req, res) => {
 	Category.find({ _id : req.query.id})
