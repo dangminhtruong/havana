@@ -111,7 +111,6 @@ router.get('/details', function(req, res, next) {
 
 
 router.get('/cart-data', function(req, res, next){
-	console.log(req.session.cart);
 	return res.send({
 		items : req.session.cart,
 		user : req.user,
@@ -122,9 +121,8 @@ router.get('/cart-data', function(req, res, next){
 router.get('/update-quantity/:id', (req, res) => {
 	let index = _.findIndex(req.session.cart, { product_id : req.params.id });
 	req.session.cart[index].product_quantity = req.query.newQuantity;
-
 	return res.json({
-		items : req.session.cart,
+		products : req.session.cart,
 		total : coutCartTotal(req.session.cart)
 	});
 });
@@ -132,12 +130,9 @@ router.get('/update-quantity/:id', (req, res) => {
 router.post('/update-color', (req, res) => {
 	let index = _.findIndex(req.session.cart, { product_id : req.body.currentId});
 	req.session.cart[index].color = req.body.colorUpdate;
-
 		return res.json({
 			products : req.session.cart
 		});
-	
-	
 });
 
 router.get('/update-size/:id', (req, res) => {
