@@ -30,8 +30,9 @@ new Promise((resolve) => {
 					username : 'dangminhtruong',
 					avata : 'avata.jpg',
 					address : faker.internet.email(),
-					email : faker.address.streetAddress(),
+					email : 'xdangminhtruongx@gmail.com',
 					password : '777',
+					phone : '0965296242',
 					role : 1,
 					status : _.sample(status),
 					wish_list : [

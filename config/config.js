@@ -4,6 +4,10 @@ const config = {
         confirm : 2,
         shipping : 3,
         done : 4
+    },
+    email : {
+        username : 'xxdangminhtruongxx@gmail.com',
+        pass : '01292007776'
     }
 }
 

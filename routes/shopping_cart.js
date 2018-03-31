@@ -8,6 +8,10 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const config = require('../config/config');
 let coutCartTotal = require('../helpers/cart_total');
 const Category = require('../model/category');
+const connectionHandle = require('../helpers/order_confirm_mail');
+var event = require('events');
+var eventEmitter = new event.EventEmitter();
+eventEmitter.on('sendConfirmOrderMail', connectionHandle);
 /*------------------------------------
 * Author : Dang Minh Truong
 * Email : mr.dangminhtruong@gmail.com
@@ -186,6 +190,11 @@ router.post('/sign-in-order', (req, res) => {
 				messages : err
 			});
 		} 
+		eventEmitter.emit('sendConfirmOrderMail', {
+			items : data.detailsArr,
+			user : req.user,
+			total : data.billTotal
+		});
 		req.session.cart = undefined;
 		return res.send({
 			messages : 'sucessfull!',
