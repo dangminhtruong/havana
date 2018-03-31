@@ -10,7 +10,6 @@ var i18n = require('i18n');
 var session = require('express-session');
 var passport = require('passport');
 //var cors = require('cors');
-
 var index = require('./routes/index');
 var shoping_cart = require('./routes/shopping_cart');
 var admin = require('./routes/admin');
@@ -106,5 +105,4 @@ Category.find({}, {_id : 1, name : 1, type : 1})
 	.exec((err, category) => {
 		app.locals.categories = category;
 	});
-
 module.exports = app;
