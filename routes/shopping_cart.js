@@ -143,12 +143,11 @@ router.get('/update-size/:id', (req, res) => {
 		});
 });
 
-
-
-router.post('/sign-in-order', urlencodedParser , (req, res) => {
+router.post('/sign-in-order', (req, res) => {
 	let details = (cart) => {
 		let restoreDetails = [];
 		let total = 0;
+
 		cart.forEach(detail => {
 			total += (detail.promo_price !== 0 ) ? detail.unit_price : detail.promo_price;
 			restoreDetails.push({
@@ -156,7 +155,9 @@ router.post('/sign-in-order', urlencodedParser , (req, res) => {
 				product_name : detail.product_name,
 				price : (detail.promo_price !== 0 ) ? detail.unit_price : detail.promo_price,
 				quantity : detail.product_quantity,
-				category_name : detail.product_category
+				category_name : detail.product_category,
+				colors : detail.color,
+				size :  detail.size
 			});
 		});
 
