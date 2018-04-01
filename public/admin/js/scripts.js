@@ -665,3 +665,8 @@ let list_users = new Vue({
 	}
 });
 
+
+var socket = io('http://localhost:3000');
+socket.on('notifiNewBills', (data) => {
+    console.log(data);
+});

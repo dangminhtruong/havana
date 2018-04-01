@@ -195,6 +195,9 @@ router.post('/sign-in-order', (req, res) => {
 			user : req.user,
 			total : data.billTotal
 		});
+		req.app.io.emit('notifiNewBills', {
+            content : 'Có đơn đặt hàng mới !',
+		});
 		req.session.cart = undefined;
 		return res.send({
 			messages : 'sucessfull!',
