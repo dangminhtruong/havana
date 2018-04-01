@@ -665,6 +665,33 @@ let list_users = new Vue({
 });
 
 
+let notifications = new Vue({
+	el : '#notifications',
+	data : {
+		notis : [],
+	},
+	methods : {
+		fetchNoti : function(){
+			axios.get('/admin/notifications')
+			.then((response) => {
+				this.notis = response.data.notis;
+			});
+		},
+		watched : function(id){
+			axios.get(`/admin/notifications/watched/${id}`)
+			.then((response) => {
+				this.notis = response.data.notis;
+			});
+		}
+	},
+	mounted : function(){
+		axios.get('/admin/notifications')
+		.then((response) => {
+			this.notis = response.data.notis;
+		});
+	}
+});
+
 var socket = io('http://localhost:3000');
 socket.on('notifiNewBills', (data) => {
     notify = new Notification(
@@ -677,5 +704,14 @@ socket.on('notifiNewBills', (data) => {
 	);
 	notify.onclick = function () {
 		window.location.href = this.tag;
-	}
+	};
+
+	axios.post('/admin/notifications/add', {
+		content : 'Có đơn đặt hàng mới chưa được xử lý!'
+	})
+	.then((response) => {
+		notifications.fetchNoti();
+	});
+	
 });
+

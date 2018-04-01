@@ -22,10 +22,7 @@ var UserSchema = new mongoose.Schema({
 		}
 	],
 	notification : [
-		{
-			status : Number,
-			content : String
-		}
+		{ content : String }
 	],
 	createdOn: { type: Date, 'default': Date.now }
 });

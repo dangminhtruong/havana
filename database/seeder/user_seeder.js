@@ -54,16 +54,22 @@ new Promise((resolve) => {
 					],
 					notification : [
 						{
-							status : 1,
 							content : 'Có đơn đặt hàng mới'
 						},
 						{
-							status : 0,
 							content : 'Có thêm user vừa đăng ký'
 						},
 						{
-							status : 1,
 							content : 'Bạn có 5 tin nhắn mới chưa xem'
+						},
+						{
+							content : 'Có 2 đơn đặt hàng mới'
+						},
+						{
+							content : 'Có thêm 3 user vừa đăng ký'
+						},
+						{
+							content : 'Bạn có 7 tin nhắn mới chưa xem'
 						}
 					],
 				}

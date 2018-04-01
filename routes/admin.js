@@ -793,4 +793,52 @@ router.get('/user/remove/:id', (req, res) => {
 	});
 });
 
+router.get('/notifications',(req, res) => {
+	User.find({ _id : req.user._id }, { _id : 1 ,notification : 1 })
+		.exec((err, notifications) => {
+		if(err){
+			return res.status(200).json({
+				notis : [ { content : 'There is some errors to fetch data' } ]
+			});
+		}
+		return res.status(200).json({
+			notis : notifications[0].notification
+		});
+	});
+});
+
+
+router.post('/notifications/add',(req, res) => {
+	User.findByIdAndUpdate(
+		req.user._id,
+		{$push: {notification: { content: req.body.content}}},
+		{safe: true, upsert: true},
+		(err, notis) => {
+			return res.status(200).json({
+				message : 'added'
+			});
+		}
+	);
+});
+
+
+router.get('/notifications/watched/:id',(req, res) => {
+	User.update(
+		{ _id: req.user._id },
+		{$pull: { notification: { _id : req.params.id}}}
+		, (err, notifications) => {
+			User.find({ _id : req.user._id }, { _id : 1 ,notification : 1 })
+				.exec((err, notifications) => {
+				if(err){
+					return res.status(200).json({
+						notis : [ { content : 'There is some errors to fetch notifictions' } ]
+					});
+				}
+				return res.status(200).json({
+					notis : notifications[0].notification,
+				});
+			});
+		})
+});
+
 module.exports = router;
