@@ -12,9 +12,7 @@ $(function () {
 $('.btn-admore').click(function() {
 	$(this).toggleClass('active');
 });
-
-
-            
+Notification.requestPermission();
 var category_add = new Vue({
 	el : '#category_add',
 	data : {
@@ -668,5 +666,15 @@ let list_users = new Vue({
 
 var socket = io('http://localhost:3000');
 socket.on('notifiNewBills', (data) => {
-    console.log(data);
+    notify = new Notification(
+		'Havana Admin',
+		{
+			body: 'Có đơn đặt hàng mới chưa được xử lý!',
+			icon: 'https://freeiconshop.com/wp-content/uploads/edd/notification-flat.png', 
+			tag: '/admin/bills/index'
+		}
+	);
+	notify.onclick = function () {
+		window.location.href = this.tag;
+	}
 });

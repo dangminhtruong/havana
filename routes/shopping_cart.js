@@ -96,7 +96,7 @@ router.get('/remove/:id', (req, res, next) => {
 			return obj.product_id === req.params.id;
 		});
 		res.send({
-			items : req.session.cart,
+			products : req.session.cart,
 			total : coutCartTotal(req.session.cart)
 		});
 	} catch (error) {
