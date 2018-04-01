@@ -14,7 +14,8 @@ var index = require('./routes/index');
 var shoping_cart = require('./routes/shopping_cart');
 var admin = require('./routes/admin');
 var app = express();
-
+app.io = require('socket.io')();
+var socketIO = require('./helpers/settup_socket_io')(app.io);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -44,9 +45,6 @@ app.use(session({secret: 'no'}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
-
-
-
 //-----------------CUSTOM CONTROLLER------------------
 app.use(i18n.init);
 i18n.configure({
@@ -54,7 +52,8 @@ i18n.configure({
 	directory: __dirname + '/views/locales',
 	cookie: 'lang',
 });
-app.use('/', index);
+//--------------------------------------------------------
+app.use('/',socketIO, index);
 app.use('/shoping-cart',shoping_cart);
 app.use('/admin', (req, res, next) => {
 	if(req.user && req.user.role == 1){
@@ -71,7 +70,7 @@ app.use(function(req, res, next) {
 	err.status = 404;
 	next(err);
 });
-
+//--------------------------------------------------------
 // error handler
 app.use(function(err, req, res, next) {
 	// set locals, only providing error in development
@@ -82,8 +81,6 @@ app.use(function(err, req, res, next) {
 	res.status(err.status || 500);
 	res.render('error');
 });
-
-
 //-------------------------------------------------------
 passport.serializeUser(function(user, done) {
 	done(null, user);
@@ -91,18 +88,16 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(user, done) {
 	done(null, user);
 });
-
-
 //--------------------------------------------------------
 mongoose.connect('mongodb://mongodb:27017/havana', {
 	useMongoClient: true,
 	promiseLibrary: require('bluebird')
 });
-
-
+//--------------------------------------------------------
 const Category = require('./model/category');
 Category.find({}, {_id : 1, name : 1, type : 1})
 	.exec((err, category) => {
 		app.locals.categories = category;
 	});
+//--------------------------------------------------------
 module.exports = app;
