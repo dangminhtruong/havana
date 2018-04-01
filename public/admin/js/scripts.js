@@ -12,6 +12,7 @@ $(function () {
 $('.btn-admore').click(function() {
 	$(this).toggleClass('active');
 });
+
 Notification.requestPermission();
 var category_add = new Vue({
 	el : '#category_add',

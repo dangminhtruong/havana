@@ -8,7 +8,8 @@ const config = {
     email : {
         username : 'xxdangminhtruongxx@gmail.com',
         pass : '01292007776'
-    }
+    },
+    domain : "http://localhost:3000"
 }
 
 

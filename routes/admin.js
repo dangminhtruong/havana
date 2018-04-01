@@ -17,7 +17,6 @@ var fs = require('fs');
 var config = require('../config/config');
 var covertToObj = require('../helpers/to_array_objects'); 
 
-
 /*------------------------------------
 * Author : Dang Minh Truong
 * Email : mr.dangminhtruong@gmail.com
