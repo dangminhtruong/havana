@@ -52,6 +52,20 @@ new Promise((resolve) => {
 							product_id : _.sample(product_ids)._id,
 						}
 					],
+					notification : [
+						{
+							status : 1,
+							content : 'Có đơn đặt hàng mới'
+						},
+						{
+							status : 0,
+							content : 'Có thêm user vừa đăng ký'
+						},
+						{
+							status : 1,
+							content : 'Bạn có 5 tin nhắn mới chưa xem'
+						}
+					],
 				}
 			);
 		}

@@ -21,6 +21,12 @@ var UserSchema = new mongoose.Schema({
 			product_id : { type: ObjectId, ref : 'Product'}
 		}
 	],
+	notification : [
+		{
+			status : Number,
+			content : String
+		}
+	],
 	createdOn: { type: Date, 'default': Date.now }
 });
 
