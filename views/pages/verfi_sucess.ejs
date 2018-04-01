@@ -1,0 +1,73 @@
+<!--A Design by W3layouts 
+Author: W3layout
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fashion Mania A Ecommerce Category Flat Bootstarp Resposive Website Template | Register :: w3layouts</title>
+<link href="/css/bootstrap.css" rel="stylesheet">
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link href="/css/style.css" rel="stylesheet">
+<!-- slide -->
+</head>
+<body>
+<!--header-->
+<div class="header">
+	<div class="header-top">
+		<div class="container">
+		<div class="col-md-4 world">
+					
+				</div>
+				<div class="col-md-4 logo">
+					<a href="/"><img src="/images/logo.png" alt=""></a>	
+				</div>
+		
+			<div class="col-md-4 header-left">		
+					
+					<div class="cart box_1">
+					
+					</div>
+					<div class="clearfix"> </div>
+			</div>
+				<div class="clearfix"> </div>
+		</div>
+		</div>
+	</div>
+<!--//header-->
+<div class="container">
+    <div className="text-xs-center" style="min-height: 50vh; text-align:center; margin-top: 20vh;">
+        <h1 className="display-3" style="font-family: 'OleoScript-Regular';">Successfull !</h1>
+        <h4 style="font-family: 'Roboto-Regular'; margin-top: 5vh;">
+            Quý khách đã xác nhận đơn hàng thành công !
+            Sẽ chuyển về trang chủ trong <span id="countdown" style="color:red;">5</span> s
+        </h4>
+    
+    </div>
+</div>
+<script type="text/javascript">
+    
+    // Total seconds to wait
+    var seconds = 5;
+    
+    function countdown() {
+        seconds = seconds - 1;
+        if (seconds < 0) {
+            // Chnage your redirection link here
+            window.location = "/";
+        } else {
+            // Update remaining seconds
+            document.getElementById("countdown").innerHTML = seconds;
+            // Count down using javascript
+            window.setTimeout("countdown()", 1000);
+        }
+    }
+    
+    // Run countdown function
+    countdown();
+    
+</script>
+</body>
+</html>

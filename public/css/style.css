@@ -574,6 +574,16 @@ p.footer-class a:hover{
 	padding:10px;
 	  margin: 0.5em 0;
 }
+
+.login-right input[type="text"] {
+	border: 1px solid #bbb;
+	outline-color:#52d0c4;
+	width: 96%;
+	font-size:0.9em;
+	padding:10px;
+	margin: 0.5em 0;
+}
+
 .login-right button {
 	background:#52d0c4;
 	color: #FFF;

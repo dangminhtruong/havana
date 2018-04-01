@@ -79,6 +79,11 @@ var connectionHandle = function (data) {
                     <p style="margin:0;line-height:170%">
                        Thời gian giao hàng dự kiến: Sau 3 ngày kể từ ngày đặt hàng.
                     </p>
+                    <p style="margin:0;line-height:170%">
+                        <strong> Quý khách vui lòng nhấn vào 
+                            <a href="${ config.domain }/bill/verfi/${ data.billId }" ><b>ĐÂY</b></a> để xác nhận đơn hàng
+                        </strong>
+                    </p>
                     <hr>
                     <p><strong>Một lần nữa Havana Store xin cảm ơn quý khách.</strong></p>
                     <div class="yj6qo"></div>

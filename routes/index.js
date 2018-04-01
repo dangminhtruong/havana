@@ -5,6 +5,8 @@ const async = require('async');
 const Product = require('../model/product');
 const User = require('../model/user');
 const Category = require('../model/category');
+const Bill = require('../model/bill');
+var config = require('../config/config');
 
 var passport = require('passport')
 	, LocalStrategy = require('passport-local').Strategy;
@@ -207,9 +209,6 @@ router.post('/login/admin', function(req, res, next) {
 	})(req, res, next);
 });
 
-
-
-
 router.get('/index-data', (req, res) => {
 	async.parallel([
 		function (callback) {
@@ -362,8 +361,16 @@ router.get('/authenticate', (req, res) => {
 	});
 });
 
-
-
-
+router.get('/bill/verfi/:id', (req, res) => {
+	Bill.findByIdAndUpdate(
+		req.params.id, 
+		{ status : config.status.confirm }, 
+		{ new : true },
+		(err, bill) => {
+			if (err) return res.status(500).send(err); 
+			res.render('./pages/verfi_sucess');
+		}
+	); 
+})
 
 module.exports = router;

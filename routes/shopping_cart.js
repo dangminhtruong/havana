@@ -113,7 +113,6 @@ router.get('/details', function(req, res, next) {
 	});
 });
 
-
 router.get('/cart-data', function(req, res, next){
 	return res.send({
 		items : req.session.cart,
@@ -193,7 +192,8 @@ router.post('/sign-in-order', (req, res) => {
 		eventEmitter.emit('sendConfirmOrderMail', {
 			items : data.detailsArr,
 			user : req.user,
-			total : data.billTotal
+			total : data.billTotal,
+			billId : results._id
 		});
 		req.app.io.emit('notifiNewBills', {
             content : 'Có đơn đặt hàng mới !',
