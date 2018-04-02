@@ -425,6 +425,7 @@ router.post('/product/edit/:id', cpUpload, (req, res) => {
 		descript: req.body.description, 
 		status : req.body.status,
 		quantity : req.body.quantity,
+		category_id : req.body.product_type,
 		size : covertToObj(req.body.size),
 		colors : covertToObj(req.body.color), 
 	}
