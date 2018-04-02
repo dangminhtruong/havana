@@ -574,16 +574,6 @@ p.footer-class a:hover{
 	padding:10px;
 	  margin: 0.5em 0;
 }
-
-.login-right input[type="text"] {
-	border: 1px solid #bbb;
-	outline-color:#52d0c4;
-	width: 96%;
-	font-size:0.9em;
-	padding:10px;
-	margin: 0.5em 0;
-}
-
 .login-right button {
 	background:#52d0c4;
 	color: #FFF;
@@ -965,13 +955,19 @@ a.at-in {
 	padding:1em 0 0;
 }
 .check input[type="text"]{
-    width: 76%;
+  width: 76%;
   padding: 0.3em;
   margin: 1em 0;
   background: #fff;
   outline: none;
   text-align: center;
-   border: 1px solid #000;
+  border: 1px solid #000;
+}
+
+.custom{
+  width: 76%;
+  border: 1px solid #000;
+  border-radius: 0 !important;
 }
 .check{
 	width:6%;
@@ -1000,7 +996,39 @@ a.to-buy{
 a.to-buy:hover{
   background: #000;
 }
+
 /*--//checkout--*/
+button.to-buy{
+	padding: 0.3em 0.7em;
+  color: #FFF;
+  background: #52D0C4;
+  margin: 0.5em 0 0;
+  font-size: 1em;
+  display: inline-block;
+  line-height: 1.6em;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+}
+
+button.to-buy-back{
+	padding: 0.3em 0.7em;
+  color: #FFF;
+  background: #f44336;
+  margin: 0.5em 0 0 10px;
+  font-size: 1em;
+  display: inline-block;
+  line-height: 1.6em;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+}
+button.to-buy:hover{
+  background: #000;
+}
+button.to-buy-back:hover{
+  background: #000;
+}
 /*--typo--*/
 h1.typo1 {
     font-size: 3em;
@@ -1511,6 +1539,10 @@ a.to-buy {
   margin: 0;
   font-size: 0.8em;
 }
+button.to-buy {
+  margin: 0;
+  font-size: 0.8em;
+}
 .single {
   padding: 2em 0;
 }
@@ -1869,4 +1901,85 @@ h1.typo1 {
 
 .alertLogin{
   color: red;
+}
+
+.containerr {
+  position: relative;
+    padding-left: 25px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.containerr input {
+  position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+  border-radius: 50%;
+  
+}
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.containerr input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.containerr .checkmark:after {
+ top: 7px;
+  left: 7px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+
+.colors{
+  text-align: left;
+  vertical-align: inherit;
+}
+
+#wrapperThank {
+  background: #52D0C4;
+}
+.thanklorder {
+  color: #EEE;
+  text-shadow: -1px -2px 3px rgba(17, 17, 17, 0.3);
+  text-align: center;
+  font-family: "Monsterrat", sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 80px;
+  margin-bottom: -5px;
+}
+.thanklorder  underline {
+  border-top: 5px solid rgba(26, 188, 156, 0.3);
+  border-bottom: 5px solid rgba(26, 188, 156, 0.3);
+}
+.thankcontent {
+  font-family: "Monsterrat", sans-serif;
+  color: #EEE;
+  
+}
+.redmine{
+  color: peru;
+  font-size: 10px;
 }
