@@ -17,6 +17,7 @@ var fs = require('fs');
 var config = require('../config/config');
 var covertToObj = require('../helpers/to_array_objects'); 
 
+
 /*------------------------------------
 * Author : Dang Minh Truong
 * Email : mr.dangminhtruong@gmail.com
@@ -367,26 +368,30 @@ router.get('/product/add', (req, res, next) => {
 	res.render('./admin/pages/add_product',{user : req.user});
 });
 /*--------------------------------------------------------*/
-router.post('/product/add/new',upload.any(),urlencodedParser, (req, res) => {
-	 let cpUpload = upload.fields([{ name: 'avatar', maxCount: 1 }, 
-		{ name: 'details', maxCount: 8 }]);
+let cpUpload = upload.fields(
+	[
+	   { name: 'avatar', maxCount: 1 }, 
+	   { name: 'details', maxCount: 8 }
+   ]
+);
+router.post('/product/add/new',cpUpload, (req, res) => {
 		let product = new Product({
 		name : req.body.product_name,
 		unit_price : req.body.unit_price,
 		promo_price : req.body.promo_price,
 		slug_name : slug(req.body.product_name),
-		descript: req.body.description,
-		image : req.files[0].filename,
-		status : req.body.status,
+		descript: req.body.description, 
+	    image : req.files['avatar'][0].filename, 
+	 	status : req.body.status,
 		quantity : req.body.quantity,
 		saled : 0,
 		category_id : req.body.product_type,
 		size : covertToObj(req.body.size),
-		colors : covertToObj(req.body.color),
-		image_details : _.map(_.filter(req.files, { 'fieldname': 'details[]' }), 'originalname'),
+		colors : covertToObj(req.body.color), 
+		image_details : _.map(req.files['details'], 'filename'),
 		rate : [],
-		comment : []
-	});
+		comment : [] 
+	 });
 		 product.save(function (err, results) {
 		if(err){
 			return res.render('./admin/pages/add_product', {
@@ -394,11 +399,12 @@ router.post('/product/add/new',upload.any(),urlencodedParser, (req, res) => {
 				user : req.user
 			});
 		} 
-		return res.render('./admin/pages/add_product', {
+
+		return res.render('./admin/pages/list_product',{
 			messages : 'Add product sucessfull!',
 			user : req.user
 		});
-		 });  
+	});   
 });
 /*-------------------------------------------------*/
 router.get('/analytic-data', (req, res) => {
@@ -839,6 +845,23 @@ router.get('/notifications/watched/:id',(req, res) => {
 				});
 			});
 		})
+});
+
+router.get('/product/edit/:id', (req, res) => {
+	
+	res.render('./admin/pages/edit_product',{
+		user : req.user,
+		productId : req.params.id
+	});
+
+});
+
+router.get('/product/edit-data/:id', (req, res) => {
+	Product.findById(req.params.id, (err, product) => {
+		res.json({
+			productInfor : product,
+		});
+	})
 });
 
 module.exports = router;

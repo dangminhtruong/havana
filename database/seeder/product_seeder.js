@@ -24,6 +24,7 @@ new Promise((resolve) => {
 	return new Promise((resolve) => {
 		let items = [];
 		let status = [1, 2];
+		let sizes = ["XXL", "XL", "L", "M"];
 		for(i=0; i< 150; i++){
 			items.push(
 				{
@@ -57,19 +58,19 @@ new Promise((resolve) => {
 					],
 					size : [
 						{
-							code : faker.commerce.color(),
+							code : _.sample(sizes),
 							quantity : faker.random.number()
 						},
 						{
-							code : faker.commerce.color(),
+							code : _.sample(sizes),
 							quantity : faker.random.number()
 						},
 						{
-							code : faker.commerce.color(),
+							code : _.sample(sizes),
 							quantity : faker.random.number()
 						},
 						{
-							code : faker.commerce.color(),
+							code : _.sample(sizes),
 							quantity : faker.random.number()
 						}
 					],

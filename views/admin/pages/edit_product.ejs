@@ -54,7 +54,8 @@
                 <!--//banner-->
                 <!--content-->
 
-                <div class="col-md-12 " style="min-height:65vh;" id="add_product">
+                <div class="col-md-12 " style="min-height:65vh;" id="edit_product">
+                    <input type="hidden" id="curentId" value='<%= productId %>' />
                     <div>
                         <div class="col-md-12 panel-content">
                             <form method="post" ref="form" action="/admin/product/add/new" enctype="multipart/form-data" v-on:submit.prevent="checkValidate">
@@ -75,47 +76,38 @@
                                         <label for="exampleInputEmail1">
                                             <%= __('Product\'s name') %>
                                         </label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" name="product_name" placeholder="name" required>
+                                        <input type="text" class="form-control" :value="product.name" v-mode="product.name" name="product_name" placeholder="name" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">
                                             <%= __('Product\'s unit price') %>
                                         </label>
-                                        <input type="text" class="form-control" v-model="unit_price" @change="validateUnitPrice" name="unit_price" placeholder="unit price" required>
-                                        <small id="emailHelp" class="form-text text-muted">
-										<p style="color:red;">{{ unitPriceAlert }}</p>
-									</small>
+                                        <input type="text" class="form-control" v-model="product.unit_price" name="unit_price" placeholder="unit price" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">
                                             <%= __('Product\'s promotion price') %>
                                         </label>
-                                        <input type="text" class="form-control" v-model="promo_price" name="promo_price" placeholder="promotion price" @change="validatePromoPrice">
-                                        <small id="emailHelp" class="form-text text-muted">
-										<p style="color:red;">{{ promoPriceAlert }} </p>
-									</small>
+                                        <input type="text" class="form-control" v-model="product.promo_price" name="promo_price" placeholder="promotion price">
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">
                                             <%= __('Product\'s total quantity') %>
                                         </label>
-                                        <input type="text" class="form-control" v-model="quantity" @change="validateQuantity" name="quantity" placeholder="quantity">
-                                        <small id="emailHelp" class="form-text text-muted">
-											<p style="color:red;">{{ quantityAlert }}</p>
-										</small>
+                                        <input type="text" class="form-control" v-model="product.quantity" name="quantity" placeholder="quantity">
                                     </div>
 
-                                    <div class="form-group" v-for="(color, index) in colors" :key="index">
+                                    <div class="form-group" v-for="(color, index) in product.colors" :key="index">
                                         <div class="form-group row">
                                             <div class="col-xs-6">
                                                 <label for="ex1">Product colors</label>
-                                                <input class="form-control" type="color" name="color[]" :key="index">
+                                                <input class="form-control" type="color" :value="color.code" name="color[]" :key="index">
                                             </div>
                                             <div class="col-xs-6">
                                                 <label for="ex1">Color quantity</label>
                                                 <div class="input-group">
                                     
-                                                <input type="text" class="form-control" :key="index" name=color[]>
+                                                <input type="text" class="form-control" :value="color.quantity" :key="index" name=color[]>
                                                 <span class="input-group-btn">
                                                         <button class="btn btn-secondary" type="button" @click="removeColor(index)"> 
                                                             <i class="fa fa-trash-o" style="color:#F25C27;"></i>
@@ -130,23 +122,21 @@
 										border-color: #F25C27;">More color</button>
                                     </div>
 
-                                    <div class="form-group" v-for="(size, index) in sizes" :key="index">
+                                    <div class="form-group" v-for="(size, index) in product.size" :key="index">
                                             <div class="form-group row">
                                                 <div class="col-xs-6">
                                                     <label for="ex1">Size</label>
                                                     <select name="size[]" class="form-control">
-                                                        <option disabled value="">Please select one</option>
-                                                        <option>XXL</option>
-                                                        <option>XL</option>
-                                                        <option>L</option>
-                                                        <option selected>M</option>
-                                                        <option>S</option>
+                                                        <template v-for="sizeAvai in sizes">
+                                                            <option v-if="size.code === sizeAvai" :value="sizeAvai" selected>{{sizeAvai}}</option>
+                                                            <option v-else :value="sizeAvai">{{sizeAvai}}</option>
+                                                        </template>
                                                     </select>
                                                 </div>
                                                 <div class="col-xs-6">
                                                     <label for="ex1">Product quantity for this size</label>
                                                     <div class="input-group">
-                                                    <input type="text" class="form-control" :key="index" name=size[]>
+                                                    <input type="text" class="form-control" :key="index" :value="size.quantity" name=size[]>
                                                     <span class="input-group-btn">
                                                             <button class="btn btn-secondary" type="button" @click="removeSize(index)"> 
                                                                 <i class="fa fa-trash-o" style="color:#F25C27;"></i>
@@ -158,7 +148,7 @@
                                         </div>
                                         <div class="form-group">
                                                 <button type="button" class="btn btn-primary btn-xs" @click="adMoreSize" style="background: #F25C27;
-                                                border-color: #F25C27;">More color</button>
+                                                border-color: #F25C27;">More size</button>
                                             </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
@@ -166,7 +156,7 @@
                                         <label for="exampleFormControlTextarea1">
                                             <%= __('Product\'s description') %>
                                         </label>
-                                        <textarea class="form-control" name="description" rows="5"></textarea>
+                                        <textarea class="form-control" name="description" rows="5">{{ product.descript }}</textarea>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="status" value="1" checked>
@@ -187,21 +177,37 @@
                                         </label>
                                     </div>
                                     <div class="form-group">
+                                        <div class="col-md-12 row">
+                                            <label>
+                                               <b><%= __('Current product\'s Avata') %> </b>
+                                            </label>
+                                            <img class="img-responsive" :src="`/img/${product.image}`" alt="Chania"/>
+                                        </div>
                                         <label for="exampleFormControlFile1">
-                                            <%= __('Product\'s main avata ') %>
+                                            <%= __('Change avata ') %>
                                         </label>
                                         <input type="file" class="form-control-file" name="avatar" accept="image/*">
                                     </div>
-                                    <div class="col-md-7 row" v-for="detail in imgDetailsNum">
+                                    <div class="col-md-12 row">
                                         <div class="form-group">
-                                            <label for="exampleFormControlFile1">
-                                                <%= __('Product\'s images detail ') %>
-                                            </label>
-                                            <input type="file" class="form-control-file" name="details" accept="image/*">
+                                            <div class="col-md-12">
+                                                <label>
+                                                    <b><%= __('Current product\'s image details') %> </b>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-4 row" v-for="(item, index) in product.image_details">
+                                                <img class="img-responsive" :src="`/img/${item}`" alt="Chania"/>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-5 row">
-                                        <div class="form-group">
+                                    <div class="col-md-12 row">
+                                        <div class="col-md-6 form-group">
+                                            <label for="exampleFormControlFile1">
+                                                    <%= __('Add image details ') %>
+                                            </label>
+                                            <input type="file" class="form-control-file" name="details[]" accept="image/*">
+                                        </div>
+                                        <div class="col-md-6 form-group">
                                             <button type="button" class="btn btn-admore" @click="imgDetailsNum += 1">
                                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                                 <span>Add more</span>
@@ -234,6 +240,12 @@
         </div>
         </div>
         <%- include('../blocks/footer_links') %>
+            <% if(typeof messages !== 'undefined'){ %>
+                <script>
+                    toastr.options.closeButton = true;
+                    toastr.success('New product inserted!');
+                </script>
+            <% } %>
 </body>
 
 </html>

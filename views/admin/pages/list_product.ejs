@@ -71,7 +71,7 @@
 								<td>{{ item.promo_price }} vnđ</td>
 								<td>{{ item.quantity }}</td>
 								<td>
-									<button type="button" class="btn btn-warning btn-xs">Warning</button>
+									<a :href= "`/admin/product/edit/${item._id}` " class="btn btn-warning btn-xs">Edit</a>
 									<button type="button" class="btn btn-danger btn-xs" @click="removeProduct(item._id)">Remove</button>
 								</td>
 							</tr>
@@ -97,5 +97,11 @@
 		</div>
 		</div>
 		<%- include('../blocks/footer_links') %>
+		<% if(typeof messages !== 'undefined'){ %>
+			<script>
+				toastr.options.closeButton = true;
+				toastr.success('New product inserted!');
+			</script>
+		<% } %>
 	</body>
 </html>
