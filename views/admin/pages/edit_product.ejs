@@ -58,7 +58,7 @@
                     <input type="hidden" id="curentId" value='<%= productId %>' />
                     <div>
                         <div class="col-md-12 panel-content">
-                            <form method="post" ref="form" action="/admin/product/add/new" enctype="multipart/form-data" v-on:submit.prevent="checkValidate">
+                            <form method="post" ref="form" action="/admin/product/edit/<%= productId %>" enctype="multipart/form-data">
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label for="exampleFormControlSelect1">
@@ -197,6 +197,7 @@
                                             </div>
                                             <div class="col-md-4 row" v-for="(item, index) in product.image_details">
                                                 <img class="img-responsive" :src="`/img/${item}`" alt="Chania"/>
+                                                <input type="hidden" name="tmp" :value="item"/>
                                             </div>
                                         </div>
                                     </div>
@@ -205,7 +206,7 @@
                                             <label for="exampleFormControlFile1">
                                                     <%= __('Add image details ') %>
                                             </label>
-                                            <input type="file" class="form-control-file" name="details[]" accept="image/*">
+                                            <input type="file" class="form-control-file" name="details" accept="image/*">
                                         </div>
                                         <div class="col-md-6 form-group">
                                             <button type="button" class="btn btn-admore" @click="imgDetailsNum += 1">

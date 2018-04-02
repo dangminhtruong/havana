@@ -719,7 +719,8 @@ let edit_product = new Vue({
 	el : '#edit_product',
 	data : {
 		product : {},
-		sizes : ["XXL", "XL", "L", "M", "S"]
+		sizes : ["XXL", "XL", "L", "M", "S"],
+		imgDetailsNum : 1,
 	},
 	methods : {
 		removeColor : function(index){
