@@ -724,25 +724,23 @@ let edit_product = new Vue({
 	},
 	methods : {
 		removeColor : function(index){
-			this.colors.splice(index, 1);
+			this.product.colors.splice(index, 1);
 		},
 		adMoreColor : function(){
-			this.colors.push({ code : '#F25C27' , quantity : 1});
+			this.product.colors.push({ code : '#F25C27' , quantity : 1});
 		},
 		removeSize : function(index){
-			this.sizes.splice(index, 1);
+			this.product.size.splice(index, 1);
 		},
 		adMoreSize : function(){
-			this.sizes.push({ code : 'XL' , quantity : 1});
+			this.product.size.push({ code : 'XL' , quantity : 1});
 		}
 	},
 	mounted : function(){
 		let id = $('#curentId').val();
-		
 		axios.get(`/admin/product/edit-data/${id}`)
 		.then((response) => {
 			this.product = response.data.productInfor;
-			console.log(response);
 		});
 	}
 });

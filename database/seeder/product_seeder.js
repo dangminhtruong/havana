@@ -24,7 +24,7 @@ new Promise((resolve) => {
 	return new Promise((resolve) => {
 		let items = [];
 		let status = [1, 2];
-		let sizes = ["XXL", "XL", "L", "M"];
+		let sizes = ["XXL", "XL", "L", "M", "S"];
 		for(i=0; i< 150; i++){
 			items.push(
 				{

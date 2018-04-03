@@ -88,7 +88,7 @@
                                         <label for="exampleInputEmail1">
                                             <%= __('Product\'s promotion price') %>
                                         </label>
-                                        <input type="text" class="form-control" v-model="product.promo_price" name="promo_price" placeholder="promotion price">
+                                        <input type="text" class="form-control" v-model="product.promo_price" name="promo_price" placeholder="promotion price" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">
@@ -101,13 +101,13 @@
                                         <div class="form-group row">
                                             <div class="col-xs-6">
                                                 <label for="ex1">Product colors</label>
-                                                <input class="form-control" type="color" :value="color.code" name="color[]" :key="index">
+                                                <input class="form-control" type="color" :value="color.code" name="color[]" :key="index" required />
                                             </div>
                                             <div class="col-xs-6">
                                                 <label for="ex1">Color quantity</label>
                                                 <div class="input-group">
                                     
-                                                <input type="text" class="form-control" :value="color.quantity" :key="index" name=color[]>
+                                                <input type="text" class="form-control" :value="color.quantity" :key="index" name=color[] required />
                                                 <span class="input-group-btn">
                                                         <button class="btn btn-secondary" type="button" @click="removeColor(index)"> 
                                                             <i class="fa fa-trash-o" style="color:#F25C27;"></i>
@@ -136,7 +136,7 @@
                                                 <div class="col-xs-6">
                                                     <label for="ex1">Product quantity for this size</label>
                                                     <div class="input-group">
-                                                    <input type="text" class="form-control" :key="index" :value="size.quantity" name=size[]>
+                                                    <input type="text" class="form-control" :key="index" :value="size.quantity" name=size[] required/>
                                                     <span class="input-group-btn">
                                                             <button class="btn btn-secondary" type="button" @click="removeSize(index)"> 
                                                                 <i class="fa fa-trash-o" style="color:#F25C27;"></i>
@@ -159,19 +159,22 @@
                                         <textarea class="form-control" name="description" rows="5">{{ product.descript }}</textarea>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="status" value="1" checked>
+                                        <input class="form-check-input" type="radio" name="status" value="1" v-if="product.status === 1" checked />
+                                        <input class="form-check-input" type="radio" name="status" value="1" v-else checked />
                                         <label class="form-check-label" for="inlineRadio1">
                                             <%= __('New') %>
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="status" id="inlineRadio2" value="2">
+                                        <input class="form-check-input" type="radio" name="status" id="inlineRadio2" v-if="product.status === 2" value="2" checked/>
+                                        <input class="form-check-input" type="radio" name="status" id="inlineRadio2" v-else value="2">
                                         <label class="form-check-label" for="inlineRadio2">
                                             <%= __('Comming soon') %>
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="status" id="inlineRadio3" value="3">
+                                        <input class="form-check-input" type="radio" name="status" value="3" v-if="product.status === 3" checked />
+                                        <input class="form-check-input" type="radio" name="status" value="3" v-else checked />
                                         <label class="form-check-label" for="inlineRadio3">
                                             <%= __('Expire') %>
                                         </label>
@@ -203,10 +206,12 @@
                                     </div>
                                     <div class="col-md-12 row">
                                         <div class="col-md-6 form-group">
-                                            <label for="exampleFormControlFile1">
+                                            <div class="col-md-12 form-group" v-for="detail in imgDetailsNum">
+                                                <label for="exampleFormControlFile1">
                                                     <%= __('Add image details ') %>
-                                            </label>
-                                            <input type="file" class="form-control-file" name="details" accept="image/*">
+                                                </label>
+                                                <input type="file" class="form-control-file" name="details" accept="image/*">
+                                            </div>
                                         </div>
                                         <div class="col-md-6 form-group">
                                             <button type="button" class="btn btn-admore" @click="imgDetailsNum += 1">
