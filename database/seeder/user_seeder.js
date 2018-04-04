@@ -11,7 +11,7 @@ const _ = require('lodash');
 var faker = require('faker');
 
 new Promise((resolve) => {
-	mongoose.connect('mongodb://mongodb:27017/havana', {
+	mongoose.connect('mongodb://truongdang:789852@ds131989.mlab.com:31989/havana', {
 		useMongoClient: true,
 		promiseLibrary: require('bluebird')
 	});
