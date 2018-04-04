@@ -101,7 +101,7 @@ new Promise((resolve) => {
 		resolve(items);
 	});
 }).then((items) => {
-	seeder.connect('mongodb://mongodb:27017/havana', function() {
+	seeder.connect('mongodb://truongdang:789852@ds131989.mlab.com:31989/havana', function() {
 		let data = [{
 			'model': 'Bill',
 			'documents': items
