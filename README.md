@@ -1,5 +1,5 @@
 <h2>Demo site for this app here:</h2><br/>
-<b> https://havana-api.herokuapp.com/</b><br/>
+<b> https://diamonds-shop.herokuapp.com/</b><br/>
 <b> Admin account to access dashboard <b></br/>
  <b>username: dangminhtruong</b><br/>
 <b> Admin account password: 777 </b><br/>
