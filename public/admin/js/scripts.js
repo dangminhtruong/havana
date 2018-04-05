@@ -744,3 +744,46 @@ let edit_product = new Vue({
 		});
 	}
 });
+
+let user_add = new Vue({
+	el : '#user_add',
+	data : {
+		alertRepass : '',
+		userName : '',
+		phone : '',
+		email : '',
+		password : '',
+		address : '',
+		repass : '',
+		userRight : 4
+	},
+	methods : {
+		addUser : function(){
+			axios.post('/admin/user/add', {
+				username : this.userName,
+				useraddress : this.address,
+				useremail : this.email,
+				password : this.password,
+				userphone : this.userphone,
+				userRight : this.userRight
+			})
+			.then((response) => {
+				console.log(response.data);
+				if(response.status === 200 ){
+					toastr.options.closeButton = true;
+					toastr.success('New user inserted!');
+					this.alertRepass = '';
+					this.userName = '';
+					this.phone = '';
+					this.email = '';
+					this.password = '';
+					this.address = '';
+					this.repass = '';
+				}else{
+					toastr.options.closeButton = true;
+					toastr.error('Opps, Something went wrong!');
+				}
+			});
+		}
+	}
+});
