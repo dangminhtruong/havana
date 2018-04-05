@@ -9,14 +9,14 @@ var Schema = mongoose.Schema,
 
 var ProductSchema = new mongoose.Schema(
 	{
-		name : String,
+		name : { type : String, unique : true},
 		unit_price : { type : Number, default : 0 },
-		promo_price : Number,
+		promo_price : { type : Number, default : 0 },
 		slug_name : String,
 		descript: String,
-		image : String,
-		status : Number,
-		quantity : Number,
+		image : { type : String, default : 'product1a.jpg' },
+		status : { type : Number, default : 0 },
+		quantity : { type : Number, default : 0 },
 		saled : Number,
 		category_id : { type: ObjectId, ref : 'Category'},
 		colors : [

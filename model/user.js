@@ -8,12 +8,12 @@ var Schema = mongoose.Schema,
 *-----------------------------------*/
 
 var UserSchema = new mongoose.Schema({
-	username : String,
+	username : { type : String, unique : true },
 	avata : { type : String , 'default' : 'avtar.jpg' },
 	address : String,
-	email : String,
+	email : { type : String, unique : true },
 	password : String,
-	phone : String,
+	phone : { type : String, unique : true },
 	role : Number,
 	status : Number,
 	wish_list : [
