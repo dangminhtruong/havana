@@ -33,7 +33,7 @@ app.use(function(req, res, next) {
 	// list of methods that are supported by the server
 	res.header('Access-Control-Allow-Methods','OPTIONS,GET,PUT,POST,DELETE');
 
-	res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+	res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, X-XSRF-TOKEN');
 
 	next();
 });
