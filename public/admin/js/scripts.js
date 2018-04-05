@@ -744,3 +744,12 @@ let edit_product = new Vue({
 		});
 	}
 });
+
+let user_add = new Vue({
+	el : '#user_add',
+	data : {
+		alertTypeNull : '',
+		alertNameNull : '',
+		alertDescNull : ''
+	}
+});

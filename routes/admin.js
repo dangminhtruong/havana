@@ -902,4 +902,8 @@ router.get('/notifications/watched/:id',(req, res) => {
 		})
 });
 
+router.get('/user/add', (req, res) => {
+	res.render('./admin/pages/add_user', {user : req.user});
+});
+
 module.exports = router;
