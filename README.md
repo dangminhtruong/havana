@@ -1,3 +1,8 @@
+<h2>Demo site for this app here:</h2><br/>
+<b> https://havana-api.herokuapp.com/</b><br/>
+<b> Admin account to access dashboard <b></br/>
+ <b>username: dangminhtruong</b><br/>
+<b> Admin account password: 777 </b><br/>
 <h3>In case you clone this project</h3><br/>
 <b>Step 1</b> Open terminal then run "npm install" to install dependencies...<br/>
 <b>Step 2</b> Make sure you already install successful all dependencies. Then move to <i>database/seeder </i> by comand "cd database/seeder" folder then run following comand <br/>
