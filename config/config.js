@@ -11,7 +11,10 @@ const config = {
     },
     domain : "http://localhost:3000",
     userStatus : {
-        unConfirm : 3
+        isAdmin : 1,
+        isStaff : 2,
+        unConfirm : 3,
+        isCustomer : 4
     }
 }
 

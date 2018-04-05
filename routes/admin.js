@@ -906,4 +906,26 @@ router.get('/user/add', (req, res) => {
 	res.render('./admin/pages/add_user', {user : req.user});
 });
 
+router.post('/user/add', (req, res) => {
+	let user = new User({
+		username : req.body.username,
+		address : req.body.useraddress,
+		email : req.body.useremail,
+		password : req.body.password,
+		phone : req.body.userphone,
+		status : req.body.userRight,
+	});
+	user.save(function (err, results) {
+		if(err){
+			console.log(err);
+			return res.status(500).send({
+				status : 'Error'
+			});
+		}
+		return res.status(200).send({
+			status : 'Inserted'
+		});
+	});
+});
+
 module.exports = router;
