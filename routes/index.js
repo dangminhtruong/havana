@@ -33,6 +33,7 @@ router.get('/change-languages/:lang', function(req, res) {
 	res.cookie('lang', req.params.lang, { maxAge: 900000 });
 	res.redirect('back');
 });
+
 /*--------------------------------------------------------*/
 router.get('/', function(req, res) {
 	async.parallel([

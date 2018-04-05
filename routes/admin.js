@@ -400,6 +400,12 @@ router.post('/product/add/new',cpUpload, (req, res) => {
 			});
 		} 
 
+		Product.find().sort({ createdOn: -1 }).limit(8)
+			.exec((err, products) => {
+				req.app.io.emit('adminAddNewProduct', {
+					news : products,
+				});
+			});
 		return res.render('./admin/pages/list_product',{
 			messages : 'Add product sucessfull!',
 			user : req.user
