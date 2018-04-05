@@ -65,5 +65,7 @@
 	"User's default pass ": "User's default pass ",
 	"User's phone ": "User's phone ",
 	"User's address ": "User's address ",
-	"User's email ": "User's email "
+	"User's email ": "User's email ",
+	"User's password ": "User's password ",
+	"Confirm password ": "Confirm password "
 }

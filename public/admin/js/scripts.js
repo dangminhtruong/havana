@@ -750,6 +750,12 @@ let user_add = new Vue({
 	data : {
 		alertTypeNull : '',
 		alertNameNull : '',
-		alertDescNull : ''
+		alertDescNull : '',
+		userName : '',
+		phone : '',
+		password : '',
+		address : '',
+		repass : '',
+		userRight : ''
 	}
 });
