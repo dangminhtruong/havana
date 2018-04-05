@@ -373,4 +373,39 @@ router.get('/bill/verfi/:id', (req, res) => {
 	); 
 })
 
+
+router.post('/register', (req, res) => {
+	let user = new User({
+		username : req.body.username,
+		address : req.body.useraddress,
+		email : req.body.useremail,
+		password : req.body.password,
+		phone : req.body.userphone,
+		status : config.userStatus.unConfirm,
+	}); 
+
+
+	user.save(function (err, results) {
+		if(err){
+			return res.send({
+				messages : err
+			});
+		} 
+	/* 	eventEmitter.emit('sendConfirmOrderMail', {
+			items : data.detailsArr,
+			user : req.user,
+			total : data.billTotal,
+			billId : results._id
+		}); 
+		req.app.io.emit('notifiNewUser', {
+            content : 'Có người dùng đăng ký mới !',
+		}); */
+		return res.status(200).json({
+			messages : 'Sucessfull register!',
+		});
+	}); 
+
+
+});
+
 module.exports = router;

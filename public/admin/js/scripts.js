@@ -692,7 +692,7 @@ let notifications = new Vue({
 	}
 });
 
-var socket = io('http://localhost:3000');
+var socket = io('/');
 socket.on('notifiNewBills', (data) => {
     notify = new Notification(
 		'Havana Admin',
