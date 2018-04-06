@@ -355,6 +355,20 @@ router.get('/category', (req, res) => {
 		});
 });
 
+
+
+router.get('/chatbox', (req, res) => {
+	Category.find({}, {_id : 1, name : 1, type : 1})
+		.exec((err, categories) => {
+			res.json({
+				category : categories,
+				cart : (req.session.cart) ? req.session.cart.length : 0,
+				user : req.user
+			});
+		});
+});
+
+
 router.get('/authenticate', (req, res) => {
 	return res.json({
 		status : 200,
