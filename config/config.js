@@ -14,7 +14,9 @@ const config = {
         isAdmin : 1,
         isStaff : 2,
         unConfirm : 3,
-        isCustomer : 4
+        isCustomer : 4,
+        online : 5,
+        superAdmin : 6
     }
 }
 

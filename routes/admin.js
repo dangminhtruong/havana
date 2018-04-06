@@ -913,7 +913,7 @@ router.post('/user/add', (req, res) => {
 		email : req.body.useremail,
 		password : req.body.password,
 		phone : req.body.userphone,
-		status : req.body.userRight,
+		role : req.body.userRight,
 	});
 	user.save(function (err, results) {
 		if(err){
