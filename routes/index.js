@@ -6,6 +6,7 @@ const Product = require('../model/product');
 const User = require('../model/user');
 const Category = require('../model/category');
 const Bill = require('../model/bill');
+const Message = require('../model/messages');
 var config = require('../config/config');
 
 var passport = require('passport')
@@ -356,19 +357,6 @@ router.get('/category', (req, res) => {
 });
 
 
-
-router.get('/chatbox', (req, res) => {
-	Category.find({}, {_id : 1, name : 1, type : 1})
-		.exec((err, categories) => {
-			res.json({
-				category : categories,
-				cart : (req.session.cart) ? req.session.cart.length : 0,
-				user : req.user
-			});
-		});
-});
-
-
 router.get('/authenticate', (req, res) => {
 	return res.json({
 		status : 200,
@@ -403,8 +391,8 @@ router.post('/register', (req, res) => {
 
 	user.save(function (err, results) {
 		if(err){
-			return res.send({
-				messages : err
+			return res.status(500).send({
+				code : err.code
 			});
 		} 
 	/* 	eventEmitter.emit('sendConfirmOrderMail', {
@@ -422,6 +410,107 @@ router.post('/register', (req, res) => {
 	}); 
 
 
+});
+
+router.get('/chatbox', (req, res) => {
+	async.parallel([
+		(callback) => {
+			Category.find({}, {_id : 1, name : 1, type : 1})
+			.exec((err, categories) => {
+				callback(null, categories);
+			});
+		},
+		(callback) => {
+			User.find({ role : config.userStatus.isStaff , status : config.activity.online })
+			.exec((err, users)=>{
+				callback(null, users);
+			});
+		}
+	],
+	(err, results) => {
+		return res.json({
+			category : results[0],
+			cart : (req.session.cart) ? req.session.cart.length : 0,
+			user : req.user,
+			onlineStaff : results[1]
+		});
+	});
+	
+});
+
+
+router.post('/chatbox/fetch/message', (req, res) => {
+	Message.find({ members : { $all: [req.user._id, req.body.userId] } })
+	.exec((err, messages) => {
+		if(err){
+			return res.status(500).json({
+				messages : err.code
+			});
+		}
+		return res.status(200).json({
+			messages : (messages.length !== 0) ? messages : null
+		});
+	});
+});
+
+router.post('/chatbox/add/message', (req, res) => {
+
+	Message.find({ members : { $all: [req.body.curentId, req.body.targetId] } })
+	.exec((err, message) => {
+		console.log('mess',message);
+		if(message.length !== 0){
+			Message.findOneAndUpdate(
+				{ members : { $all: [req.body.curentId, req.body.targetId] } },
+				{
+					$push: 
+						{
+							messages: 
+								{ 
+									user_name : req.body.username,
+									status : 1,
+									message : req.body.message
+								}
+						}
+				},
+				{ new : true },
+				(err, messages) => {
+				/* 	req.app.io.emit('newMessage', {
+						messages : messages,
+					}); */
+		
+					return res.status(200).json({
+						messages : messages
+					});
+				}
+			);
+		}else{
+			let message = new Message({
+				members : [req.body.curentId, req.body.targetId],
+				messages : [
+					{ 
+						user_name : req.body.username,
+						status : 1,
+						message : req.body.message
+					}
+				],
+			});
+			message.save((err, messages) => {
+				if(err){
+					console.log(err);
+				}
+				console.log(messages);
+				return res.status(200).json({
+					messages : {
+						messages : [{
+							user_name : req.body.username,
+							status : 1,
+							message : req.body.message
+						}]
+					}
+				});
+			});
+		}
+	});
 });
 
 module.exports = router;
