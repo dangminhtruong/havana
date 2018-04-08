@@ -397,6 +397,7 @@ router.post('/register', (req, res) => {
 		password : req.body.password,
 		phone : req.body.userphone,
 		status : config.userStatus.unConfirm,
+		role : config.userStatus.isCustomer
 	}); 
 
 

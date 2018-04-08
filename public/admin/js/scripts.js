@@ -768,7 +768,6 @@ let user_add = new Vue({
 				userRight : this.userRight
 			})
 			.then((response) => {
-				console.log(response.data);
 				if(response.status === 200 ){
 					toastr.options.closeButton = true;
 					toastr.success('New user inserted!');
