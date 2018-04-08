@@ -67,5 +67,8 @@
 	"User's address ": "User's address ",
 	"User's email ": "User's email ",
 	"User's password ": "User's password ",
-	"Confirm password ": "Confirm password "
+	"Confirm password ": "Confirm password ",
+	"User": "User",
+	"Analytic": "Analytic",
+	"Chart": "Chart"
 }
