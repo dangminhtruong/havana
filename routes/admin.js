@@ -928,4 +928,8 @@ router.post('/user/add', (req, res) => {
 	});
 });
 
+router.get('/messages/index', (req, res) => {
+	res.render('./admin/pages/messages',{user : req.user});
+});
+
 module.exports = router;
