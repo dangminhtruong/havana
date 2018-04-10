@@ -2897,9 +2897,8 @@ ul.dropdown-menu.dropdown-menu-right {
 }
 
 #frame {
-    width: 95%;
+    width: 100%;
     min-width: 360px;
-    max-width: 1000px;
     height: 92vh;
     min-height: 300px;
     max-height: 720px;

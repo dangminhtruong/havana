@@ -62,7 +62,7 @@
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label for="exampleFormControlSelect1">
-                                            <%= __('Product\'s type ') %>
+                                            <%= __('Loại sản phẩm') %>
                                         </label>
                                         <select class="form-control" name="product_type">
                                             <% categories.forEach((category) => { %>
@@ -74,25 +74,25 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">
-                                            <%= __('Product\'s name') %>
+                                            <%= __('Tên sản phẩm') %>
                                         </label>
                                         <input type="text" class="form-control" :value="product.name" v-mode="product.name" name="product_name" placeholder="name" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">
-                                            <%= __('Product\'s unit price') %>
+                                            <%= __('Đơn giá') %>
                                         </label>
                                         <input type="text" class="form-control" v-model="product.unit_price" name="unit_price" placeholder="unit price" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">
-                                            <%= __('Product\'s promotion price') %>
+                                            <%= __('Giá khuyến mãi') %>
                                         </label>
                                         <input type="text" class="form-control" v-model="product.promo_price" name="promo_price" placeholder="promotion price" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">
-                                            <%= __('Product\'s total quantity') %>
+                                            <%= __('Tổng số lượng') %>
                                         </label>
                                         <input type="text" class="form-control" v-model="product.quantity" name="quantity" placeholder="quantity">
                                     </div>
@@ -100,11 +100,11 @@
                                     <div class="form-group" v-for="(color, index) in product.colors" :key="index">
                                         <div class="form-group row">
                                             <div class="col-xs-6">
-                                                <label for="ex1">Product colors</label>
+                                                <label for="ex1">Màu sản phẩm</label>
                                                 <input class="form-control" type="color" :value="color.code" name="color[]" :key="index" required />
                                             </div>
                                             <div class="col-xs-6">
-                                                <label for="ex1">Color quantity</label>
+                                                <label for="ex1">Số lượng tương ứng</label>
                                                 <div class="input-group">
                                     
                                                 <input type="text" class="form-control" :value="color.quantity" :key="index" name=color[] required />
@@ -119,13 +119,13 @@
                                     </div>
                                     <div class="form-group">
                                         <button type="button" class="btn btn-primary btn-xs" @click="adMoreColor" style="background: #F25C27;
-										border-color: #F25C27;">More color</button>
+										border-color: #F25C27;">Thêm màu</button>
                                     </div>
 
                                     <div class="form-group" v-for="(size, index) in product.size" :key="index">
                                             <div class="form-group row">
                                                 <div class="col-xs-6">
-                                                    <label for="ex1">Size</label>
+                                                    <label for="ex1">Kích cỡ</label>
                                                     <select name="size[]" class="form-control">
                                                         <template v-for="sizeAvai in sizes">
                                                             <option v-if="size.code === sizeAvai" :value="sizeAvai" selected>{{sizeAvai}}</option>
@@ -134,7 +134,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-xs-6">
-                                                    <label for="ex1">Product quantity for this size</label>
+                                                    <label for="ex1">Số lượng tương ứng</label>
                                                     <div class="input-group">
                                                     <input type="text" class="form-control" :key="index" :value="size.quantity" name=size[] required/>
                                                     <span class="input-group-btn">
@@ -148,13 +148,13 @@
                                         </div>
                                         <div class="form-group">
                                                 <button type="button" class="btn btn-primary btn-xs" @click="adMoreSize" style="background: #F25C27;
-                                                border-color: #F25C27;">More size</button>
+                                                border-color: #F25C27;">Thêm kích cỡ</button>
                                             </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label for="exampleFormControlTextarea1">
-                                            <%= __('Product\'s description') %>
+                                            <%= __('Mô tả sản phẩm') %>
                                         </label>
                                         <textarea class="form-control" name="description" rows="5">{{ product.descript }}</textarea>
                                     </div>
@@ -162,32 +162,32 @@
                                         <input class="form-check-input" type="radio" name="status" value="1" v-if="product.status === 1" checked />
                                         <input class="form-check-input" type="radio" name="status" value="1" v-else checked />
                                         <label class="form-check-label" for="inlineRadio1">
-                                            <%= __('New') %>
+                                            <%= __('Sản phẩm mới') %>
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="status" id="inlineRadio2" v-if="product.status === 2" value="2" checked/>
                                         <input class="form-check-input" type="radio" name="status" id="inlineRadio2" v-else value="2">
                                         <label class="form-check-label" for="inlineRadio2">
-                                            <%= __('Comming soon') %>
+                                            <%= __('Hàng sắp về') %>
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="status" value="3" v-if="product.status === 3" checked />
                                         <input class="form-check-input" type="radio" name="status" value="3" v-else checked />
                                         <label class="form-check-label" for="inlineRadio3">
-                                            <%= __('Expire') %>
+                                            <%= __('Đã hết') %>
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-12 row">
                                             <label>
-                                               <b><%= __('Current product\'s Avata') %> </b>
+                                               <b><%= __('Hình đại diện sản phẩm') %> </b>
                                             </label>
                                             <img class="img-responsive" :src="`/img/${product.image}`" alt="Chania"/>
                                         </div>
                                         <label for="exampleFormControlFile1">
-                                            <%= __('Change avata ') %>
+                                            <%= __('Thay đổi hình đại diện') %>
                                         </label>
                                         <input type="file" class="form-control-file" name="avatar" accept="image/*">
                                     </div>
@@ -195,7 +195,7 @@
                                         <div class="form-group">
                                             <div class="col-md-12">
                                                 <label>
-                                                    <b><%= __('Current product\'s image details') %> </b>
+                                                    <b><%= __('Ảnh chi tiết sản phẩm') %> </b>
                                                 </label>
                                             </div>
                                             <div class="col-md-4 row" v-for="(item, index) in product.image_details">
@@ -208,7 +208,7 @@
                                         <div class="col-md-6 form-group">
                                             <div class="col-md-12 form-group" v-for="detail in imgDetailsNum">
                                                 <label for="exampleFormControlFile1">
-                                                    <%= __('Add image details ') %>
+                                                    <%= __('Thêm ảnh chi tiết ') %>
                                                 </label>
                                                 <input type="file" class="form-control-file" name="details" accept="image/*">
                                             </div>
@@ -216,16 +216,16 @@
                                         <div class="col-md-6 form-group">
                                             <button type="button" class="btn btn-admore" @click="imgDetailsNum += 1">
                                                 <i class="fa fa-plus" aria-hidden="true"></i>
-                                                <span>Add more</span>
+                                                <span>Thêm</span>
                                             </button>
                                         </div>
                                     </div>
                                     <div class="col-md-12 row">
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-primary" style="background: #F25C27;
-											border-color: #F25C27;">Submit</button>
+											border-color: #F25C27;">Hoàn tất</button>
                                             <button type="reset" class="btn btn-primary" style="background: rgb(201, 198, 197);
-											border-color: rgb(151, 149, 149);">Clear</button>
+											border-color: rgb(151, 149, 149);">Hủy</button>
                                         </div>
                                     </div>
                                 </div>

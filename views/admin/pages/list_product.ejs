@@ -40,11 +40,11 @@
 		<div class="content-main">
 		<div class="banner">
 		<h2>
-		<a href="index.html">Home</a>
+		<a href="index.html">Trang chủ quản trị</a>
 		<i class="fa fa-angle-right"></i>
-        <span><%= __('Category') %></span>
+        <span><%= __('Sản phẩm') %></span>
         <i class="fa fa-angle-right"></i>
-		<span><%= __('Add') %></span>
+		<span><%= __('Danh sách') %></span>
 		</h2>
 		</div>
 		<div class="content-top">
@@ -53,13 +53,13 @@
 					<table class="table table-striped">
 						<thead>
 							<tr>
-							<th>Avata</th>
-							<th>Product name</th>
-							<th>Unit Price</th>
-							<th>Promo Price</th>
-							<th>Quantity</th>
+							<th>Ảnh</th>
+							<th>Tên sản phẩm</th>
+							<th>Đơn giá</th>
+							<th>Giá khuyến mãi</th>
+							<th>Số lượng</th>
 							<th>
-								Action
+								Thao tác
 							</th>
 							</tr>
 						</thead>
@@ -71,8 +71,8 @@
 								<td>{{ item.promo_price }} vnđ</td>
 								<td>{{ item.quantity }}</td>
 								<td>
-									<a :href= "`/admin/product/edit/${item._id}` " class="btn btn-warning btn-xs">Edit</a>
-									<button type="button" class="btn btn-danger btn-xs" @click="removeProduct(item._id)">Remove</button>
+									<a :href= "`/admin/product/edit/${item._id}` " class="btn btn-warning btn-xs">Sửa</a>
+									<button type="button" class="btn btn-danger btn-xs" @click="removeProduct(item._id)">Xóa</button>
 								</td>
 							</tr>
 						</tbody>

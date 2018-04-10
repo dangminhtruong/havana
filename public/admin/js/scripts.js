@@ -17,7 +17,7 @@ Notification.requestPermission();
 var category_add = new Vue({
 	el : '#category_add',
 	data : {
-		categoryType : null,
+		categoryType : 1,
 		categoryName : null,
 		categoryDesc : null,
 		alertTypeNull : null,
