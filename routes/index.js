@@ -35,6 +35,34 @@ router.get('/change-languages/:lang', function(req, res) {
 	res.redirect('back');
 });
 
+router.get('/', function(req, res) {
+	async.parallel([
+		function (callback) {
+			Product.find().sort({ createdOn: -1 }).limit(4)
+				.exec((err, news) => {
+					callback(null, news);
+				});
+		},
+		function (callback) {
+			Product.find({ status: 2 }).limit(4)
+				.exec((err, features) => {
+					callback(null, features);
+				});
+		}
+	],
+		// Call back
+	function (err, results) {
+		if (err) {
+			throw new err;
+		}
+		return res.render('index', {
+			news: results[0],
+			features: results[1],
+			cart: req.session.cart,
+			user: req.user
+		});
+	});
+});
 
 router.post('/login/client', function(req, res, next) {
 	passport.authenticate('local', function(err, user, info) {
