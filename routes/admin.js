@@ -932,4 +932,11 @@ router.get('/messages/index', (req, res) => {
 	res.render('./admin/pages/messages',{user : req.user});
 });
 
+router.get('/bills/single/detail/:id', (req, res) => {
+	res.render('./admin/pages/bill_details', {user : req.user});
+});
+
+
+
+
 module.exports = router;

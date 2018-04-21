@@ -35,128 +35,6 @@ router.get('/change-languages/:lang', function(req, res) {
 	res.redirect('back');
 });
 
-/*--------------------------------------------------------*/
-router.get('/', function(req, res) {
-	async.parallel([
-		function (callback) {
-			Product.find().sort({ createdOn: -1 }).limit(4)
-				.exec((err, news) => {
-					callback(null, news);
-				});
-		},
-		function (callback) {
-			Product.find({ status: 2 }).limit(4)
-				.exec((err, features) => {
-					callback(null, features);
-				});
-		}
-	],
-		// Call back
-	function (err, results) {
-		if (err) {
-			throw new err;
-		}
-		return res.render('index', {
-			news: results[0],
-			features: results[1],
-			cart: req.session.cart,
-			user: req.user
-		});
-	});
-});
-/*--------------------------------------------------------*/
-router.get('/product/:id', function(req, res) {
-	async.parallel([
-		function (callback) {
-			Product.find({ _id: req.params.id })
-				.exec((err, product) => {
-					callback(null, product);
-				});
-		},
-		function (callback) {
-			Product.find().sort({ createdOn: -1 }).limit(4)
-				.exec((err, related_product) => {
-					callback(null, related_product);
-				});
-		}
-	],
-	function (err, results) {
-		res.render('./pages/product', {
-			product: results[0][0],
-			related_product: results[1],
-			cart: req.session.cart
-		});
-	});
-
-});
-/*--------------------------------------------------------*/
-router.get('/category/:id', function(req, res) {
-	async.parallel([
-		(callback) => {
-			if (req.query.pages != null) {
-				Product.find({ category_id: req.params.id }).limit(6).skip((req.query.pages - 1) * 6)
-					.exec((err, category_products) => {
-						callback(null, category_products);
-					});
-			} else {
-				Product.find({ category_id: req.params.id }).limit(6)
-					.exec((err, category_products) => {
-						callback(null, category_products);
-					});
-			}
-
-		},
-		(callback) => {
-			Product.find().sort({ createdOn: -1 }).limit(3)
-				.exec((err, latest_products) => {
-					callback(null, latest_products);
-				});
-		},
-		(callback) => {
-			Product.find().sort({ saled: -1 }).limit(3)
-				.exec((err, best_sales) => {
-					callback(null, best_sales);
-				});
-		},
-		(callback) => {
-			Product.find({ category_id: req.params.id }).count()
-				.exec((err, total_records) => {
-					callback(null, total_records);
-				});
-		}
-	],
-	(err, results) => {
-		res.render('./pages/category', {
-			category_products: results[0],
-			latest_products: results[1],
-			best_sales: results[2],
-			pages: Math.ceil(results[3] / 6),
-			category_current: req.params.id,
-			cart: req.session.cart
-		});
-	});
-
-});
-/*--------------------------------------------------------*/
-
-router.post('/login', function(req, res, next) {
-	passport.authenticate('local', function(err, user, info) {
-		if (err) {  throw new errr; }
-
-		if (!user) {
-			return res.render('./pages/login', {
-				failureMessage : 'Invalid user name or password!'
-			}); 
-		}
-
-		req.logIn(user, function (err) {
-			if (err) { throw new err; }
-			return res.redirect('/');
-		});
-
-	})(req, res, next);
-});
-
 
 router.post('/login/client', function(req, res, next) {
 	passport.authenticate('local', function(err, user, info) {
@@ -192,7 +70,6 @@ router.get('/login/admin', (req, res) => {
 		user: req.session.user
 	});
 });
-
 
 router.post('/login/admin', function(req, res, next) {
 	passport.authenticate('local', function(err, user, info) {
@@ -345,7 +222,6 @@ router.get('/product-data/:id', function (req, res) {
 
 });
 
-
 router.get('/category', (req, res) => {
 	Category.find({}, {_id : 1, name : 1, type : 1})
 		.exec((err, categories) => {
@@ -401,9 +277,10 @@ router.post('/register', (req, res) => {
 			total : data.billTotal,
 			billId : results._id
 		}); 
+	*/
 		req.app.io.emit('notifiNewUser', {
             content : 'Có người dùng đăng ký mới !',
-		}); */
+		});
 		return res.status(200).json({
 			messages : 'Sucessfull register!',
 		});

@@ -715,6 +715,30 @@ socket.on('notifiNewBills', (data) => {
 	
 });
 
+
+socket.on('notifiNewUser', (data) => {
+    notify = new Notification(
+		'Havana Admin',
+		{
+			body: 'Có người dùng đăng ký mới !',
+			icon: 'https://freeiconshop.com/wp-content/uploads/edd/notification-flat.png', 
+			tag: '/admin'
+		}
+	);
+	notify.onclick = function () {
+		window.location.href = this.tag;
+	};
+
+	axios.post('/admin/notifications/add', {
+		content : 'Có đơn đặt hàng mới chưa được xử lý!'
+	})
+	.then((response) => {
+		notifications.fetchNoti();
+	});
+	
+});
+
+
 let edit_product = new Vue({
 	el : '#edit_product',
 	data : {
