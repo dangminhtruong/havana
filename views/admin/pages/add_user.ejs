@@ -40,11 +40,11 @@
 		<div class="content-main">
 		<div class="banner">
 		<h2>
-		<a href="index.html">Home</a>
+		<a href="index.html">Trang quản trị</a>
 		<i class="fa fa-angle-right"></i>
-        <span><%= __('Category') %></span>
+        <span><%= __('Người dùng') %></span>
         <i class="fa fa-angle-right"></i>
-		<span><%= __('Add') %></span>
+		<span><%= __('Thêm mới') %></span>
 		</h2>
 		</div>
 		<div class="content-top">
@@ -54,7 +54,7 @@
                     <form action="/admin/category/add" method="post"  v-on:submit.prevent="onSubmit">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="sel1"><%= __(' User\'s right ') %> :</label>
+                                <label for="sel1"><%= __(' Phân quyền ') %> :</label>
                                 <select class="form-control" v-model="userRight" required>
                                     <option value="4" >Khách hàng</option>
                                     <option value="2">Nhân viên</option>
@@ -62,34 +62,34 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="email"><%= __('User\'s name ') %>:</label>
+                                <label for="email"><%= __('Tên người dùng ') %>:</label>
                                 <input type="text" class="form-control" v-model="userName" required/>
                             </div>
                             <div class="form-group">
-                                <label for="email"><%= __('User\'s phone ') %>:</label>
+                                <label for="email"><%= __('Số điện thoại') %>:</label>
                                 <input type="text" class="form-control" v-model="phone" required>
 							</div>
 							<div class="form-group">
-                                <label for="email"><%= __('User\'s address ') %>:</label>
+                                <label for="email"><%= __('Địa chỉ ') %>:</label>
                                 <input type="text" class="form-control" v-model="address" required>
                             </div>
                            
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="email"><%= __('User\'s email ') %>:</label>
+                                <label for="email"><%= __('Email ') %>:</label>
                                 <input type="text" class="form-control" v-model="email" required>
                             </div>
                             <div class="form-group">
-                                <label for="email"><%= __('User\'s password ') %>:</label>
+                                <label for="email"><%= __('Mật khẩu ') %>:</label>
                                 <input type="password" class="form-control" v-model="password" required>
                             </div>
                             <div class="form-group">
-                                <label for="email"><%= __('Confirm password ') %>:</label>
+                                <label for="email"><%= __('Xác nhận lại mật khẩu') %>:</label>
                                 <input type="password" class="form-control" v-model="repass" required>
                                 <p style="color :red;">{{ alertRepass }}</p>
 							</div>
-							<button type="button" class="btn btn-sucess" @click="addUser" style="color: #999; background-color:#F25C27"><%= __('Finish') %></button>
+							<button type="button" class="btn btn-sucess" @click="addUser" style="color: #999; background-color:#F25C27"><%= __('Xong') %></button>
                         </div>
                     </form>
                 </div>

@@ -24,15 +24,15 @@ new Promise((resolve) => {
 	return new Promise((resolve) => {
 		let items = [];
 		let status = [1, 2];
-		for(i=0; i< 150; i++){
+		for(i=0; i< 5; i++){
 			items.push(
 				{
-					username : 'dangminhtruong',
+					username : faker.internet.userName(),
 					avata : 'avata.jpg',
-					address : faker.internet.email(),
-					email : 'xdangminhtruongx@gmail.com',
+					address : faker.address.streetAddress(),
+					email : faker.internet.email(),
 					password : '777',
-					phone : '0965296242',
+					phone : faker.phone.phoneNumber(),
 					role : 1,
 					status : _.sample(status),
 					wish_list : [

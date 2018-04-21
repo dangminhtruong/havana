@@ -53,10 +53,10 @@
 					<table class="table table-striped">
 						<thead>
 							<tr>
-                            <th>Name</th>
-                            <th>Description</th>
+                            <th>Tên</th>
+                            <th>Mô tả</th>
 							<th>
-								Action
+								Thao tác
 							</th>
 							</tr>
 						</thead>
@@ -65,8 +65,8 @@
                                 <td>{{ item.name }}</td>
                                 <td>{{ item.descript }}</td>
 								<td>
-									<a  v-bind:href="`/admin/category/update?id=${item._id}`" type="button" class="btn btn-warning btn-xs">Edit</a>
-									<button type="button" class="btn btn-danger btn-xs" @click="removeCategory(item._id)">Remove</button>
+									<a  v-bind:href="`/admin/category/update?id=${item._id}`" type="button" class="btn btn-warning btn-xs">Sửa</a>
+									<button type="button" class="btn btn-danger btn-xs" @click="removeCategory(item._id)">Xóa</button>
 								</td>
 							</tr>
 						</tbody>

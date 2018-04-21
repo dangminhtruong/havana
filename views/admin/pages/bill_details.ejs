@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="keywords" content="havana" />
-		<%- include('./blocks/header_links') %>
+		<%- include('../blocks/header_links') %>
 	</head>
 	<body>
 		<div id="wrapper">
@@ -31,34 +31,33 @@
 				</form>
 				<div class="clearfix"> </div>
 			</div>
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<!-- Collect the nav links, forms, and other content for toggling -->
-			<%- include('./blocks/top_nav') %>
-			<!-- /.navbar-collapse -->
+			<%- include('../blocks/top_nav') %>
 			<div class="clearfix">
 			</div>
-			<%- include('./blocks/main_menu') %>
+			<%- include('../blocks/main_menu') %>
 		</nav>
 		<div id="page-wrapper" class="gray-bg dashbard-1">
 		<div class="content-main">
-		<!--banner-->	
 		<div class="banner">
 		<h2>
-		<a href="/">Trang chủ quản trị</a>
+		<a href="index.html">Trang quản trị</a>
 		<i class="fa fa-angle-right"></i>
-		<span>Dashboard</span>
+        <span><%= __('Loại sản phẩm') %></span>
+        <i class="fa fa-angle-right"></i>
+		<span><%= __('Thêm') %></span>
 		</h2>
 		</div>
-		<!--//banner-->
-		<!--content-->
 		<div class="content-top">
-		<div class="col-md-12 " style="min-height:75vh" id="admin_index">
-				<canvas id="line-chart" width="600" height="250"></canvas>
+		<div class="col-md-12 " style="min-height:65vh;" id="bill_details">
+            <div >
+                <div class="col-md-12 panel-content">
+
+                </div>
+            </div>
+            
 		</div>
 		<div class="clearfix"> </div>
 		</div>
-		<!--//content-->
-		<!---->
 		<div class="copy">
 				<p> &copy; xdangminhtruongx@gmail.com | Design by <a href="#" target="_blank">Dang Minh Truong</a> </p>
 		</div>
@@ -66,7 +65,6 @@
 		<div class="clearfix"> </div>
 		</div>
 		</div>
-		
-		<%- include('./blocks/footer_links') %>
+		<%- include('../blocks/footer_links') %>
 	</body>
 </html>

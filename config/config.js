@@ -17,6 +17,9 @@ const config = {
         isCustomer : 4,
         online : 5,
         superAdmin : 6
+    },
+    activity : {
+        online : 1
     }
 }
 

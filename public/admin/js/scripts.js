@@ -17,7 +17,7 @@ Notification.requestPermission();
 var category_add = new Vue({
 	el : '#category_add',
 	data : {
-		categoryType : null,
+		categoryType : 1,
 		categoryName : null,
 		categoryDesc : null,
 		alertTypeNull : null,
@@ -715,6 +715,30 @@ socket.on('notifiNewBills', (data) => {
 	
 });
 
+
+socket.on('notifiNewUser', (data) => {
+    notify = new Notification(
+		'Havana Admin',
+		{
+			body: 'Có người dùng đăng ký mới !',
+			icon: 'https://freeiconshop.com/wp-content/uploads/edd/notification-flat.png', 
+			tag: '/admin'
+		}
+	);
+	notify.onclick = function () {
+		window.location.href = this.tag;
+	};
+
+	axios.post('/admin/notifications/add', {
+		content : 'Có đơn đặt hàng mới chưa được xử lý!'
+	})
+	.then((response) => {
+		notifications.fetchNoti();
+	});
+	
+});
+
+
 let edit_product = new Vue({
 	el : '#edit_product',
 	data : {
@@ -768,7 +792,6 @@ let user_add = new Vue({
 				userRight : this.userRight
 			})
 			.then((response) => {
-				console.log(response.data);
 				if(response.status === 200 ){
 					toastr.options.closeButton = true;
 					toastr.success('New user inserted!');
