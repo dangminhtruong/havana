@@ -4,16 +4,16 @@ services:
     container_name: havana_web
     image: dangminhtruong/havana_api:latest
     ports:
-     - "80:3000"
+     - "3000:3000"
     volumes:
      - .:/app
     depends_on:
      - mongodb
-  node:
-    image: "node:9.5.0"
   mongodb:
     restart: always
     image: mongo:latest
     container_name: "mongodb"
     ports:
     - 27017:27017
+    volumes:
+     - .docker/mogodb:/var/lib/mongodb
