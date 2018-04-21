@@ -133,17 +133,17 @@ router.get('/update-quantity/:id', (req, res) => {
 router.post('/update-color', (req, res) => {
 	let index = _.findIndex(req.session.cart, { product_id : req.body.currentId});
 	req.session.cart[index].color = req.body.colorUpdate;
-		return res.json({
-			products : req.session.cart
-		});
+	return res.json({
+		products : req.session.cart
+	});
 });
 
 router.get('/update-size/:id', (req, res) => {
 	let index = _.findIndex(req.session.cart, { product_id : req.params.id});
 	req.session.cart[index].size = req.query.size;
-		return res.json({
-			products : req.session.cart
-		});
+	return res.json({
+		products : req.session.cart
+	});
 });
 
 router.post('/sign-in-order', (req, res) => {
@@ -198,7 +198,7 @@ router.post('/sign-in-order', (req, res) => {
 			billId : results._id
 		});
 		req.app.io.emit('notifiNewBills', {
-            content : 'Có đơn đặt hàng mới !',
+			content : 'Có đơn đặt hàng mới !',
 		});
 		req.session.cart = undefined;
 		return res.send({
