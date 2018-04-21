@@ -14,7 +14,7 @@
 </ul>
 . After this step, you have faked data...<br/>
 <b>Step 3</b> Run "nodemon" at main folder, then open browser, access to "localhost:3000"... That's is
-<h6>Notice !</h6> Cause this project just a my first project using nodejs, mongodb. So, source maybe confusing !
+<h6>Notice !</h6> Here is client app https://github.com/dangminhtruong/havana_client
 
 <h3>In case you are using Docker</h3><br/>
 <b><i>Just simply run folowing steps</i></b><br/>
@@ -25,3 +25,5 @@
 <li>"node product_seeder"</li> 
 <li>"node user_seeder"</li> 
 <li>"node bill_seeder"</li> 
+<b>Step 4</b> The app running at localhost:3000<br/>
+<h6>Notice !</h6> Here is client app https://github.com/dangminhtruong/havana_client
