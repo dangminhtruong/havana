@@ -23,17 +23,17 @@ var covertToObj = require('../helpers/to_array_objects');
 * Email : mr.dangminhtruong@gmail.com
 *-----------------------------------*/
 
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
 	res.render('./admin/index', {
 		user : req.user
 	});
 });
 /*--------------------------------------------------------*/
-router.get('/category/add', (req, res, next) => {
+router.get('/category/add', (req, res) => {
 	res.render('./admin/pages/add_category', {user : req.user});
 });
 /*--------------------------------------------------------*/
-router.post('/category/add', urlencodedParser , (req, res, next) => {
+router.post('/category/add', urlencodedParser , (req, res) => {
 	let cate = new Category({
 		name : req.body.name,
 		type : req.body.type,
@@ -47,11 +47,11 @@ router.post('/category/add', urlencodedParser , (req, res, next) => {
     
 });
 /*--------------------------------------------------------*/
-router.get('/line-chart', (req, res, next) => {
+router.get('/line-chart', (req, res) => {
 	weekly(req, res);
 });
 /*--------------------------------------------------------*/
-router.get('/bills/index', (req, res, next) => {
+router.get('/bills/index', (req, res) => {
 	res.render('./admin/pages/bills_main',{user : req.user}); 
 });
 /*--------------------------------------------------------*/
@@ -372,10 +372,10 @@ const cpUpload = upload.fields(
 	[
 	   { name: 'avatar', maxCount: 1 }, 
 	   { name: 'details', maxCount: 8 }
-   ]
+	]
 );
 router.post('/product/add/new',cpUpload, (req, res) => {
-		let product = new Product({
+	let product = new Product({
 		name : req.body.product_name,
 		unit_price : req.body.unit_price,
 		promo_price : req.body.promo_price,
@@ -434,13 +434,13 @@ router.post('/product/edit/:id', cpUpload, (req, res) => {
 		category_id : req.body.product_type,
 		size : covertToObj(req.body.size),
 		colors : covertToObj(req.body.color), 
-	}
+	};
 
 	if(req.files['avatar']){
-		data.image = req.files['avatar'][0].filename
+		data.image = req.files['avatar'][0].filename;
 	}
 	if(req.files['details']){
-		data.$push = { image_details: { $each: _.map(req.files['details'], 'filename') } }
+		data.$push = { image_details: { $each: _.map(req.files['details'], 'filename') } };
 	}
 	
 	Product.findByIdAndUpdate(
@@ -448,11 +448,11 @@ router.post('/product/edit/:id', cpUpload, (req, res) => {
 		data, 
 		{ new : true },
 		(err, product) => {
-				res.send({
-					status : product
-				});
-			} 
-		); 
+			res.send({
+				status : product
+			});
+		} 
+	); 
 });
 /*-------------------------------------------------*/
 router.get('/product/edit-data/:id', (req, res) => {
@@ -460,7 +460,7 @@ router.get('/product/edit-data/:id', (req, res) => {
 		res.json({
 			productInfor : product,
 		});
-	})
+	});
 });
 /*-------------------------------------------------*/
 router.get('/product/list', (req, res) => {
@@ -754,12 +754,12 @@ router.get('/category/remove/:id', (req, res) => {
 
 router.get('/category/update', (req, res) => {
 	Category.find({ _id : req.query.id})
-	.exec((err, category) => {
-		res.render('./admin/pages/update_category', {
-			info : category,
-			user : req.user,
+		.exec((err, category) => {
+			res.render('./admin/pages/update_category', {
+				info : category,
+				user : req.user,
+			});
 		});
-	});
 });
 
 
@@ -773,10 +773,10 @@ router.post('/category/update/:id', (req, res) => {
 		}, 
 		{ new : true },
 		(err, category) => {
-				if (err) return res.status(500).send(err);
-				res.redirect('/admin/category/list?status=200');
-			} 
-		);
+			if (err) return res.status(500).send(err);
+			res.redirect('/admin/category/list?status=200');
+		} 
+	);
 });
 
 router.get('/user/list', (req, res) => {
@@ -857,15 +857,15 @@ router.get('/user/remove/:id', (req, res) => {
 router.get('/notifications',(req, res) => {
 	User.find({ _id : req.user._id }, { _id : 1 ,notification : 1 })
 		.exec((err, notifications) => {
-		if(err){
+			if(err){
+				return res.status(200).json({
+					notis : [ { content : 'There is some errors to fetch data' } ]
+				});
+			}
 			return res.status(200).json({
-				notis : [ { content : 'There is some errors to fetch data' } ]
+				notis : notifications[0].notification
 			});
-		}
-		return res.status(200).json({
-			notis : notifications[0].notification
 		});
-	});
 });
 
 
@@ -890,16 +890,16 @@ router.get('/notifications/watched/:id',(req, res) => {
 		, (err, notifications) => {
 			User.find({ _id : req.user._id }, { _id : 1 ,notification : 1 })
 				.exec((err, notifications) => {
-				if(err){
+					if(err){
+						return res.status(200).json({
+							notis : [ { content : 'There is some errors to fetch notifictions' } ]
+						});
+					}
 					return res.status(200).json({
-						notis : [ { content : 'There is some errors to fetch notifictions' } ]
+						notis : notifications[0].notification,
 					});
-				}
-				return res.status(200).json({
-					notis : notifications[0].notification,
 				});
-			});
-		})
+		});
 });
 
 router.get('/user/add', (req, res) => {

@@ -278,7 +278,7 @@ router.get('/bill/verfi/:id', (req, res) => {
 			res.render('./pages/verfi_sucess');
 		}
 	); 
-})
+});
 
 
 router.post('/register', (req, res) => {
@@ -299,7 +299,7 @@ router.post('/register', (req, res) => {
 				code : err.code
 			});
 		} 
-	/* 	eventEmitter.emit('sendConfirmOrderMail', {
+		/* 	eventEmitter.emit('sendConfirmOrderMail', {
 			items : data.detailsArr,
 			user : req.user,
 			total : data.billTotal,
@@ -307,7 +307,7 @@ router.post('/register', (req, res) => {
 		}); 
 	*/
 		req.app.io.emit('notifiNewUser', {
-            content : 'Có người dùng đăng ký mới !',
+			content : 'Có người dùng đăng ký mới !',
 		});
 		return res.status(200).json({
 			messages : 'Sucessfull register!',
@@ -321,15 +321,15 @@ router.get('/chatbox', (req, res) => {
 	async.parallel([
 		(callback) => {
 			Category.find({}, {_id : 1, name : 1, type : 1})
-			.exec((err, categories) => {
-				callback(null, categories);
-			});
+				.exec((err, categories) => {
+					callback(null, categories);
+				});
 		},
 		(callback) => {
 			User.find({ role : config.userStatus.isStaff , status : config.activity.online })
-			.exec((err, users)=>{
-				callback(null, users);
-			});
+				.exec((err, users)=>{
+					callback(null, users);
+				});
 		}
 	],
 	(err, results) => {
@@ -346,28 +346,28 @@ router.get('/chatbox', (req, res) => {
 
 router.post('/chatbox/fetch/message', (req, res) => {
 	Message.find({ members : { $all: [req.user._id, req.body.userId] } })
-	.exec((err, messages) => {
-		if(err){
-			return res.status(500).json({
-				messages : err.code
+		.exec((err, messages) => {
+			if(err){
+				return res.status(500).json({
+					messages : err.code
+				});
+			}
+			return res.status(200).json({
+				messages : (messages.length !== 0) ? messages : null
 			});
-		}
-		return res.status(200).json({
-			messages : (messages.length !== 0) ? messages : null
 		});
-	});
 });
 
 router.post('/chatbox/add/message', (req, res) => {
 
 	Message.find({ members : { $all: [req.body.curentId, req.body.targetId] } })
-	.exec((err, message) => {
-		console.log('mess',message);
-		if(message.length !== 0){
-			Message.findOneAndUpdate(
-				{ members : { $all: [req.body.curentId, req.body.targetId] } },
-				{
-					$push: 
+		.exec((err, message) => {
+			console.log('mess',message);
+			if(message.length !== 0){
+				Message.findOneAndUpdate(
+					{ members : { $all: [req.body.curentId, req.body.targetId] } },
+					{
+						$push: 
 						{
 							messages: 
 								{ 
@@ -376,46 +376,46 @@ router.post('/chatbox/add/message', (req, res) => {
 									message : req.body.message
 								}
 						}
-				},
-				{ new : true },
-				(err, messages) => {
-				/* 	req.app.io.emit('newMessage', {
+					},
+					{ new : true },
+					(err, messages) => {
+						/* 	req.app.io.emit('newMessage', {
 						messages : messages,
 					}); */
 		
-					return res.status(200).json({
-						messages : messages
-					});
-				}
-			);
-		}else{
-			let message = new Message({
-				members : [req.body.curentId, req.body.targetId],
-				messages : [
-					{ 
-						user_name : req.body.username,
-						status : 1,
-						message : req.body.message
+						return res.status(200).json({
+							messages : messages
+						});
 					}
-				],
-			});
-			message.save((err, messages) => {
-				if(err){
-					console.log(err);
-				}
-				console.log(messages);
-				return res.status(200).json({
-					messages : {
-						messages : [{
+				);
+			}else{
+				let message = new Message({
+					members : [req.body.curentId, req.body.targetId],
+					messages : [
+						{ 
 							user_name : req.body.username,
 							status : 1,
 							message : req.body.message
-						}]
-					}
+						}
+					],
 				});
-			});
-		}
-	});
+				message.save((err, messages) => {
+					if(err){
+						console.log(err);
+					}
+					console.log(messages);
+					return res.status(200).json({
+						messages : {
+							messages : [{
+								user_name : req.body.username,
+								status : 1,
+								message : req.body.message
+							}]
+						}
+					});
+				});
+			}
+		});
 });
 
 module.exports = router;
