@@ -85,7 +85,7 @@ if(document.getElementById('admin_index')){
 							datasets: [{ 
 								data: [data.sunday, data.monday, data.tueDay, data.weDay, data.thuDay, data.friDay, data.satuDay],
 								label: 'Biên độ doanh thu',
-								borderColor: '#F25C27',
+								borderColor: '#52D0C4',
 								fill: false
 							}
 							]

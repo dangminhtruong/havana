@@ -228,7 +228,7 @@ h1 a.navbar-brand {
 }
 .navbar-default .navbar-brand:hover {
     color: #fff;
-    background-color: #d95459;
+    background-color: #33ff33;
 }
 .navbar-right {
   margin-right: 10px !important;
@@ -543,7 +543,7 @@ i.fa.fa-globe {
 	font-size:0.9em;
 }
 .banner  h2 a { 
-    color:#D95459;
+    color:#52D0C4;
 	text-decoration:none;
 	font-family: 'Muli-Regular';
 	padding:0.3em ;
