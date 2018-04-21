@@ -933,10 +933,22 @@ router.get('/messages/index', (req, res) => {
 });
 
 router.get('/bills/single/detail/:id', (req, res) => {
-	res.render('./admin/pages/bill_details', {user : req.user});
+	Bill.findById(req.params.id, (err, billDetails) => {
+		res.render('./admin/pages/bill_details', {
+			user : req.user,
+			bill : billDetails
+		});
+	})
 });
 
-
+router.get('/bills/single/detail-data/:id', (req, res) => {
+	Bill.findById(req.params.id, (err, billDetails) => {
+		res.render('./admin/pages/bill_details', {
+			user : req.user,
+			bill : billDetails
+		});
+	})
+});
 
 
 module.exports = router;

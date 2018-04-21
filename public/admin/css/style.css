@@ -10,14 +10,14 @@ ul, ol {margin: 0;padding: 0;}
 p {margin: 0;}
 
 html, body{
-  	font-family:'Montserrat-Regular';
+  	font-family:'OleoScript-Regular';
     font-size: 100%;
   	background:#F3F3F4;
   	overflow-x: hidden;
 }
 @font-face{
-	font-family:'Montserrat-Regular';
-	src:url(../fonts/Montserrat-Regular.ttf) format('truetype');
+	font-family:'OleoScript-Regular';
+	src:url(../fonts/OleoScript-Regular.ttf) format('truetype');
 }
 @font-face{
 	font-family: 'Muli-Regular';
@@ -220,7 +220,7 @@ h1 a.navbar-brand {
 	font-size: 30px;
 	font-weight: 500;
     padding: 20px 0px;
-    background: #F25C27;
+    background: #52D0C4;
     text-align: center;
 	width:248px;
 	height: 60px;
@@ -1322,9 +1322,9 @@ input#disabledTextInput,select#disabledSelect {
 /*----*/
 label.control-label {
     font-weight: 100;
-    color: #000;
+    color: #52D0C4;
     font-size: 0.9em;
-    margin: 0;
+    margin-bottom: 2vh;
 }
 .form-group1 input[type="text"],.form-group1 textarea,
 .form-group1 input[type="password"],.form-group1 input[type="date"]{
@@ -3549,3 +3549,172 @@ ul.dropdown-menu.dropdown-menu-right {
   #frame .content .message-input .wrap button:focus {
     outline: none;
   }
+
+.panel-bill-detail{
+background-color: #fff; 
+border: 1px solid #ebeff6;
+border-color: #ebeff6; 
+box-shadow: 0 1px 1px rgba(0,0,0,.05); 
+font-size:14px; 
+color: #999;
+}
+
+.top_bar_bill_detail{
+    text-align: center;
+    background-color: #FFF;
+    margin-top: 2vh;
+    padding: 10px;
+}
+
+.custom-label{
+    margin-bottom: 2vh !important;
+}
+
+/*--checkout--*/
+.check-out{
+	padding:0em 0em;
+}
+table{
+	width:100%;
+	  margin: 0em 0 2em;
+}
+th{
+	color: #52D0C4;
+  	font-size: 1.2em;
+ 	font-family: 'OleoScript-Regular';
+    font-weight: 400;	
+}
+th, td {
+    padding: 10px;
+}
+td{
+	color:#b2b2b2;
+  font-size: 1em;
+}
+a.at-in {
+  float: left;
+    width: 20%;
+}
+.sed {
+    float: right;
+	width: 74%;
+}
+.sed h5{
+     color: #52D0C4;
+  	font-size: 1.1em;
+  	font-family: 'OleoScript-Regular';
+}
+.sed p{
+    color:#b2b2b2;
+	font-size:0.8em;
+	line-height:1.8em;
+	padding:1em 0 0;
+}
+.check input[type="text"]{
+    width: 76%;
+  padding: 0.3em;
+  margin: 1em 0;
+  background: #fff;
+  outline: none;
+  text-align: center;
+   border: 1px solid #000;
+}
+.check{
+	width:6%;
+}
+.ring-in{
+	width:45%;
+}
+.check-out h1 {
+ font-size: 3em;
+  color: #000;
+  font-family: 'OleoScript-Regular';
+  margin: 0 0px 1em;
+  text-align: center;
+}
+a.to-buy{
+	padding: 0.3em 0.7em;
+  color: #FFF;
+  background: #52D0C4;
+  margin: 0.5em 0 0;
+  font-size: 1em;
+  display: inline-block;
+  line-height: 1.6em;
+  text-align: center;
+  text-decoration: none;
+}
+a.to-buy:hover{
+  background: #000;
+}
+
+.containerr {
+    position: relative;
+      padding-left: 25px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      font-size: 22px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+  }
+  
+  /* Hide the browser's default radio button */
+  .containerr input {
+    position: absolute;
+      opacity: 0;
+      cursor: pointer;
+  }
+
+/* Create a custom radio button */
+.checkmark {
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+    border-radius: 50%;
+    
+  }
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the indicator (dot/circle) when checked */
+  .containerr input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the indicator (dot/circle) */
+  .containerr .checkmark:after {
+   top: 7px;
+    left: 7px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+  }
+  
+  .colors{
+    text-align: left;
+    vertical-align: inherit;
+  }
+  
+  hr.style3 {
+	border-top: 1px dashed #8c8b8b;
+}
+
+button.to-buy {
+    padding: 0.3em 0.7em;
+    color: #FFF;
+    background: #52D0C4;
+    margin: 0.5em 0 0;
+    font-size: 1em;
+    display: inline-block;
+    line-height: 1.6em;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    margin-bottom: 5vh;
+}
