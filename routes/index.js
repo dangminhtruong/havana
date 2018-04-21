@@ -401,9 +401,8 @@ router.post('/chatbox/add/message', (req, res) => {
 				});
 				message.save((err, messages) => {
 					if(err){
-						console.log(err);
+						throw new err
 					}
-					console.log(messages);
 					return res.status(200).json({
 						messages : {
 							messages : [{

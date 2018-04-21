@@ -1,70 +1,224 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<title>Minimal an Admin Panel Category Flat Bootstrap Responsive Website Template | Home :: w3layouts</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta name="keywords" content="havana" />
-		<%- include('../blocks/header_links') %>
-	</head>
-	<body>
-		<div id="wrapper">
+
+<head>
+	<title>Minimal an Admin Panel Category Flat Bootstrap Responsive Website Template | Home :: w3layouts</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="havana" />
+	<%- include('../blocks/header_links') %>
+</head>
+
+<body>
+	<div id="wrapper">
 		<!------>
 		<nav class="navbar-default navbar-static-top" role="navigation">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-			<span class="sr-only">Toggle navigation</span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			</button>
-			<h1> <a class="navbar-brand" href="/admin">Havana</a></h1>
-		</div>
-		<div class=" border-bottom">
-			<div class="full-left">
-				<section class="full-top">
-					<button id="toggle"><i class="fa fa-arrows-alt"></i></button>	
-				</section>
-				<form class=" navbar-left-right">
-					<input type="text"  value="Search..." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search...';}">
-					<input type="submit" value="" class="fa fa-search">
-				</form>
-				<div class="clearfix"> </div>
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<h1>
+					<a class="navbar-brand" href="/admin">Havana</a>
+				</h1>
 			</div>
-			<%- include('../blocks/top_nav') %>
-			<div class="clearfix">
-			</div>
-			<%- include('../blocks/main_menu') %>
+			<div class=" border-bottom">
+				<div class="full-left">
+					<section class="full-top">
+						<button id="toggle">
+							<i class="fa fa-arrows-alt"></i>
+						</button>
+					</section>
+					<form class=" navbar-left-right">
+						<input type="text" value="Search..." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search...';}">
+						<input type="submit" value="" class="fa fa-search">
+					</form>
+					<div class="clearfix"> </div>
+				</div>
+				<%- include('../blocks/top_nav') %>
+					<div class="clearfix">
+					</div>
+					<%- include('../blocks/main_menu') %>
 		</nav>
 		<div id="page-wrapper" class="gray-bg dashbard-1">
-		<div class="content-main">
-		<div class="banner">
-		<h2>
-		<a href="index.html">Trang quản trị</a>
-		<i class="fa fa-angle-right"></i>
-        <span><%= __('Loại sản phẩm') %></span>
-        <i class="fa fa-angle-right"></i>
-		<span><%= __('Thêm') %></span>
-		</h2>
-		</div>
-		<div class="content-top">
-		<div class="col-md-12 " style="min-height:65vh;" id="bill_details">
-            <div >
-                <div class="col-md-12 panel-content">
+			<div class="content-main">
+				<div class="banner">
+					<h2>
+						<a href="index.html">Trang quản trị</a>
+						<i class="fa fa-angle-right"></i>
+						<span>
+							<%= __('Loại sản phẩm') %>
+						</span>
+						<i class="fa fa-angle-right"></i>
+						<span>
+							<%= __('Thêm') %>
+						</span>
+					</h2>
+				</div>
+				<div class="content-top">
+					<div class="col-md-12 " style="min-height:65vh; font-family: 'OleoScript-Regular';" id="bill_details">
+						<div class="col-md-12 panel-bill-detail">
+							<div class="col-md-12 well top_bar_bill_detail">
+								<strong>Chi tiết đơn hàng</strong>
+							</div>
+							<div class="col-md-12" style="margin-bottom: 2vh;">
+								<div class="col-md-3">
+									<label class="col-md-12 control-label">Tên khách hàng</label>
+									<div class="col-md-12">
+										Dang Minh Truong
+									</div>
+								</div>
 
-                </div>
-            </div>
-            
-		</div>
-		<div class="clearfix"> </div>
-		</div>
-		<div class="copy">
-				<p> &copy; xdangminhtruongx@gmail.com | Design by <a href="#" target="_blank">Dang Minh Truong</a> </p>
-		</div>
-		</div>
-		<div class="clearfix"> </div>
+								<div class="col-md-3">
+									<label class="col-md-12 control-label">Số điện thoại</label>
+									<div class="col-md-12">
+										<%= bill.phone %>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<label class="col-md-12 control-label">Địa chỉ giao hàng</label>
+									<div class="col-md-12">
+										<%= bill.address %>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<label class="col-md-12 control-label">Địa chỉ giao hàng</label>
+									<div class="col-md-12">
+										<%= bill.note %>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-12">
+									<hr class="style3"/>
+								<div class="check-out">
+									<table>
+										<thead>
+											<tr>
+												<th>Item</th>
+												<th>Qty</th>
+												<th>Size</th>
+												<th>Color</th>
+												<th>Prices</th>
+												<th>Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="ring-in">
+													<a class="at-in" href="/details/5adaece61be399003082ff90">
+														<img src="http://localhost:3000/img/product1a.jpg" class="img-responsive" alt="">
+													</a>
+													<div class="sed">
+														<h5>Intelligent Plastic Gloves</h5>
+													</div>
+													<div class="clearfix"> </div>
+												</td>
+												<td class="check">
+													<input type="text" name="quantity" value="1">
+												</td>
+												<td>
+													<select class="form-control custom" name="size">
+														<option value="M">M</option>
+														<option value="XL">XL</option>
+														<option value="XL">XL</option>
+														<option value="M">M</option>
+													</select>
+												</td>
+												<td class="colors">
+													<label class="containerr">
+														<input type="radio" name="5adaece61be399003082ff90" value="on" checked="">
+														<span class="checkmark" style="background: indigo;"></span>
+													</label>
+													<label class="containerr">
+														<input type="radio" name="5adaece61be399003082ff90" value="on">
+														<span class="checkmark" style="background: gold;"></span>
+													</label>
+													<label class="containerr">
+														<input type="radio" name="5adaece61be399003082ff90" value="on">
+														<span class="checkmark" style="background: magenta;"></span>
+													</label>
+													<label class="containerr">
+														<input type="radio" name="5adaece61be399003082ff90" value="on">
+														<span class="checkmark" style="background: orange;"></span>
+													</label>
+												</td>
+												<td>$254</td>
+												<td>
+													<button type="button" class="btn btn-default btn-sm">
+														Delete
+													</button>
+												</td>
+											</tr>
+											<tr>
+													<td class="ring-in">
+														<a class="at-in" href="/details/5adaece61be399003082ff90">
+															<img src="http://localhost:3000/img/product1a.jpg" class="img-responsive" alt="">
+														</a>
+														<div class="sed">
+															<h5>Intelligent Plastic Gloves</h5>
+														</div>
+														<div class="clearfix"> </div>
+													</td>
+													<td class="check">
+														<input type="text" name="quantity" value="1">
+													</td>
+													<td>
+														<select class="form-control custom" name="size">
+															<option value="M">M</option>
+															<option value="XL">XL</option>
+															<option value="XL">XL</option>
+															<option value="M">M</option>
+														</select>
+													</td>
+													<td class="colors">
+														<label class="containerr">
+															<input type="radio" name="5adaece61be399003082ff90" value="on" checked="">
+															<span class="checkmark" style="background: indigo;"></span>
+														</label>
+														<label class="containerr">
+															<input type="radio" name="5adaece61be399003082ff90" value="on">
+															<span class="checkmark" style="background: gold;"></span>
+														</label>
+														<label class="containerr">
+															<input type="radio" name="5adaece61be399003082ff90" value="on">
+															<span class="checkmark" style="background: magenta;"></span>
+														</label>
+														<label class="containerr">
+															<input type="radio" name="5adaece61be399003082ff90" value="on">
+															<span class="checkmark" style="background: orange;"></span>
+														</label>
+													</td>
+													<td>$254</td>
+													<td>
+														<button type="button" class="btn btn-default btn-sm">
+															Delete
+														</button>
+													</td>
+												</tr>
+										</tbody>
+									</table>
+									<button class="to-buy">Cập nhật</button>
+									<div class="clearfix"> </div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+				<div class="copy">
+					<p> &copy; xdangminhtruongx@gmail.com | Design by
+						<a href="#" target="_blank">Dang Minh Truong</a>
+					</p>
+				</div>
+			</div>
+			<div class="clearfix"> </div>
 		</div>
 		</div>
 		<%- include('../blocks/footer_links') %>
-	</body>
+</body>
+
 </html>
