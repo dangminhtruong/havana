@@ -89,7 +89,7 @@ passport.deserializeUser(function(user, done) {
 	done(null, user);
 });
 //--------------------------------------------------------
-mongoose.connect('mongodb://mongodb:27017/havana', {
+mongoose.connect('mongodb://truongdang:789852@ds131989.mlab.com:31989/havana', {
 	useMongoClient: true,
 	promiseLibrary: require('bluebird')
 });
