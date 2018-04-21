@@ -16,6 +16,7 @@ var BillSchema = new mongoose.Schema({
 	address : String,
 	phone: String,
 	user : { type: ObjectId, ref : 'User'},
+	receiver_name : String,
 	detais : [
 		{
 			product_id : { type: ObjectId, ref : 'Product'},

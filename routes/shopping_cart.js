@@ -147,6 +147,7 @@ router.get('/update-size/:id', (req, res) => {
 });
 
 router.post('/sign-in-order', (req, res) => {
+	console.log(req.body);
 	let details = (cart) => {
 		let restoreDetails = [];
 		let total = 0;
@@ -176,9 +177,10 @@ router.post('/sign-in-order', (req, res) => {
 		total : data.billTotal,
 		status : config.status.new,
 		note: req.body.note,
-		address : req.user.address,
-		phone: req.user.phone,
+		address : (req.body.receiverAddress) ? req.body.receiverAddress : req.user.address,
+		phone: (req.body.receiverPhone) ? req.body.receiverPhone : req.user.phone,
 		user : req.user._id,
+		receiver_name : (req.body.receiverName) ? req.body.receiverName : null,
 		detais : data.detailsArr
 	}); 
 
