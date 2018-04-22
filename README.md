@@ -1,5 +1,5 @@
 <h2>Demo site for this app here:</h2><br/>
-<b> 128.199.229.75</b><br/>
+<b> <a hef="128.199.229.75">128.199.229.75</a></b><br/>
 <b> Admin account to access dashboard <b></br/>
  <b>username: dangminhtruong</b><br/>
 <b> Admin account password: 777 </b><br/>
