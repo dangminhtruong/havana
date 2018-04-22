@@ -3720,8 +3720,8 @@ button.to-buy {
 }
 
 .show_bill_details{
-    min-height: 60vh;
-    max-height: 60vh;
+    min-height: 62vh;
+    max-height: 62vh;
     overflow-y: scroll;
 }
 
@@ -3754,3 +3754,5 @@ button.to-buy {
     color-stop(0.72, #52D0C4),
     color-stop(0.86, #52D0C4));
 }
+
+

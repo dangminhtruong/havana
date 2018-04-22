@@ -938,12 +938,10 @@ router.get('/messages/index', (req, res) => {
 
 router.get('/bills/single/detail/:id', (req, res) => {
 	Bill.findById(req.params.id)
-		.populate('user')
 		.populate({
-			path: 'detais.product_id',
+			path: 'user',
 			select: 'username'
 		}).exec((err, billDetails) => {
-			console.log(billDetails);
 			res.render('./admin/pages/bill_details', {
 				user: req.user,
 				bill: billDetails
@@ -952,13 +950,79 @@ router.get('/bills/single/detail/:id', (req, res) => {
 });
 
 router.get('/bills/single/detail-data/:id', (req, res) => {
-	Bill.findById(req.params.id, (err, billDetails) => {
-		res.render('./admin/pages/bill_details', {
-			user: req.user,
+	Bill.findById(req.params.id)
+	.populate({
+		path: 'detais.product_id',
+		select: [
+			'image',	
+			'colors',
+			'size',
+			'unit_price',
+			'promo_price'
+		]
+	})
+	.exec((err, billDetails) => {
+		return res.status(200).json({
 			bill: billDetails
-		});
+		})
 	})
 });
 
+
+/* router.patch('/bills/single/update/color', (req, res) => {
+	Bill.findOneAndUpdate(
+		{ _id :req.body.id, 'detais._id' : req.body.itemId }, 
+		{ $set:  {  detais : req.body.dataUpdate  } },
+		{ new : true }
+	)
+	.populate({
+        path: 'detais.product_id',
+		select: [
+			'image',	
+			'colors',
+			'size'
+		]
+    })
+    .exec((err, detail) => {
+		if(err){
+			return res.send({
+				status : 500,
+				message : 'false'
+			});
+		}
+		return res.send({
+			bill : detail
+		});
+	});
+}); */
+
+router.patch('/bills/single/update/item' , (req, res) => {
+	Bill.findOneAndUpdate(
+		{ _id : req.body.billId, 'detais._id' : req.body.itemId }, 
+		{ $set:  {  detais : req.body.dataUpdate}},
+		{ new : true }
+	)
+	.populate({
+        path: 'detais.product_id',
+		select: [
+			'image',	
+			'colors',
+			'size'
+		]
+    })
+    .exec((err, detail) => {
+		if(err){
+			console.log(err);
+			return res.send({
+				status : 500,
+				message : 'false'
+			});
+		}
+		return res.send({
+			status : 200,
+			bill : detail
+		});
+	});
+});
 
 module.exports = router;
