@@ -816,7 +816,8 @@ let bill_details = new Vue({
 	data: {
 		details: [],
 		id: '',
-		status: 0,
+		status: 1,
+		list: []
 	},
 	mounted: function () {
 		let id = $('#current_bill_id').val();
@@ -825,6 +826,11 @@ let bill_details = new Vue({
 				this.details = response.data.bill.detais;
 				this.id = id;
 				this.status = response.data.bill.status;
+				let tmp = [];
+				for (i = this.status; i <= 4; i++) {
+					tmp.push(i);
+				}
+				this.list = tmp;
 			});
 	},
 	methods: {
@@ -903,8 +909,6 @@ let bill_details = new Vue({
 				});
 		},
 		removeBill: function (id) {
-
-
 			swal({
 				title: 'Xóa bỏ đơn hàng này ?',
 				text: 'Đơn hàng của khách hàng sẽ xóa bỏ !',
@@ -929,6 +933,39 @@ let bill_details = new Vue({
 							});
 					} else {
 						swal('Hủy xóa thành cônng !');
+					}
+				});
+		},
+		updateStatus: function (status) {
+
+			swal({
+				title: 'Cập nhật trạng thái đơn hàng này ?',
+				text: 'Đơn hàng của khách hàng thay đổi trạng thái !',
+				icon: 'warning',
+				buttons: true,
+				dangerMode: true,
+			})
+				.then((willDelete) => {
+					if (willDelete) {
+						axios.patch(`/admin/bills/single/update/status/${this.id}`, { status: status })
+							.then((response) => {
+								if (response.data.status !== 200) {
+									toastr.options.closeButton = true;
+									toastr.error('Opps! something went wrong!');
+								}
+								else {
+									this.status = response.data.bill.status;
+									let tmp = [];
+									for (i = this.status; i <= 4; i++) {
+										tmp.push(i);
+									}
+									this.list = tmp;
+									toastr.options.closeButton = true;
+									toastr.success('Cập nhật trạng thái thành công !');
+								}
+							});
+					} else {
+						swal('Hủy cập nhật thành cônng !');
 					}
 				});
 		}
