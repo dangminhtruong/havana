@@ -95,49 +95,46 @@
 							<div class="col-md-12" style="color:black">
 								<div class="col-md-12 row">
 									<div class="col-md-3 col-lg-3">
-										Customer name
+										Tên khách hàng
 									</div>
 									<div class="col-md-4 col-lg-4">
-										Note
+										Ghi chú đơn hàng
 									</div>
 									<div class="col-md-2 col-lg-2">
-										Status
+										Trạng thái
 									</div>
 									<div class="col-md-3 col-lg-3">
-										Action
+										Thao tác
 									</div>
 								</div>
 							</div>
 							<div class="col-md-12 col-sm-12" style="min-height:60vh; max-height:60vh; text-align:left; overflow-y: scroll">
-								<div class="col-md-12 row" v-for="bill in bills" style="padding:2vh; border-bottom: 1px solid;">
+								<div class="col-md-12 row" v-for="bill in bills" style="padding:2vh; border-bottom: 1px solid; max-height: 10vh; min-height: 10vh; ">
 
 									<div class="col-md-3 col-lg-3">
 										{{ bill.user.username }}
 									</div>
-									<div class="col-md-4 col-lg-4" style="max-height: 6vh; overflow: hidden; text-overflow: ellipsis">
+									<div class="col-md-4 col-lg-4" style="overflow: hidden; text-overflow: ellipsis">
 										{{ bill.note }}
 									</div>
 									<div class="col-md-2 col-lg-2">
 										<span v-if="bill.status == 1 ">
-											<span class="label label-primary">pedding</span>
+											<span class="label label-primary">Đang chờ</span>
 										</span>
 										<span v-else-if="bill.status == 2">
-											<span class="label label-info">confirm</span>
+											<span class="label label-info">Đã xác nhận</span>
 										</span>
 										<span v-else-if="bill.status == 3">
-											<span class="label label-default">shipping</span>
+											<span class="label label-default">Đang chuyển hàng</span>
 										</span>
 										<span v-else-if="bill.status == 4">
-											<span class="label label-success">done</span>
+											<span class="label label-success">Hoàn tất</span>
 										</span>
 									</div>
 									<div class="col-md-3 col-lg-3">
 										<a type='button' :href=`/admin/bills/single/detail/${bill._id}` class="btn btn-xs btn-info">
-											Detail
+											Xem chi tiết
 										</a>
-										<button class="btn btn-xs btn-danger">
-											delete
-										</button>
 									</div>
 								</div>
 							</div>
