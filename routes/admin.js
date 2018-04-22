@@ -951,21 +951,21 @@ router.get('/bills/single/detail/:id', (req, res) => {
 
 router.get('/bills/single/detail-data/:id', (req, res) => {
 	Bill.findById(req.params.id)
-	.populate({
-		path: 'detais.product_id',
-		select: [
-			'image',	
-			'colors',
-			'size',
-			'unit_price',
-			'promo_price'
-		]
-	})
-	.exec((err, billDetails) => {
-		return res.status(200).json({
-			bill: billDetails
+		.populate({
+			path: 'detais.product_id',
+			select: [
+				'image',
+				'colors',
+				'size',
+				'unit_price',
+				'promo_price'
+			]
 		})
-	})
+		.exec((err, billDetails) => {
+			return res.status(200).json({
+				bill: billDetails
+			})
+		})
 });
 
 
@@ -996,33 +996,99 @@ router.get('/bills/single/detail-data/:id', (req, res) => {
 	});
 }); */
 
-router.patch('/bills/single/update/item' , (req, res) => {
+router.patch('/bills/single/update/item', (req, res) => {
 	Bill.findOneAndUpdate(
-		{ _id : req.body.billId, 'detais._id' : req.body.itemId }, 
-		{ $set:  {  detais : req.body.dataUpdate}},
+		{ _id: req.body.billId, 'detais._id': req.body.itemId },
+		{ $set: { detais: req.body.dataUpdate } },
+		{ new: true }
+	)
+		.populate({
+			path: 'detais.product_id',
+			select: [
+				'image',
+				'colors',
+				'size'
+			]
+		})
+		.exec((err, detail) => {
+			if (err) {
+				console.log(err);
+				return res.send({
+					status: 500,
+					message: 'false'
+				});
+			}
+			return res.send({
+				status: 200,
+				bill: detail
+			});
+		});
+});
+
+router.delete('/bills/:id', (req, res) => {
+	Bill.findByIdAndRemove(req.params.id, (err, result) => {
+		if (err) {
+			return res.json({
+				status: 500,
+				message: 'fasle'
+			});
+		}
+		return res.json({
+			status : 200,
+			messages: 'success'
+		});
+	});
+});
+
+router.patch('/bills/single/remove/item/:id', (req, res) => {
+	console.log('HAVANA',req.params.id, req.body.itemId);
+	Bill.findByIdAndUpdate(
+		req.params.id,
+		{ $pull: { 'detais' : { '_id' : req.body.itemId } } },
 		{ new : true }
 	)
 	.populate({
-        path: 'detais.product_id',
+		path: 'detais.product_id',
 		select: [
-			'image',	
+			'image',
 			'colors',
 			'size'
 		]
-    })
-    .exec((err, detail) => {
-		if(err){
+	})
+	.exec((err, detail) => {
+		if (err) {
 			console.log(err);
 			return res.send({
-				status : 500,
-				message : 'false'
+				status: 500,
+				message: 'false'
 			});
 		}
 		return res.send({
-			status : 200,
-			bill : detail
+			status: 200,
+			bill: detail
 		});
 	});
+});
+
+
+router.patch('/bills/single/update/status/:id', () => {
+	Bill.findByIdAndUpdate(
+		req.params.id,
+		{ status : req.body.status },
+		{ new : true },
+		(err, detail) => {
+			if(err){
+				return res.send({
+					status: 500,
+					message: 'false'
+				});
+			}
+			return res.send({
+				status: 200,
+				bill: detail
+			});
+		}
+	);
 });
 
 module.exports = router;
