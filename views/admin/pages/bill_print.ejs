@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Diamonds Fashion</title>
+    <%- include('../blocks/header_links') %>
+  </head>
+  <body style="background-color: #FFF !important;">
+    <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+            <!---------------------->
+            <div class="col-md-12" id="tenHoaDon" style="text-align: center; font-size: 20px;">
+              <strong>HÓA ĐƠN BÁN HÀNG</strong>
+            </div>
+            <div class="col-md-12">
+              <div class="col-md-6">
+                <div class="col-md-12">
+                  <strong>Cửa hàng thời trang Diamonds Fashion</strong><br/>
+                </div>
+                <div class="col-md-12">
+                    <br/>
+                    <strong>Địa chỉ :</strong> <i>Học Viện Nông Nghiệp Việt Nam</i>
+                </div>
+                <div class="col-md-12">
+                    <strong>Số điện thoại :</strong> <i>01292007776</i>
+                </div>
+              </div>
+              <div class="col-md-6">
+              </div>
+            </div>
+            <!---------------------->
+            <div class="col-md-12">
+                <div class="col-md-12">
+                  <div class="col-md-12">
+                    ....<br>
+                    <strong>Họ tên khách hàng :</strong> <i><%= bill.user.username %></i>
+                  </div>
+                  <div class="col-md-12">
+                    <strong>Địa chỉ :</strong> <i><%= bill.user.address %></i>
+                  </div>
+                  <div class="col-md-12">
+                    <strong>Số ĐT :</strong><i><%= bill.user.phone %></i>
+                    <br>
+                  </div>
+                </div>
+            </div>
+            <!---------------------->
+            <div class="col-md-12" style="min-height: 40vh">
+              <div class="col-md-12">
+                <div class="col-md-12">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>STT</th>
+                        <th>Tên loại mặt hàng</th>
+                        <th>Số lượng</th>
+                        <th>Đơn giá</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% bill.detais.forEach((item, index) => { %>
+                      <tr>
+                        <td><%= index +1 %></td>
+                        <td><%= item.product_name %></td>
+                        <td><%= item.quantity %></td>
+                        <td><%= item.price %><u>vnđ</u></td>
+                      </tr>
+                      <% }) %>
+                      <tr>
+                          <td></td>
+                          <td></td>
+                          <td><strong>Tổng</strong></td>
+                          <td><strong><%= bill.total %><u>vnđ</u></strong></td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <!-------------->
+            <div class="col-md-12 ">
+            
+                <div class="col-md-4 col-sm-6 col-xs-6" id="kyTenKh">
+                    <i>Khách hàng<br/>(Ký tên)</i><br/><br/><br/><br/>
+                    <%= bill.user.username %>
+                </div>
+                <div class="col-md-3"></div>
+                <div class="col-md-4 col-sm-6 col-xs-6" id="kyTenNB" style="text-align: right">
+                    <i>Người bán hàng<br/>(Ký tên)</i><br/><br/><br/><br/>
+                    <%= user.username %>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <!-------------------->
+    <script src="../js/bootstrap.js"></script>
+    <script>
+      window.print();
+    </script>
+  </body>
+</html>
