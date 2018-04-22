@@ -822,15 +822,41 @@ let bill_details = new Vue({
 		let id = $('#current_bill_id').val();
 		axios.get(`/admin/bills/single/detail-data/${id}`)
 			.then((response) => {
-				console.log(response.data);
 				this.details = response.data.bill.detais;
 				this.id = id;
 				this.status = response.data.bill.status;
 			});
 	},
 	methods: {
-		removeItem: function (id) {
-			console.log(id);
+		removeItem: function (itemId) {
+
+			swal({
+				title: 'Xóa sản phẩm này ?',
+				text: 'Đơn hàng của khách hàng bị thay đổi !',
+				icon: 'warning',
+				buttons: true,
+				dangerMode: true,
+			})
+				.then((willDelete) => {
+					if (willDelete) {
+						axios.patch(`/admin/bills/single/remove/item/${this.id}`, { itemId: itemId })
+							.then((response) => {
+								if (response.data.status !== 200) {
+									toastr.options.closeButton = true;
+									toastr.error('Opps! something went wrong!');
+								}
+								else {
+									toastr.options.closeButton = true;
+									toastr.success('Success !');
+									this.details = response.data.bill.detais;
+								}
+							});
+					} else {
+						swal('Hủy xóa thành cônng !');
+					}
+				});
+
+
 		},
 		updateItem: function (index, itemId) {
 			swal({
@@ -875,8 +901,36 @@ let bill_details = new Vue({
 						swal('Cancled !');
 					}
 				});
+		},
+		removeBill: function (id) {
 
 
+			swal({
+				title: 'Xóa bỏ đơn hàng này ?',
+				text: 'Đơn hàng của khách hàng sẽ xóa bỏ !',
+				icon: 'warning',
+				buttons: true,
+				dangerMode: true,
+			})
+				.then((willDelete) => {
+					if (willDelete) {
+						axios.delete(`/admin/bills/${id}`)
+							.then((response) => {
+								if (response.data.status !== 200) {
+									toastr.options.closeButton = true;
+									toastr.error('Opps! something went wrong!');
+								} else {
+									toastr.options.closeButton = true;
+									toastr.success('Success !');
+									setTimeout(() => {
+										location.href = '/admin/bills/index';
+									}, 2000);
+								}
+							});
+					} else {
+						swal('Hủy xóa thành cônng !');
+					}
+				});
 		}
 	}
 });

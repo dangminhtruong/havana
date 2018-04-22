@@ -183,7 +183,7 @@
 										</button>
 									</div>
 									<div class="col-md-3">
-										<button type="button" class="btn btn-danger">
+										<button type="button" class="btn btn-danger" @click="removeBill(id)">
 											Hủy đơn hàng
 											<i class="fa fa-trash-o" aria-hidden="true"></i>
 										</button>
@@ -201,6 +201,12 @@
 		</div>
 		</div>
 		<%- include('../blocks/footer_links') %>
+		<% if(typeof messages !== 'undefined'){ %>
+			<script>
+				toastr.options.closeButton = true;
+				toastr.success('Xóa đơn hàng thành công !');
+			</script>
+		<% } %>
 </body>
 
 </html>
