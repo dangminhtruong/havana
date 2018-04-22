@@ -3755,4 +3755,6 @@ button.to-buy {
     color-stop(0.86, #52D0C4));
 }
 
-
+#custom_hover :hover{
+   text-decoration: none !important;
+}

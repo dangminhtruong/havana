@@ -164,23 +164,41 @@
 												<span class="caret"></span>
 											</button>
 											<ul class="dropdown-menu">
-												<li>
-													<a href="#">Đã xử lý</a>
+
+											
+												<li v-for="i in list">
+													<button class="btn btn-link" @click="updateStatus(i)">
+														 <span v-if="i === 1">
+																Đang chờ 
+														 </span>
+														 
+														 <span v-if="i === 2">
+																Đã xác nhận
+														 </span>
+
+														 <span v-if="i === 3">
+																Đã chuyển hàng
+														 </span>
+
+														 <span v-if="i === 4">
+																Hoàn tất
+														 </span>
+												
+														
+															<i class="fa fa-check" aria-hidden="true" v-if="i === status"></i>
+														
+													</button>
 												</li>
-												<li>
-													<a href="#">Đang chuyển hàng</a>
-												</li>
-												<li>
-													<a href="#">Hoàn tất</a>
-												</li>
+									
+
 											</ul>
 										</div>
 									</div>
 									<div class="col-md-3">
-										<button type="button" class="btn btn-warning">
+										<a type="button" href="/admin/bills/export/<%= bill._id %>" class="btn btn-warning">
 											Xuất hóa đơn
 											<i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-										</button>
+										</a>
 									</div>
 									<div class="col-md-3">
 										<button type="button" class="btn btn-danger" @click="removeBill(id)">
@@ -201,12 +219,12 @@
 		</div>
 		</div>
 		<%- include('../blocks/footer_links') %>
-		<% if(typeof messages !== 'undefined'){ %>
-			<script>
-				toastr.options.closeButton = true;
-				toastr.success('Xóa đơn hàng thành công !');
-			</script>
-		<% } %>
+			<% if(typeof messages !== 'undefined'){ %>
+				<script>
+					toastr.options.closeButton = true;
+					toastr.success('Xóa đơn hàng thành công !');
+				</script>
+				<% } %>
 </body>
 
 </html>

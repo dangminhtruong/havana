@@ -1071,7 +1071,7 @@ router.patch('/bills/single/remove/item/:id', (req, res) => {
 });
 
 
-router.patch('/bills/single/update/status/:id', () => {
+router.patch('/bills/single/update/status/:id', (req, res) => {
 	Bill.findByIdAndUpdate(
 		req.params.id,
 		{ status : req.body.status },
@@ -1089,6 +1089,18 @@ router.patch('/bills/single/update/status/:id', () => {
 			});
 		}
 	);
+});
+
+router.get('/bills/export/:id', (req, res) => {
+	Bill.findById(req.params.id)
+	.populate('user')
+	.exec((err, billInfo) => {
+		console.log(billInfo);
+		res.render('./admin/pages/bill_print', {
+			user : req.user,
+			bill : billInfo
+		});
+	});
 });
 
 module.exports = router;
