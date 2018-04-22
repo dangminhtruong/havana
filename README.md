@@ -18,9 +18,9 @@
 
 <h3>In case you are using Docker</h3><br/>
 <b><i>Just simply run folowing steps</i></b><br/>
-<b>Step 1</b> Open terminal at main folder and run command "docker-compose up" <br/>
+<b>Step 1</b> Open terminal at main folder and run command "docker-compose up -d" <br/>
 <b>Step 2</b> Run "docker exec -it havana_web bash" <br/>
-<b>Step 3</b> Run "npm install to install dependences packages" <br/>
+<b>Step 3</b> Run "npm install" to install dependences packages<br/>
 <b>Step 4 </b> Move to seeder folder by run "cd databse/seeder/" then run seeder files one by one <br/>
 <li>"node category_seeder"</li> 
 <li>"node product_seeder"</li> 
