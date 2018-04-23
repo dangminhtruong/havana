@@ -971,3 +971,18 @@ let bill_details = new Vue({
 		}
 	}
 });
+
+
+let product_statistic = new Vue({
+	el : '#product_statistic',
+	data : {
+		products : []
+	},
+	mounted :  function(){
+
+	},
+	methods : {
+		
+	}
+
+});

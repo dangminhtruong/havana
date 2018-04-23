@@ -1103,4 +1103,19 @@ router.get('/bills/export/:id', (req, res) => {
 	});
 });
 
+router.get('/product/report', (req, res) => {
+	res.render('./admin/pages/analytic_product', { user : req.user });
+});
+
+router.get('/product/report/data', (req, res) => {
+	async.parallel([
+		(callback) => {
+
+		},
+		(callback) => {
+			
+		}
+	]);
+});
+
 module.exports = router;
