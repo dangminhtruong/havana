@@ -979,10 +979,24 @@ let product_statistic = new Vue({
 		products : []
 	},
 	mounted :  function(){
-
+		axios.get('/admin/product/report/data')
+		.then((response) => {
+			this.products = response.data.products;
+		});
 	},
 	methods : {
-		
+		outOf : function(){
+			axios.get('/admin/product/report/out-of-data')
+			.then((response) => {
+				this.products = response.data.products;
+			});
+		},
+		inventory : function(){
+			axios.get('/admin/product/report/inventory-data')
+			.then((response) => {
+				this.products = response.data.products;
+			});
+		}
 	}
 
 });

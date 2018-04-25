@@ -1034,50 +1034,50 @@ router.delete('/bills/:id', (req, res) => {
 			});
 		}
 		return res.json({
-			status : 200,
+			status: 200,
 			messages: 'success'
 		});
 	});
 });
 
 router.patch('/bills/single/remove/item/:id', (req, res) => {
-	console.log('HAVANA',req.params.id, req.body.itemId);
+	console.log('HAVANA', req.params.id, req.body.itemId);
 	Bill.findByIdAndUpdate(
 		req.params.id,
-		{ $pull: { 'detais' : { '_id' : req.body.itemId } } },
-		{ new : true }
+		{ $pull: { 'detais': { '_id': req.body.itemId } } },
+		{ new: true }
 	)
-	.populate({
-		path: 'detais.product_id',
-		select: [
-			'image',
-			'colors',
-			'size'
-		]
-	})
-	.exec((err, detail) => {
-		if (err) {
-			console.log(err);
+		.populate({
+			path: 'detais.product_id',
+			select: [
+				'image',
+				'colors',
+				'size'
+			]
+		})
+		.exec((err, detail) => {
+			if (err) {
+				console.log(err);
+				return res.send({
+					status: 500,
+					message: 'false'
+				});
+			}
 			return res.send({
-				status: 500,
-				message: 'false'
+				status: 200,
+				bill: detail
 			});
-		}
-		return res.send({
-			status: 200,
-			bill: detail
 		});
-	});
 });
 
 
 router.patch('/bills/single/update/status/:id', (req, res) => {
 	Bill.findByIdAndUpdate(
 		req.params.id,
-		{ status : req.body.status },
-		{ new : true },
+		{ status: req.body.status },
+		{ new: true },
 		(err, detail) => {
-			if(err){
+			if (err) {
 				return res.send({
 					status: 500,
 					message: 'false'
@@ -1093,29 +1093,73 @@ router.patch('/bills/single/update/status/:id', (req, res) => {
 
 router.get('/bills/export/:id', (req, res) => {
 	Bill.findById(req.params.id)
-	.populate('user')
-	.exec((err, billInfo) => {
-		console.log(billInfo);
-		res.render('./admin/pages/bill_print', {
-			user : req.user,
-			bill : billInfo
+		.populate('user')
+		.exec((err, billInfo) => {
+			console.log(billInfo);
+			res.render('./admin/pages/bill_print', {
+				user: req.user,
+				bill: billInfo
+			});
 		});
-	});
 });
 
 router.get('/product/report', (req, res) => {
-	res.render('./admin/pages/analytic_product', { user : req.user });
+	console.log(moment().subtract(30, 'days'));
+	res.render('./admin/pages/analytic_product', { user: req.user });
 });
 
 router.get('/product/report/data', (req, res) => {
-	async.parallel([
-		(callback) => {
+	Product.find({}, { name: 1, quantity: 1, saled: 1, image: 1 })
+		.sort({ quantity: -1 })
+		.limit(50)
+		.exec((err, allProducts) => {
+			if(err){
+				res.json({
+					status : 500,
+					messages : 'False'
+				});
+			}
+			res.json({
+				products: allProducts
+			});
+		});
+});
 
-		},
-		(callback) => {
-			
-		}
-	]);
+router.get('/product/report/out-of-data', (req, res) => {
+	Product.find({ quantity : { $lt : 10 } }, { name: 1, quantity: 1, saled: 1, image: 1 })
+		.sort({ quantity: -1 })
+		.limit(50)
+		.exec((err, allProducts) => {
+			if(err){
+				res.json({
+					status : 500,
+					messages : 'False'
+				});
+			}
+			res.json({
+				products: allProducts
+			});
+		});
+});
+
+router.get('/product/report/inventory-data', (req, res) => {
+	Product.find({
+			createdOn: {$lt: moment().subtract(30, 'days') },
+			saled : { $lt : 10 },
+			quantity : { $gt : 0 }
+		})
+		.limit(50)
+		.exec((err, allProducts) => {
+			if(err){
+				res.json({
+					status : 500,
+					messages : 'False'
+				});
+			}
+			res.json({
+				products: allProducts
+			});
+		});
 });
 
 module.exports = router;
