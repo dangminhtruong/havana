@@ -434,6 +434,7 @@ router.post('/product/edit/:id', cpUpload, (req, res) => {
 		category_id: req.body.product_type,
 		size: covertToObj(req.body.size),
 		colors: covertToObj(req.body.color),
+		createdOn : moment()
 	};
 
 	if (req.files['avatar']) {
@@ -448,8 +449,17 @@ router.post('/product/edit/:id', cpUpload, (req, res) => {
 		data,
 		{ new: true },
 		(err, product) => {
-			res.send({
-				status: product
+			if(err){
+				return res.render('./admin/pages/edit_product', {
+					user: req.user,
+					productId: req.params.id,
+					status : 500,
+					messages : 'Có lỗi xảy ra !'
+				});
+			}
+			return res.render('./admin/pages/list_product', {
+				user: req.user,
+				messages : 'Cập nhật sản phẩm thành công !'
 			});
 		}
 	);
@@ -1104,7 +1114,7 @@ router.get('/bills/export/:id', (req, res) => {
 });
 
 router.get('/product/report', (req, res) => {
-	console.log(moment().subtract(30, 'days'));
+	console.log(moment());
 	res.render('./admin/pages/analytic_product', { user: req.user });
 });
 
