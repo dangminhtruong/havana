@@ -207,14 +207,28 @@ router.post('/sign-in-order', (req, res) => {
 				messages : err
 			});
 		} 
-		eventEmitter.emit('sendConfirmOrderMail', {
+		 eventEmitter.emit('sendConfirmOrderMail', {
 			items : data.detailsArr,
 			user : req.user,
 			total : data.billTotal,
 			billId : results._id
-		});
+		}); 
 		req.app.io.emit('notifiNewBills', {
 			content : 'Có đơn đặt hàng mới !',
+		});
+		data.detailsArr.forEach((item) => {
+			let qty =  parseInt(item.quantity);
+			Product.findOneAndUpdate(
+				{ _id : item.product_id },
+				{
+				    $inc : { quantity : -qty, saled : qty }
+				},
+				(err, product) => {
+					if(err){
+						console.log(err);
+					}
+				}
+			);
 		});
 		req.session.cart = undefined;
 		return res.send({

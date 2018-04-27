@@ -17,7 +17,7 @@ var ProductSchema = new mongoose.Schema(
 		image : { type : String, default : 'product1a.jpg' },
 		status : { type : Number, default : 0 },
 		quantity : { type : Number, default : 0 },
-		saled : Number,
+		saled : { type : Number, default : 0 },
 		category_id : { type: ObjectId, ref : 'Category'},
 		colors : [
 			{ code : String, quantity : { type : Number, 'default' : 0 }}
