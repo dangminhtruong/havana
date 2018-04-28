@@ -1000,3 +1000,27 @@ let product_statistic = new Vue({
 	}
 
 });
+
+let frame = new Vue({
+	el : '#frame',
+	data : {
+		messages : [],
+		onlines : [],
+	},
+	mounted : function(){
+		axios.get(`/admin/chatbox/online`)
+		.then((response) => {
+			console.log(response);
+			this.onlines = response.data.onlineUsers
+		});
+	},
+	methods : {
+		fetchMessages : function(id){
+			axios.post('/admin/chatbox/message/fetch', { userId : id })
+			.then((response) => {
+				console.log(response.data.messages);
+				this.messages = response.data.messages
+			});
+		}
+	}
+});

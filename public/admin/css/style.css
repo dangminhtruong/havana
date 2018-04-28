@@ -2916,7 +2916,7 @@ ul.dropdown-menu.dropdown-menu-right {
     max-width: 340px;
     width: 40%;
     height: 100%;
-    background: #2c3e50;
+    background: #52D0C4;
     color: #f5f5f5;
     overflow: hidden;
     position: relative;
@@ -2936,7 +2936,7 @@ ul.dropdown-menu.dropdown-menu-right {
       width: 100%;
       margin: 0 auto;
       padding: 5px 0 0 0;
-      background: #32465a;
+      background: #52D0C4;
     }
   }
   #frame #sidepanel #profile.expanded .wrap {
@@ -3158,7 +3158,7 @@ ul.dropdown-menu.dropdown-menu-right {
   #frame #sidepanel #profile .wrap #expanded input {
     border: none;
     margin-bottom: 6px;
-    background: #32465a;
+    background: #52D0C4;
     border-radius: 3px;
     color: #f5f5f5;
     padding: 7px;
@@ -3169,8 +3169,8 @@ ul.dropdown-menu.dropdown-menu-right {
     background: #435f7a;
   }
   #frame #sidepanel #search {
-    border-top: 1px solid #32465a;
-    border-bottom: 1px solid #32465a;
+    border-top: 1px solid #52D0C4;
+    border-bottom: 1px solid #52D0C4;
     font-weight: 300;
   }
   @media screen and (max-width: 735px) {
@@ -3187,7 +3187,7 @@ ul.dropdown-menu.dropdown-menu-right {
     padding: 10px 0 10px 46px;
     width: calc(100% - 25px);
     border: none;
-    background: #32465a;
+    background: #52D0C4;
     color: #f5f5f5;
   }
   #frame #sidepanel #search input:focus {
@@ -3226,10 +3226,10 @@ ul.dropdown-menu.dropdown-menu-right {
   }
   #frame #sidepanel #contacts::-webkit-scrollbar {
     width: 8px;
-    background: #2c3e50;
+    background: #52D0C4;
   }
   #frame #sidepanel #contacts::-webkit-scrollbar-thumb {
-    background-color: #243140;
+    background-color: #52D0C4;
   }
   #frame #sidepanel #contacts ul li.contact {
     position: relative;
@@ -3243,14 +3243,14 @@ ul.dropdown-menu.dropdown-menu-right {
     }
   }
   #frame #sidepanel #contacts ul li.contact:hover {
-    background: #32465a;
+    background: #52D0C4;
   }
   #frame #sidepanel #contacts ul li.contact.active {
-    background: #32465a;
+    background: #52D0C4;
     border-right: 5px solid #435f7a;
   }
   #frame #sidepanel #contacts ul li.contact.active span.contact-status {
-    border: 2px solid #32465a !important;
+    border: 2px solid #52D0C4 !important;
   }
   #frame #sidepanel #contacts ul li.contact .wrap {
     width: 88%;
@@ -3269,7 +3269,7 @@ ul.dropdown-menu.dropdown-menu-right {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    border: 2px solid #2c3e50;
+    border: 2px solid #52D0C4;
     background: #95a5a6;
   }
   #frame #sidepanel #contacts ul li.contact .wrap span.online {
@@ -3334,7 +3334,7 @@ ul.dropdown-menu.dropdown-menu-right {
     border: none;
     width: 50%;
     padding: 10px 0;
-    background: #32465a;
+    background: #52D0C4;
     color: #f5f5f5;
     cursor: pointer;
     font-size: 0.85em;
@@ -3351,12 +3351,12 @@ ul.dropdown-menu.dropdown-menu-right {
     outline: none;
   }
   #frame #sidepanel #bottom-bar button:nth-child(1) {
-    border-right: 1px solid #2c3e50;
+    border-right: 1px solid #52D0C4;
   }
   @media screen and (max-width: 735px) {
     #frame #sidepanel #bottom-bar button:nth-child(1) {
       border-right: none;
-      border-bottom: 1px solid #2c3e50;
+      border-bottom: 1px solid #52D0C4;
     }
   }
   #frame #sidepanel #bottom-bar button:hover {
@@ -3498,9 +3498,9 @@ ul.dropdown-menu.dropdown-menu-right {
     float: left;
     border: none;
     width: calc(100% - 90px);
-    padding: 11px 32px 10px 8px;
+    padding: 20px 32px 10px 8px;
     font-size: 0.8em;
-    color: #32465a;
+    color: #52D0C4;
   }
   @media screen and (max-width: 735px) {
     #frame .content .message-input .wrap input {
@@ -3535,7 +3535,7 @@ ul.dropdown-menu.dropdown-menu-right {
     width: 50px;
     padding: 12px 0;
     cursor: pointer;
-    background: #32465a;
+    background: #52D0C4;
     color: #f5f5f5;
   }
   @media screen and (max-width: 735px) {

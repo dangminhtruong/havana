@@ -353,7 +353,7 @@ router.post('/chatbox/fetch/message', (req, res) => {
 				});
 			}
 			return res.status(200).json({
-				messages : (messages.length !== 0) ? messages : null
+				messages : (messages.length !== 0) ? messages : []
 			});
 		});
 });
@@ -362,7 +362,6 @@ router.post('/chatbox/add/message', (req, res) => {
 
 	Message.find({ members : { $all: [req.body.curentId, req.body.targetId] } })
 		.exec((err, message) => {
-			console.log('mess',message);
 			if(message.length !== 0){
 				Message.findOneAndUpdate(
 					{ members : { $all: [req.body.curentId, req.body.targetId] } },
