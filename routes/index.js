@@ -340,12 +340,6 @@ router.post('/register', (req, res) => {
 				code: err.code
 			});
 		}
-		eventEmitter.emit('sendConfirmOrderMail', {
-			items: data.detailsArr,
-			user: req.user,
-			total: data.billTotal,
-			billId: results._id
-		});
 
 		req.app.io.emit('notifiNewUser', {
 			content: 'Có người dùng đăng ký mới !',
