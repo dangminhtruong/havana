@@ -33,8 +33,8 @@ new Promise((resolve) => {
 					email : faker.internet.email(),
 					password : '777',
 					phone : faker.phone.phoneNumber(),
-					role : 1,
-					status : _.sample(status),
+					role : 2,
+					status : 1,
 					wish_list : [
 						{
 							product_id : _.sample(product_ids)._id,
