@@ -24,10 +24,10 @@ new Promise((resolve) => {
 	return new Promise((resolve) => {
 		let items = [];
 		let status = [1, 2];
-		for(i=0; i< 5; i++){
+		for(i=0; i< 1; i++){
 			items.push(
 				{
-					username : faker.internet.userName(),
+					username : 'dangminhtruong',
 					avata : 'avata.jpg',
 					address : faker.address.streetAddress(),
 					email : faker.internet.email(),
