@@ -1003,12 +1003,12 @@ let product_statistic = new Vue({
 
 
 socket.on('newMessage', (data) => {
-	console.log(data);
 	frame.messages = data.messages.messages;
+	var objDiv = document.getElementById("coversation");
+	objDiv.scrollTop = objDiv.scrollHeight;
 });
 
 socket.on('newUserOnline', (data) => {
-	console.log(data);
 	frame.onlines = data.onlineUsers;
 });
 
@@ -1022,7 +1022,7 @@ let frame = new Vue({
 		currentUser: {},
 		targetUser: null,
 		text: '',
-		show : 0
+		show: 0
 	},
 	mounted: function () {
 		axios.get(`/admin/chatbox/online`)
