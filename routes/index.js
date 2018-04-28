@@ -299,13 +299,13 @@ router.post('/register', (req, res) => {
 				code : err.code
 			});
 		} 
-		/* 	eventEmitter.emit('sendConfirmOrderMail', {
+		 	eventEmitter.emit('sendConfirmOrderMail', {
 			items : data.detailsArr,
 			user : req.user,
 			total : data.billTotal,
 			billId : results._id
 		}); 
-	*/
+
 		req.app.io.emit('notifiNewUser', {
 			content : 'Có người dùng đăng ký mới !',
 		});
@@ -378,9 +378,9 @@ router.post('/chatbox/add/message', (req, res) => {
 					},
 					{ new : true },
 					(err, messages) => {
-						/* 	req.app.io.emit('newMessage', {
+					req.app.io.emit('newMessage', {
 						messages : messages,
-					}); */
+					}); 
 		
 						return res.status(200).json({
 							messages : messages
@@ -402,6 +402,9 @@ router.post('/chatbox/add/message', (req, res) => {
 					if(err){
 						throw new err
 					}
+					req.app.io.emit('newMessage', {
+						messages : messages,
+					});
 					return res.status(200).json({
 						messages : {
 							messages : [{
