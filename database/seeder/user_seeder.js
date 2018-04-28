@@ -10,7 +10,7 @@ const Product = require('../../model/product');
 const _ = require('lodash');
 var faker = require('faker');
 
-new Promise((resolve) => {
+/* new Promise((resolve) => {
 	mongoose.connect('mongodb://mongodb:27017/havana', {
 		useMongoClient: true,
 		promiseLibrary: require('bluebird')
@@ -77,11 +77,28 @@ new Promise((resolve) => {
 		}
 		resolve(items);
 	});
-}).then((items) => {
-	seeder.connect('mongodb://mongodb:27017/havana', function() {
+}).then((items) => { */
+	seeder.connect('mongodb://mongodb:27017/havana', function() { 
 		let data = [{
 			'model': 'User',
-			'documents': items
+			'documents': [
+				{
+					username : 'dangminhtruong',
+					avata : 'avata.jpg',
+					address : 'Quang Binh',
+					email : 'xdangminhruongx@gmail.com',
+					password : '777',
+					phone : '0965296242',
+					role : 1,
+					status : 0,
+					wish_list : [
+						
+					],
+					notification : [
+		
+					],
+				}
+			]
 		}];
 		seeder.loadModels([
 			'../../model/user'
@@ -92,4 +109,4 @@ new Promise((resolve) => {
 			});
 		});
 	});
-});
+/* }); */
