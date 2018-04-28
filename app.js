@@ -56,7 +56,7 @@ i18n.configure({
 app.use('/',socketIO, index);
 app.use('/shoping-cart',shoping_cart);
 app.use('/admin', (req, res, next) => {
-	if(req.user && req.user.role === 1){
+	if(req.user && req.user.role === 1 || req.user && req.user.role === 2 ){
 		next();
 	}else{
 		res.redirect('/login/admin');

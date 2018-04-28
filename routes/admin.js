@@ -932,7 +932,6 @@ router.post('/user/add', (req, res) => {
 	});
 	user.save(function (err, results) {
 		if (err) {
-			console.log(err);
 			return res.status(500).send({
 				status: 'Error'
 			});
@@ -1192,7 +1191,7 @@ router.post('/chatbox/message/fetch', (req, res) => {
 				});
 			}
 			return res.status(200).json({
-				conversation: (messages.length !== 0) ? messages : []
+				conversation: (messages.length !== 0) ? messages : [{ messages : [{ message : 'Hãy bắt đầu trò chuyện...' }] }]
 			});
 		});
 });

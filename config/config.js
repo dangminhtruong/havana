@@ -19,7 +19,8 @@ const config = {
         superAdmin : 6
     },
     activity : {
-        online : 1
+        online : 1,
+        offline : 0
     }
 }
 
