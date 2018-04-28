@@ -15,6 +15,7 @@ var multer = require('multer');
 var upload = multer({ dest: 'public/img' });
 var fs = require('fs');
 var config = require('../config/config');
+const Message = require('../model/messages');
 var covertToObj = require('../helpers/to_array_objects');
 
 
@@ -434,7 +435,7 @@ router.post('/product/edit/:id', cpUpload, (req, res) => {
 		category_id: req.body.product_type,
 		size: covertToObj(req.body.size),
 		colors: covertToObj(req.body.color),
-		createdOn : moment()
+		createdOn: moment()
 	};
 
 	if (req.files['avatar']) {
@@ -449,17 +450,17 @@ router.post('/product/edit/:id', cpUpload, (req, res) => {
 		data,
 		{ new: true },
 		(err, product) => {
-			if(err){
+			if (err) {
 				return res.render('./admin/pages/edit_product', {
 					user: req.user,
 					productId: req.params.id,
-					status : 500,
-					messages : 'Có lỗi xảy ra !'
+					status: 500,
+					messages: 'Có lỗi xảy ra !'
 				});
 			}
 			return res.render('./admin/pages/list_product', {
 				user: req.user,
-				messages : 'Cập nhật sản phẩm thành công !'
+				messages: 'Cập nhật sản phẩm thành công !'
 			});
 		}
 	);
@@ -1123,10 +1124,10 @@ router.get('/product/report/data', (req, res) => {
 		.sort({ quantity: -1 })
 		.limit(50)
 		.exec((err, allProducts) => {
-			if(err){
+			if (err) {
 				res.json({
-					status : 500,
-					messages : 'False'
+					status: 500,
+					messages: 'False'
 				});
 			}
 			res.json({
@@ -1136,14 +1137,14 @@ router.get('/product/report/data', (req, res) => {
 });
 
 router.get('/product/report/out-of-data', (req, res) => {
-	Product.find({ quantity : { $lt : 10 } }, { name: 1, quantity: 1, saled: 1, image: 1 })
+	Product.find({ quantity: { $lt: 10 } }, { name: 1, quantity: 1, saled: 1, image: 1 })
 		.sort({ quantity: -1 })
 		.limit(50)
 		.exec((err, allProducts) => {
-			if(err){
+			if (err) {
 				res.json({
-					status : 500,
-					messages : 'False'
+					status: 500,
+					messages: 'False'
 				});
 			}
 			res.json({
@@ -1154,20 +1155,43 @@ router.get('/product/report/out-of-data', (req, res) => {
 
 router.get('/product/report/inventory-data', (req, res) => {
 	Product.find({
-			createdOn: {$lt: moment().subtract(30, 'days') },
-			saled : { $lt : 10 },
-			quantity : { $gt : 0 }
-		})
+		createdOn: { $lt: moment().subtract(30, 'days') },
+		saled: { $lt: 10 },
+		quantity: { $gt: 0 }
+	})
 		.limit(50)
 		.exec((err, allProducts) => {
-			if(err){
+			if (err) {
 				res.json({
-					status : 500,
-					messages : 'False'
+					status: 500,
+					messages: 'False'
 				});
 			}
 			res.json({
 				products: allProducts
+			});
+		});
+});
+
+router.get('/chatbox/online', (req, res) => {
+	User.find({ status: config.activity.online })
+		.exec((err, users) => {
+			res.json({
+				onlineUsers : users
+			});
+		});
+});
+
+router.post('/chatbox/message/fetch', (req, res) => {
+	Message.find({ members : { $all: [req.user._id, req.body.userId] } })
+		.exec((err, messages) => {
+			if(err){
+				return res.status(500).json({
+					messages : err.code
+				});
+			}
+			return res.status(200).json({
+				messages : (messages.length !== 0) ? messages : []
 			});
 		});
 });
