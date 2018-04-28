@@ -10,7 +10,7 @@ const Product = require('../../model/product');
 const _ = require('lodash');
 var faker = require('faker');
 
-/* new Promise((resolve) => {
+new Promise((resolve) => {
 	mongoose.connect('mongodb://mongodb:27017/havana', {
 		useMongoClient: true,
 		promiseLibrary: require('bluebird')
@@ -24,17 +24,17 @@ var faker = require('faker');
 	return new Promise((resolve) => {
 		let items = [];
 		let status = [1, 2];
-		for(i=0; i< 1; i++){
+		for(i=0; i< 5; i++){
 			items.push(
 				{
-					username : 'dangminhtruong',
+					username : faker.internet.userName(),
 					avata : 'avata.jpg',
 					address : faker.address.streetAddress(),
 					email : faker.internet.email(),
 					password : '777',
 					phone : faker.phone.phoneNumber(),
-					role : 1,
-					status : _.sample(status),
+					role : 2,
+					status : 1,
 					wish_list : [
 						{
 							product_id : _.sample(product_ids)._id,
@@ -77,28 +77,11 @@ var faker = require('faker');
 		}
 		resolve(items);
 	});
-}).then((items) => { */
-	seeder.connect('mongodb://mongodb:27017/havana', function() { 
+}).then((items) => {
+	seeder.connect('mongodb://mongodb:27017/havana', function() {
 		let data = [{
 			'model': 'User',
-			'documents': [
-				{
-					username : 'dangminhtruong',
-					avata : 'avata.jpg',
-					address : 'Quang Binh',
-					email : 'xdangminhruongx@gmail.com',
-					password : '777',
-					phone : '0965296242',
-					role : 1,
-					status : 0,
-					wish_list : [
-						
-					],
-					notification : [
-		
-					],
-				}
-			]
+			'documents': items
 		}];
 		seeder.loadModels([
 			'../../model/user'
@@ -109,4 +92,4 @@ var faker = require('faker');
 			});
 		});
 	});
-/* }); */
+});
