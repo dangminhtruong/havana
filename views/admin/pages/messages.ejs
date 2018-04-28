@@ -133,21 +133,29 @@
 
                                 </div>
                             </div>
-                            <div class="messages">
+                            <div class="messages" id="coversation">
                                 <ul>
-                                    <li class="sent" v-for="(message, index) in messages" :key="index">
-                                        <img src="/img/avtar.jpg" alt="" />
-                                        <p>{{ message }}</p>
-                                    </li>
+                                    <template v-for="(item, index) in messages">
+                                        <li class="replies" :key="index" v-if=" item.user_name === currentUser.username ">
+                                            <img src="/img/avtar.jpg" alt="" />
+                                            <p>{{ item.message }}</p>
+                                        </li>
+                                        <li class="sent" :key="index" v-else>
+                                            <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
+                                            <p>{{ item.message }}</p>
+                                        </li>
+                                    </template>
                                 </ul>
                             </div>
                             <div class="message-input">
                                 <div class="wrap">
-                                    <input type="text" placeholder="Write your message..." />
-                                    <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
-                                    <button class="submit">
-                                        <i class="fa fa-paper-plane" aria-hidden="true"></i>
-                                    </button>
+                                    <form v-on:submit.prevent="sendMessage">
+                                        <input type="text" placeholder="Write your message..." v-model="text" />
+                                        <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
+                                        <button class="submit" type="submit">
+                                            <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                        </button>
+                                        <form>
                                 </div>
                             </div>
                         </div>

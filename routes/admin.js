@@ -1177,22 +1177,85 @@ router.get('/chatbox/online', (req, res) => {
 	User.find({ status: config.activity.online })
 		.exec((err, users) => {
 			res.json({
-				onlineUsers : users
+				onlineUsers: users,
+				user: req.user
 			});
 		});
 });
 
 router.post('/chatbox/message/fetch', (req, res) => {
-	Message.find({ members : { $all: [req.user._id, req.body.userId] } })
+	Message.find({ members: { $all: [req.user._id, req.body.userId] } })
 		.exec((err, messages) => {
-			if(err){
+			if (err) {
 				return res.status(500).json({
-					messages : err.code
+					messages: err.code
 				});
 			}
 			return res.status(200).json({
-				messages : (messages.length !== 0) ? messages : []
+				conversation: (messages.length !== 0) ? messages : []
 			});
+		});
+});
+
+
+router.post('/chatbox/add/message', (req, res) => {
+
+	Message.find({ members: { $all: [req.body.curentId, req.body.targetId] } })
+		.exec((err, message) => {
+			if (message.length !== 0) {
+				Message.findOneAndUpdate(
+					{ members: { $all: [req.body.curentId, req.body.targetId] } },
+					{
+						$push:
+							{
+								messages:
+									{
+										user_name: req.body.username,
+										status: 1,
+										message: req.body.message
+									}
+							}
+					},
+					{ new: true },
+					(err, messages) => {
+						req.app.io.emit('newMessage', {
+							messages: messages,
+						});
+
+						return res.status(200).json({
+							messages: messages
+						});
+					}
+				);
+			} else {
+				let message = new Message({
+					members: [req.body.curentId, req.body.targetId],
+					messages: [
+						{
+							user_name: req.body.username,
+							status: 1,
+							message: req.body.message
+						}
+					],
+				});
+				message.save((err, messages) => {
+					if (err) {
+						throw new err
+					}
+					req.app.io.emit('newMessage', {
+						messages: messages,
+					});
+					return res.status(200).json({
+						messages: {
+							messages: [{
+								user_name: req.body.username,
+								status: 1,
+								message: req.body.message
+							}]
+						}
+					});
+				});
+			}
 		});
 });
 

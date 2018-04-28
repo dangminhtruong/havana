@@ -692,7 +692,7 @@ let notifications = new Vue({
 	}
 });
 
-var socket = io('/');
+const socket = io('/');
 socket.on('notifiNewBills', (data) => {
 	notify = new Notification(
 		'Havana Admin',
@@ -974,53 +974,77 @@ let bill_details = new Vue({
 
 
 let product_statistic = new Vue({
-	el : '#product_statistic',
-	data : {
-		products : []
+	el: '#product_statistic',
+	data: {
+		products: []
 	},
-	mounted :  function(){
+	mounted: function () {
 		axios.get('/admin/product/report/data')
-		.then((response) => {
-			this.products = response.data.products;
-		});
+			.then((response) => {
+				this.products = response.data.products;
+			});
 	},
-	methods : {
-		outOf : function(){
+	methods: {
+		outOf: function () {
 			axios.get('/admin/product/report/out-of-data')
-			.then((response) => {
-				this.products = response.data.products;
-			});
+				.then((response) => {
+					this.products = response.data.products;
+				});
 		},
-		inventory : function(){
+		inventory: function () {
 			axios.get('/admin/product/report/inventory-data')
-			.then((response) => {
-				this.products = response.data.products;
-			});
+				.then((response) => {
+					this.products = response.data.products;
+				});
 		}
 	}
 
 });
 
+
+socket.on('newMessage', (data) => {
+	console.log(data);
+	frame.messages = data.messages.messages;
+});
+
+
 let frame = new Vue({
-	el : '#frame',
-	data : {
-		messages : [],
-		onlines : [],
+	el: '#frame',
+	data: {
+		messages: [],
+		onlines: [],
+		currentUser: {},
+		targetUser: null,
+		text: ''
 	},
-	mounted : function(){
+	mounted: function () {
 		axios.get(`/admin/chatbox/online`)
-		.then((response) => {
-			console.log(response);
-			this.onlines = response.data.onlineUsers
-		});
-	},
-	methods : {
-		fetchMessages : function(id){
-			axios.post('/admin/chatbox/message/fetch', { userId : id })
 			.then((response) => {
-				console.log(response.data.messages);
-				this.messages = response.data.messages
+				this.onlines = response.data.onlineUsers;
+				this.currentUser = response.data.user;
 			});
+	},
+	methods: {
+		fetchMessages: function (id) {
+			this.targetUser = id;
+			axios.post('/admin/chatbox/message/fetch', { userId: id })
+				.then((response) => {
+					this.messages = response.data.conversation[0].messages;
+				});
+		},
+		sendMessage: function () {
+			axios.post('/admin/chatbox/add/message', {
+				curentId: this.currentUser._id,
+				targetId: this.targetUser,
+				username: this.currentUser.username,
+				message: this.text
+			})
+				.then((response) => {
+					var objDiv = document.getElementById("coversation");
+					objDiv.scrollTop = objDiv.scrollHeight;
+					this.text = '';
+					//this.messages = response.data.messages.messages;
+				});
 		}
 	}
 });

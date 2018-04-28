@@ -24,7 +24,7 @@ new Promise((resolve) => {
 
     return new Promise((resolve) => {
         let conversation = [];
-        for (i = 0; i < 100; i++) {
+        for (i = 0; i < 5; i++) {
             conversation.push({
                 members: [_.sample(users)._id, _.sample(users)._id],
                 user_name: faker.internet.userName(),
