@@ -63,7 +63,7 @@
                             <div id="profile">
                                 <div class="wrap">
                                     <img id="profile-img" src="/img/avtar.jpg" class="online" alt="" />
-                                    <p>Mike Ross</p>
+                                    <p>{{ currentUser.username }}</p>
                                     <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
                                     <div id="status-options">
                                         <ul>
@@ -110,7 +110,7 @@
                             <div id="contacts">
                                 <ul>
                                     <li class="contact" v-for="(user, index) in onlines" :key="index">
-                                        <div class="wrap" @click="fetchMessages(user._id)">
+                                        <div class="wrap" @click="fetchMessages(user._id)" v-if="user._id !== currentUser._id">
                                             <span class="contact-status online"></span>
                                             <img :src="`/img/${user.avata}`" alt="" />
                                             <div class="meta">
@@ -127,8 +127,6 @@
                         </div>
                         <div class="content">
                             <div class="contact-profile">
-                                <img src="/img/avtar.jpg" alt="" />
-                                <p>Harvey Specter</p>
                                 <div class="social-media">
 
                                 </div>
@@ -147,7 +145,7 @@
                                     </template>
                                 </ul>
                             </div>
-                            <div class="message-input">
+                            <div class="message-input" v-if="show === 1">
                                 <div class="wrap">
                                     <form v-on:submit.prevent="sendMessage">
                                         <input type="text" placeholder="Write your message..." v-model="text" />

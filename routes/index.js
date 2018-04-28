@@ -30,12 +30,12 @@ passport.use(new LocalStrategy(
 * Email : mr.dangminhtruong@gmail.com
 *-----------------------------------*/
 
-router.get('/change-languages/:lang', function(req, res) {
+router.get('/change-languages/:lang', function (req, res) {
 	res.cookie('lang', req.params.lang, { maxAge: 900000 });
 	res.redirect('back');
 });
 
-router.get('/', function(req, res) {
+router.get('/', function (req, res) {
 	async.parallel([
 		function (callback) {
 			Product.find().sort({ createdOn: -1 }).limit(4)
@@ -51,35 +51,54 @@ router.get('/', function(req, res) {
 		}
 	],
 		// Call back
-	function (err, results) {
-		if (err) {
-			throw new err;
-		}
-		return res.render('index', {
-			news: results[0],
-			features: results[1],
-			cart: req.session.cart,
-			user: req.user
+		function (err, results) {
+			if (err) {
+				throw new err;
+			}
+			return res.render('index', {
+				news: results[0],
+				features: results[1],
+				cart: req.session.cart,
+				user: req.user
+			});
 		});
-	});
 });
 
-router.post('/login/client', function(req, res, next) {
-	passport.authenticate('local', function(err, user, info) {
-		if (err) {  throw new errr; }
+router.post('/login/client', function (req, res, next) {
+	passport.authenticate('local', function (err, user, info) {
+		if (err) { throw new errr; }
 
 		if (!user) {
 			return res.json(
 				{
-					status : 401
+					status: 401
 				}
-			); 
+			);
 		}
-
+		new Promise((resolve) => {
+			User.findByIdAndUpdate(user._id,
+				{ status: config.activity.online },
+				(err, users) => {
+					if (err) {
+						throw Error('cannot set online status')
+					}else{
+						resolve(users)
+					}
+				}
+			);
+		}).then((users) => {
+			User.find({ status: config.activity.online })
+				.exec((err, users) => {
+					req.app.io.emit('newUserOnline', {
+						onlineUsers: users,
+					});
+				});
+		})
+		
 		req.logIn(user, function (err) {
 			if (err) { throw new err; }
 			return res.json({
-				status : 200
+				status: 200
 			});
 		});
 
@@ -88,8 +107,16 @@ router.post('/login/client', function(req, res, next) {
 
 
 router.get('/logout', function (req, res) {
+	User.findByIdAndUpdate(req.user._id,
+		{ status: config.activity.offline },
+		(err, user) => {
+			if (err) {
+				throw Error('cannot set online status')
+			}
+		}
+	);
 	req.logout();
-	res.redirect('/');
+	return res.redirect('/');
 });
 
 
@@ -99,17 +126,32 @@ router.get('/login/admin', (req, res) => {
 	});
 });
 
-router.post('/login/admin', function(req, res, next) {
-	passport.authenticate('local', function(err, user, info) {
-		if (err) {  throw new errr; }
+router.post('/login/admin', function (req, res, next) {
+	passport.authenticate('local', function (err, user, info) {
+		if (err) { throw new errr; }
 
 		if (!user) {
 			return res.render('./pages/login', {
-				failureMessage : 'Invalid username or password!'
-			}); 
+				failureMessage: 'Invalid username or password!'
+			});
 		}
 
-		req.logIn(user, function (err) {
+		User.findByIdAndUpdate(user._id,
+			{ status: config.activity.online },
+			(err, user) => {
+				if (err) {
+					throw Error('cannot set online status')
+				}
+			}
+		);
+		User.find({ status: config.activity.online })
+			.exec((err, users) => {
+				req.app.io.emit('newUserOnline', {
+					onlineUsers: users,
+				});
+			});
+
+		return req.logIn(user, function (err) {
 			return res.redirect('/admin');
 		});
 
@@ -130,26 +172,26 @@ router.get('/index-data', (req, res) => {
 					callback(null, features);
 				});
 		},
-		function(callback) {
-			Category.find({}, {_id : 1, name : 1, type : 1})
+		function (callback) {
+			Category.find({}, { _id: 1, name: 1, type: 1 })
 				.exec((err, category) => {
 					callback(null, category);
 				});
 		}
 	],
 		// Call back
-	function (err, results) {
-		if (err) {
-			throw new err;
-		}
-		return res.json(
-			{
-				cart_items : (req.session.cart) ? req.session.cart.length : 0,
-				newProducts: results[0],
-				featuresProduct: results[1],
-				category : results[2]
-			});
-	});
+		function (err, results) {
+			if (err) {
+				throw new err;
+			}
+			return res.json(
+				{
+					cart_items: (req.session.cart) ? req.session.cart.length : 0,
+					newProducts: results[0],
+					featuresProduct: results[1],
+					category: results[2]
+				});
+		});
 });
 
 router.get('/category-data/:id', (req, res) => {
@@ -189,24 +231,24 @@ router.get('/category-data/:id', (req, res) => {
 				});
 		},
 		(callback) => {
-			Category.find({}, {_id : 1, name : 1, type : 1})
+			Category.find({}, { _id: 1, name: 1, type: 1 })
 				.exec((err, category) => {
 					callback(null, category);
 				});
 		}
 	],
-	(err, results) => {
-		res.send({
-			products: results[0],
-			latest: results[1],
-			best: results[2],
-			category : results[4],
-			pages: Math.ceil(results[3] / 9),
-			categoryId: req.params.id,
-			cart: (req.session.cart) ? req.session.cart.length : 0,
-			currentPage : (req.query.pages) ? req.query.pages : 1
+		(err, results) => {
+			res.send({
+				products: results[0],
+				latest: results[1],
+				best: results[2],
+				category: results[4],
+				pages: Math.ceil(results[3] / 9),
+				categoryId: req.params.id,
+				cart: (req.session.cart) ? req.session.cart.length : 0,
+				currentPage: (req.query.pages) ? req.query.pages : 1
+			});
 		});
-	});
 
 });
 
@@ -226,7 +268,7 @@ router.get('/product-data/:id', function (req, res) {
 				});
 		},
 		(callback) => {
-			Category.find({}, {_id : 1, name : 1, type : 1})
+			Category.find({}, { _id: 1, name: 1, type: 1 })
 				.exec((err, category) => {
 					callback(null, category);
 				});
@@ -238,24 +280,24 @@ router.get('/product-data/:id', function (req, res) {
 				});
 		}
 	],
-	function (err, results) {
-		res.json({
-			product: results[0][0],
-			related_product: results[1],
-			cart: (req.session.cart) ? req.session.cart.length : 0,
-			category : results[2],
-			best_sales : results[3]
+		function (err, results) {
+			res.json({
+				product: results[0][0],
+				related_product: results[1],
+				cart: (req.session.cart) ? req.session.cart.length : 0,
+				category: results[2],
+				best_sales: results[3]
+			});
 		});
-	});
 
 });
 
 router.get('/category', (req, res) => {
-	Category.find({}, {_id : 1, name : 1, type : 1})
+	Category.find({}, { _id: 1, name: 1, type: 1 })
 		.exec((err, categories) => {
 			res.json({
-				category : categories,
-				cart : (req.session.cart) ? req.session.cart.length : 0
+				category: categories,
+				cart: (req.session.cart) ? req.session.cart.length : 0
 			});
 		});
 });
@@ -263,56 +305,55 @@ router.get('/category', (req, res) => {
 
 router.get('/authenticate', (req, res) => {
 	return res.json({
-		status : 200,
-		user : req.user
+		status: 200,
+		user: req.user
 	});
 });
 
 router.get('/bill/verfi/:id', (req, res) => {
 	Bill.findByIdAndUpdate(
-		req.params.id, 
-		{ status : config.status.confirm }, 
-		{ new : true },
+		req.params.id,
+		{ status: config.status.confirm },
+		{ new: true },
 		(err, bill) => {
-			if (err) return res.status(500).send(err); 
+			if (err) return res.status(500).send(err);
 			res.render('./pages/verfi_sucess');
 		}
-	); 
+	);
 });
-
 
 router.post('/register', (req, res) => {
 	let user = new User({
-		username : req.body.username,
-		address : req.body.useraddress,
-		email : req.body.useremail,
-		password : req.body.password,
-		phone : req.body.userphone,
-		status : config.userStatus.unConfirm,
-		role : config.userStatus.isCustomer
-	}); 
+		username: req.body.username,
+		address: req.body.useraddress,
+		email: req.body.useremail,
+		password: req.body.password,
+		phone: req.body.userphone,
+		status: config.userStatus.unConfirm,
+		role: config.userStatus.isCustomer
+	});
 
 
 	user.save(function (err, results) {
-		if(err){
+		if (err) {
 			return res.status(500).send({
-				code : err.code
+				code: err.code
 			});
-		} 
-		 	eventEmitter.emit('sendConfirmOrderMail', {
-			items : data.detailsArr,
-			user : req.user,
-			total : data.billTotal,
-			billId : results._id
-		}); 
+		}
+		eventEmitter.emit('sendConfirmOrderMail', {
+			items: data.detailsArr,
+			user: req.user,
+			total: data.billTotal,
+			billId: results._id
+		});
 
 		req.app.io.emit('notifiNewUser', {
-			content : 'Có người dùng đăng ký mới !',
+			content: 'Có người dùng đăng ký mới !',
 		});
 		return res.status(200).json({
-			messages : 'Sucessfull register!',
+			messages: 'Sucessfull register!',
 		});
-	}); 
+	});
 
 
 });
@@ -320,97 +361,97 @@ router.post('/register', (req, res) => {
 router.get('/chatbox', (req, res) => {
 	async.parallel([
 		(callback) => {
-			Category.find({}, {_id : 1, name : 1, type : 1})
+			Category.find({}, { _id: 1, name: 1, type: 1 })
 				.exec((err, categories) => {
 					callback(null, categories);
 				});
 		},
 		(callback) => {
-			User.find({ role : config.userStatus.isStaff , status : config.activity.online })
-				.exec((err, users)=>{
+			User.find({ role: config.userStatus.isStaff, status: config.activity.online })
+				.exec((err, users) => {
 					callback(null, users);
 				});
 		}
 	],
-	(err, results) => {
-		return res.json({
-			category : results[0],
-			cart : (req.session.cart) ? req.session.cart.length : 0,
-			user : req.user,
-			onlineStaff : results[1]
+		(err, results) => {
+			return res.json({
+				category: results[0],
+				cart: (req.session.cart) ? req.session.cart.length : 0,
+				user: req.user,
+				onlineStaff: results[1]
+			});
 		});
-	});
-	
+
 });
 
 
 router.post('/chatbox/fetch/message', (req, res) => {
-	Message.find({ members : { $all: [req.user._id, req.body.userId] } })
+	Message.find({ members: { $all: [req.user._id, req.body.userId] } })
 		.exec((err, messages) => {
-			if(err){
+			if (err) {
 				return res.status(500).json({
-					messages : err.code
+					messages: err.code
 				});
 			}
 			return res.status(200).json({
-				messages : (messages.length !== 0) ? messages : []
+				messages: (messages.length !== 0) ? messages : [{ messages : [{ message : 'Hãy bắt đầu trò chuyện...' }] }]
 			});
 		});
 });
 
 router.post('/chatbox/add/message', (req, res) => {
 
-	Message.find({ members : { $all: [req.body.curentId, req.body.targetId] } })
+	Message.find({ members: { $all: [req.body.curentId, req.body.targetId] } })
 		.exec((err, message) => {
-			if(message.length !== 0){
+			if (message.length !== 0) {
 				Message.findOneAndUpdate(
-					{ members : { $all: [req.body.curentId, req.body.targetId] } },
+					{ members: { $all: [req.body.curentId, req.body.targetId] } },
 					{
-						$push: 
-						{
-							messages: 
-								{ 
-									user_name : req.body.username,
-									status : 1,
-									message : req.body.message
-								}
-						}
+						$push:
+							{
+								messages:
+									{
+										user_name: req.body.username,
+										status: 1,
+										message: req.body.message
+									}
+							}
 					},
-					{ new : true },
+					{ new: true },
 					(err, messages) => {
-					req.app.io.emit('newMessage', {
-						messages : messages,
-					}); 
-		
+						req.app.io.emit('newMessage', {
+							messages: messages,
+						});
+
 						return res.status(200).json({
-							messages : messages
+							messages: messages
 						});
 					}
 				);
-			}else{
+			} else {
 				let message = new Message({
-					members : [req.body.curentId, req.body.targetId],
-					messages : [
-						{ 
-							user_name : req.body.username,
-							status : 1,
-							message : req.body.message
+					members: [req.body.curentId, req.body.targetId],
+					messages: [
+						{
+							user_name: req.body.username,
+							status: 1,
+							message: req.body.message
 						}
 					],
 				});
 				message.save((err, messages) => {
-					if(err){
+					if (err) {
 						throw new err
 					}
 					req.app.io.emit('newMessage', {
-						messages : messages,
+						messages: messages,
 					});
 					return res.status(200).json({
-						messages : {
-							messages : [{
-								user_name : req.body.username,
-								status : 1,
-								message : req.body.message
+						messages: {
+							messages: [{
+								user_name: req.body.username,
+								status: 1,
+								message: req.body.message
 							}]
 						}
 					});

@@ -1007,6 +1007,12 @@ socket.on('newMessage', (data) => {
 	frame.messages = data.messages.messages;
 });
 
+socket.on('newUserOnline', (data) => {
+	console.log(data);
+	frame.onlines = data.onlineUsers;
+});
+
+
 
 let frame = new Vue({
 	el: '#frame',
@@ -1015,7 +1021,8 @@ let frame = new Vue({
 		onlines: [],
 		currentUser: {},
 		targetUser: null,
-		text: ''
+		text: '',
+		show : 0
 	},
 	mounted: function () {
 		axios.get(`/admin/chatbox/online`)
@@ -1030,6 +1037,7 @@ let frame = new Vue({
 			axios.post('/admin/chatbox/message/fetch', { userId: id })
 				.then((response) => {
 					this.messages = response.data.conversation[0].messages;
+					this.show = 1;
 				});
 		},
 		sendMessage: function () {
