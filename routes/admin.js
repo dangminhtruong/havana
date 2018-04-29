@@ -25,7 +25,51 @@ var covertToObj = require('../helpers/to_array_objects');
 *-----------------------------------*/
 
 router.get('/', function (req, res) {
-	res.render('./admin/index', {
+	req.app.io.on('connection', (socket) => {
+		new Promise((resolve) => {
+			User.findByIdAndUpdate(req.user._id,
+				{ status: config.activity.online },
+				(err, users) => {
+					if (err) {
+						throw Error('cannot set online status')
+					} else {
+						resolve(users)
+					}
+				}
+			);
+		}).then((users) => {
+			User.find({ status: config.activity.online })
+				.exec((err, users) => {
+					req.app.io.emit('newUserOnline', {
+						onlineUsers: users,
+					});
+				});
+		})
+
+		socket.on('disconnect', function () {
+			new Promise((resolve) => {
+				User.findByIdAndUpdate(req.user._id,
+					{ status: config.activity.offline },
+					(err, users) => {
+						if (err) {
+							throw Error('cannot set online status')
+						} else {
+							resolve(users)
+						}
+					}
+				);
+			}).then((users) => {
+				User.find({ status: config.activity.online })
+					.exec((err, users) => {
+						req.app.io.emit('newUserOnline', {
+							onlineUsers: users,
+						});
+					});
+			})
+		});
+	});
+
+	return res.render('./admin/index', {
 		user: req.user
 	});
 });
@@ -1191,7 +1235,7 @@ router.post('/chatbox/message/fetch', (req, res) => {
 				});
 			}
 			return res.status(200).json({
-				conversation: (messages.length !== 0) ? messages : [{ messages : [{ message : 'Hãy bắt đầu trò chuyện...' }] }]
+				conversation: (messages.length !== 0) ? messages : [{ messages: [{ message: 'Hãy bắt đầu trò chuyện...' }] }]
 			});
 		});
 });
