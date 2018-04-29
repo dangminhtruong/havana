@@ -1013,7 +1013,6 @@ socket.on('newUserOnline', (data) => {
 });
 
 
-
 let frame = new Vue({
 	el: '#frame',
 	data: {

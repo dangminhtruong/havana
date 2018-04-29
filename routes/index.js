@@ -333,6 +333,7 @@ router.post('/register', (req, res) => {
 		role: config.userStatus.isCustomer
 	});
 
+
 	user.save(function (err, results) {
 		if (err) {
 			return res.status(500).send({
