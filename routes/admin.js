@@ -1095,7 +1095,6 @@ router.delete('/bills/:id', (req, res) => {
 });
 
 router.patch('/bills/single/remove/item/:id', (req, res) => {
-	console.log('HAVANA', req.params.id, req.body.itemId);
 	Bill.findByIdAndUpdate(
 		req.params.id,
 		{ $pull: { 'detais': { '_id': req.body.itemId } } },
@@ -1111,7 +1110,6 @@ router.patch('/bills/single/remove/item/:id', (req, res) => {
 		})
 		.exec((err, detail) => {
 			if (err) {
-				console.log(err);
 				return res.send({
 					status: 500,
 					message: 'false'

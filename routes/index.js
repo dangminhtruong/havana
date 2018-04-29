@@ -35,35 +35,6 @@ router.get('/change-languages/:lang', function (req, res) {
 	res.redirect('back');
 });
 
-router.get('/', function (req, res) {
-	async.parallel([
-		function (callback) {
-			Product.find().sort({ createdOn: -1 }).limit(4)
-				.exec((err, news) => {
-					callback(null, news);
-				});
-		},
-		function (callback) {
-			Product.find({ status: 2 }).limit(4)
-				.exec((err, features) => {
-					callback(null, features);
-				});
-		}
-	],
-		// Call back
-		function (err, results) {
-			if (err) {
-				throw new err;
-			}
-			return res.render('index', {
-				news: results[0],
-				features: results[1],
-				cart: req.session.cart,
-				user: req.user
-			});
-		});
-});
-
 router.post('/login/client', function (req, res, next) {
 	passport.authenticate('local', function (err, user, info) {
 		if (err) { throw new errr; }
@@ -161,13 +132,13 @@ router.post('/login/admin', function (req, res, next) {
 router.get('/index-data', (req, res) => {
 	async.parallel([
 		function (callback) {
-			Product.find().sort({ createdOn: -1 }).limit(8)
+			Product.find({ quantity : { $gt : 0} }).sort({ createdOn: -1 }).limit(8)
 				.exec((err, news) => {
 					callback(null, news);
 				});
 		},
 		function (callback) {
-			Product.find({ status: 2 }).limit(8)
+			Product.find({ quantity : { $gt : 0 } , status: 2 }).limit(8)
 				.exec((err, features) => {
 					callback(null, features);
 				});
@@ -198,14 +169,14 @@ router.get('/category-data/:id', (req, res) => {
 	async.parallel([
 		(callback) => {
 			if (req.query.pages != null) {
-				Product.find({ category_id: req.params.id })
+				Product.find({ category_id: req.params.id, quantity : { $gt : 0 } })
 					.skip((req.query.pages - 1) * 9)
 					.limit(9)
 					.exec((err, category_products) => {
 						callback(null, category_products);
 					});
 			} else {
-				Product.find({ category_id: req.params.id }).limit(9)
+				Product.find({ category_id: req.params.id, quantity : { $gt : 0 } }).limit(9)
 					.exec((err, category_products) => {
 						callback(null, category_products);
 					});
@@ -213,25 +184,25 @@ router.get('/category-data/:id', (req, res) => {
 
 		},
 		(callback) => {
-			Product.find().sort({ createdOn: -1 }).limit(4)
+			Product.find({quantity : { $gt : 0 }}).sort({ createdOn: -1 }).limit(4)
 				.exec((err, latest_products) => {
 					callback(null, latest_products);
 				});
 		},
 		(callback) => {
-			Product.find().sort({ saled: -1 }).limit(4)
+			Product.find({quantity : { $gt : 0 }}).sort({ saled: -1 }).limit(4)
 				.exec((err, best_sales) => {
 					callback(null, best_sales);
 				});
 		},
 		(callback) => {
-			Product.find({ category_id: req.params.id }).count()
+			Product.find({ category_id: req.params.id, quantity : { $gt : 0 } }).count()
 				.exec((err, total_records) => {
 					callback(null, total_records);
 				});
 		},
 		(callback) => {
-			Category.find({}, { _id: 1, name: 1, type: 1 })
+			Category.find({quantity : { $gt : 0 }}, { _id: 1, name: 1, type: 1 })
 				.exec((err, category) => {
 					callback(null, category);
 				});
@@ -262,19 +233,19 @@ router.get('/product-data/:id', function (req, res) {
 				});
 		},
 		function (callback) {
-			Product.find().sort({ createdOn: -1 }).limit(3)
+			Product.find({quantity : { $gt : 0 }}).sort({ createdOn: -1 }).limit(3)
 				.exec((err, related_product) => {
 					callback(null, related_product);
 				});
 		},
 		(callback) => {
-			Category.find({}, { _id: 1, name: 1, type: 1 })
+			Category.find({quantity : { $gt : 0 }}, { _id: 1, name: 1, type: 1 })
 				.exec((err, category) => {
 					callback(null, category);
 				});
 		},
 		(callback) => {
-			Product.find().sort({ saled: -1 }).limit(4)
+			Product.find({quantity : { $gt : 0 }}).sort({ saled: -1 }).limit(4)
 				.exec((err, best_sales) => {
 					callback(null, best_sales);
 				});
@@ -480,8 +451,26 @@ router.get('/profile', (req, res) => {
 			});
 		}
 	);
+});
 
-
+router.post('/password/change', (req, res) => {
+	User.findByIdAndUpdate(
+		req.body.userId, 
+		{ password : req.body.newPass },
+		{ new : true },
+		(err, user) => {
+			if(err){
+				return res.json({
+					status : 500,
+					message : 'can not update password'
+				});
+			}
+			return res.json({
+				status : 200,
+				message : 'Update password successfull'
+			});
+		}
+	);
 });
 
 
