@@ -81,7 +81,7 @@ router.post('/login/client', function (req, res, next) {
 				(err, users) => {
 					if (err) {
 						throw Error('cannot set online status')
-					}else{
+					} else {
 						resolve(users)
 					}
 				}
@@ -94,7 +94,7 @@ router.post('/login/client', function (req, res, next) {
 					});
 				});
 		})
-		
+
 		req.logIn(user, function (err) {
 			if (err) { throw new err; }
 			return res.json({
@@ -388,7 +388,7 @@ router.post('/chatbox/fetch/message', (req, res) => {
 				});
 			}
 			return res.status(200).json({
-				messages: (messages.length !== 0) ? messages : [{ messages : [{ message : 'Hãy bắt đầu trò chuyện...' }] }]
+				messages: (messages.length !== 0) ? messages : [{ messages: [{ message: 'Hãy bắt đầu trò chuyện...' }] }]
 			});
 		});
 });
@@ -453,5 +453,36 @@ router.post('/chatbox/add/message', (req, res) => {
 			}
 		});
 });
+
+router.get('/profile', (req, res) => {
+
+	async.parallel(
+		[
+			(callback) => {
+				Bill.find({ user: req.user._id })
+					.exec((err, UserBills) => {
+						callback(null, UserBills);
+					});
+			},
+			(callback) => {
+				Category.find({}, { _id: 1, name: 1, type: 1 })
+				.exec((err, category) => {
+					callback(null, category);
+				});
+			}
+		],
+		(err, results) => {
+			res.json({
+				bills: results[0],
+				user: req.user,
+				category: results[1],
+				cart: (req.session.cart) ? req.session.cart.length : 0,
+			});
+		}
+	);
+
+
+});
+
 
 module.exports = router;
