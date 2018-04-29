@@ -122,20 +122,27 @@ router.get('/cart-data', function(req, res, next){
 });
 
 router.get('/update-quantity/:id', (req, res) => {
+	let index = _.findIndex(req.session.cart, { 'product_id': req.params.id });
+
 	Product.findById(req.params.id, (err, product) => {
+		let colorQty = _.find(product.colors, ['code', req.session.cart[index].color]).quantity;
+		let sizeQty = _.find(product.size, ['code', req.session.cart[index].size]).quantity;
+		let avg = (colorQty <= sizeQty) ? colorQty : sizeQty;
+
+		console.log('HAVANA', colorQty, sizeQty);
+
 		if(err){
 			return res.json({
 				status : 500,
 				messages : 'Có lỗi xảy ra! Vui lòng thử lại'
 			});
 		}
-		if(product.quantity < req.query.newQuantity){
+		if(avg < req.query.newQuantity){
 			return res.json({
 				status : 502,
-				messages : `Sản phẩm này hiện chỉ còn ${product.quantity} sản phẩm!`
+				messages : `Sản phẩm này hiện chỉ có sẵn ${avg} sản phẩm!`
 			});
 		}else{
-			let index = _.findIndex(req.session.cart, { product_id : req.params.id });
 			req.session.cart[index].product_quantity = req.query.newQuantity;
 			return res.json({
 				status : 200,
@@ -207,21 +214,26 @@ router.post('/sign-in-order', (req, res) => {
 				messages : err
 			});
 		} 
-		 eventEmitter.emit('sendConfirmOrderMail', {
+		eventEmitter.emit('sendConfirmOrderMail', {
 			items : data.detailsArr,
 			user : req.user,
 			total : data.billTotal,
 			billId : results._id
-		}); 
+		});
 		req.app.io.emit('notifiNewBills', {
 			content : 'Có đơn đặt hàng mới !',
 		});
 		data.detailsArr.forEach((item) => {
 			let qty =  parseInt(item.quantity);
-			Product.findOneAndUpdate(
-				{ _id : item.product_id },
+			Product.update(
+				{ _id : item.product_id, 'colors.code' : item.colors, 'size.code' : item.size },
 				{
-				    $inc : { quantity : -qty, saled : qty }
+				    $inc : { 
+						quantity : -qty, 
+						saled : qty,
+						'colors.$.quantity' : -qty,
+						'size.$.quantity' : -qty
+					}
 				},
 				(err, product) => {
 					if(err){
