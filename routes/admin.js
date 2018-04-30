@@ -1051,63 +1051,182 @@ router.get('/bills/single/detail-data/:id', (req, res) => {
 }); */
 
 router.patch('/bills/single/update/item', (req, res) => {
-	Bill.findOneAndUpdate(
-		{ _id: req.body.billId, 'detais._id': req.body.itemId },
-		{ $set: { detais: req.body.dataUpdate } },
-		{ new: true }
-	)
-		.populate({
-			path: 'detais.product_id',
-			select: [
-				'image',
-				'colors',
-				'size'
-			]
-		})
-		.exec((err, detail) => {
+	let qty;
+	new Promise((resolve, reject) => {
+		Bill.findById(req.body.billId, (err, bill) => {
 			if (err) {
-				console.log(err);
-				return res.send({
-					status: 500,
-					message: 'false'
+				reject(err);
+			} else {
+				detail = _.filter(bill.detais,
+					{
+						colors: req.body.dataUpdate[0].colors,
+						size: req.body.dataUpdate[0].size
+					});
+				qty = req.body.dataUpdate[0].quantity - detail[0].quantity;
+				resolve(qty);
+			}
+		});
+	}).then((qty) => {
+		async.parallel(
+			[
+				(callback) => {
+					Bill.findOneAndUpdate(
+						{ _id: req.body.billId, 'detais._id': req.body.itemId },
+						{ $set: { detais: req.body.dataUpdate } },
+						{ new: true }
+					)
+						.populate({
+							path: 'detais.product_id',
+							select: [
+								'image',
+								'colors',
+								'size'
+							]
+						})
+						.exec((err, detail) => {
+							if (err) {
+								return res.send({
+									status: 500,
+									message: 'false'
+								});
+							}
+							callback(null, detail);
+						});
+				},
+				(callback) => {
+					Product.update(
+						{
+							_id: req.body.dataUpdate[0].product_id,
+							'colors.code': req.body.dataUpdate[0].colors,
+							'size.code': req.body.dataUpdate[0].size
+						},
+						{
+							$inc: {
+								quantity: -qty,
+								saled: qty,
+								'colors.$.quantity': -qty,
+								'size.$.quantity': -qty
+							}
+						},
+						(err, product) => {
+							if (err) {
+								return res.send({
+									status: 500,
+									message: 'false'
+								});
+							}
+							callback(null, product);
+						}
+					);
+				}
+			],
+			(err, results) => {
+				return res.json({
+					status: 200,
+					bill: results[0]
 				});
 			}
-			return res.send({
-				status: 200,
-				bill: detail
-			});
-		});
-});
-
-router.delete('/bills/:id', (req, res) => {
-	Bill.findByIdAndRemove(req.params.id, (err, result) => {
-		if (err) {
-			return res.json({
-				status: 500,
-				message: 'fasle'
-			});
-		}
-		return res.json({
-			status: 200,
-			messages: 'success'
+		);
+	}).catch((err) => {
+		return res.send({
+			status: 500,
+			message: 'false'
 		});
 	});
 });
 
+router.delete('/bills/:id', (req, res) => {
+	async function restore() {
+		await Bill.findById(req.params.id, (err, bill) => {
+			if (err) {
+				return res.send({
+					status: 500,
+					message: 'false'
+				});
+			} else {
+				bill.detais.forEach((item) => {
+					Product.update(
+						{
+							_id: item.product_id,
+							'colors.code': item.colors,
+							'size.code': item.size
+						},
+						{
+							$inc: {
+								quantity: item.quantity,
+								saled: -item.quantity,
+								'colors.$.quantity': item.quantity,
+								'size.$.quantity': item.quantity
+							}
+						},
+						(err, product) => {
+							if (err) {
+								console.log(err);
+							}
+						}
+					);
+				});
+			}
+		});
+		Bill.findByIdAndRemove(req.params.id, (err, result) => {
+			if (err) {
+				return res.json({
+					status: 500,
+					message: 'fasle'
+				});
+			}
+			return res.json({
+				status: 200,
+				messages: 'success'
+			});
+		});
+	}
+	restore();
+});
+
+router.patch('/bills/validate/quantity', (req, res) => {
+	Product.findById(req.body.productId, (err, product) => {
+		if (err) {
+			return res.json({
+				status: 500,
+				messages: 'Có lỗi xảy ra khi kiểm tra số lượng sản phẩm !'
+			});
+		}
+
+		let colorQty = _.find(product.colors, ['code', req.body.color]).quantity;
+		let sizeQty = _.find(product.size, ['code', req.body.size]).quantity;
+		let avg = (colorQty <= sizeQty) ? colorQty : sizeQty;
+
+		if (avg <= req.body.newQuantity) {
+			return res.json({
+				status: 502,
+				messages: `Sản phẩm này hiện chỉ có sẵn ${avg} sản phẩm!`
+			});
+		} else {
+			return res.json({
+				status: 200,
+				messages: `Số lượng hợp lệ`
+			});
+		}
+	});
+});
+
+
+
 router.patch('/bills/single/remove/item/:id', (req, res) => {
 
 	Product.update(
-		{ _id : req.body.productId, 'colors.code' : req.body.color, 'size.code' : req.body.size },
+		{ _id: req.body.productId, 'colors.code': req.body.color, 'size.code': req.body.size },
 		{
-			$inc : { 
-				quantity : req.body.qty, 
-				saled : -req.body.qty,
-				'colors.$.quantity' : req.body.qty,
-				'size.$.quantity' : req.body.qty
+			$inc: {
+				quantity: req.body.qty,
+				saled: -req.body.qty,
+				'colors.$.quantity': req.body.qty,
+				'size.$.quantity': req.body.qty
 			}
 		},
 		(err, product) => {
-			if(err){
+			if (err) {
 				console.log(err);
 			}
 			Bill.findByIdAndUpdate(
@@ -1134,7 +1253,7 @@ router.patch('/bills/single/remove/item/:id', (req, res) => {
 						status: 200,
 						bill: detail
 					});
-				}); 
+				});
 		}
 	);
 });

@@ -817,7 +817,8 @@ let bill_details = new Vue({
 		details: [],
 		id: '',
 		status: 1,
-		list: []
+		list: [],
+		validate : false
 	},
 	mounted: function () {
 		let id = $('#current_bill_id').val();
@@ -834,6 +835,28 @@ let bill_details = new Vue({
 			});
 	},
 	methods: {
+		validateQty : function(qty, color, size, productId){
+			if(qty < 1){
+				toastr.error('Số lượng không hợp lệ!');
+				this.validate = true;
+			}else{
+				axios.patch(`/admin/bills/validate/quantity`, {
+					productId : productId,
+					color : color,
+					size : size,
+					newQuantity : qty
+				})
+				.then((response) => {
+					if(response.data.status === 502){
+						toastr.error(`${response.data.messages}`);
+						this.validate = true;
+					}else if(response.data.status === 200){
+						toastr.success(`${response.data.messages}`);
+						this.validate = false;
+					}
+				});
+			}
+		},
 		removeItem: function (itemId, color, size, productId, qty) {
 			swal({
 				title: 'Xóa sản phẩm này ?',
@@ -871,48 +894,52 @@ let bill_details = new Vue({
 
 		},
 		updateItem: function (index, itemId) {
-			swal({
-				title: 'Cập nhật sản phẩm này ?',
-				text: 'Đơn hàng của khách hàng sẽ bị thay đổi!',
-				icon: 'warning',
-				buttons: true,
-				dangerMode: true,
-			})
-				.then((willDelete) => {
-					if (willDelete) {
-						let data = [];
-						this.details.map(item => {
-							data.push({
-								product_id: item.product_id._id,
-								category_name: item.category_name,
-								product_name: item.product_name,
-								price: item.price,
-								quantity: item.quantity,
-								colors: item.colors,
-								size: item.size
+			if(!this.validate){
+				swal({
+					title: 'Cập nhật sản phẩm này ?',
+					text: 'Đơn hàng của khách hàng sẽ bị thay đổi!',
+					icon: 'warning',
+					buttons: true,
+					dangerMode: true,
+				})
+					.then((willDelete) => {
+						if (willDelete) {
+							let data = [];
+							this.details.map(item => {
+								data.push({
+									product_id: item.product_id._id,
+									category_name: item.category_name,
+									product_name: item.product_name,
+									price: item.price,
+									quantity: item.quantity,
+									colors: item.colors,
+									size: item.size
+								});
 							});
-						});
-
-						axios.patch('/admin/bills/single/update/item', {
-							billId: this.id,
-							itemId: itemId,
-							dataUpdate: data
-						})
-							.then((response) => {
-								console.log(response);
-								if (response.data.status === 200) {
-									this.details = response.data.bill.detais;
-									toastr.options.closeButton = true;
-									toastr.success('Success !');
-								} else {
-									toastr.options.closeButton = true;
-									toastr.error('Opps! something went wrong!');
-								}
-							});
-					} else {
-						swal('Cancled !');
-					}
-				});
+	
+							axios.patch('/admin/bills/single/update/item', {
+								billId: this.id,
+								itemId: itemId,
+								dataUpdate: data
+							})
+								.then((response) => {
+									console.log(response);
+									if (response.data.status === 200) {
+										this.details = response.data.bill.detais;
+										toastr.options.closeButton = true;
+										toastr.success('Success !');
+									} else {
+										toastr.options.closeButton = true;
+										toastr.error('Opps! something went wrong!');
+									}
+								});
+						} else {
+							swal('Cancled !');
+						}
+					});
+			}else{
+				toastr.error('Số lượng thay đổi không hợp lệ!');
+			}
 		},
 		removeBill: function (id) {
 			swal({
