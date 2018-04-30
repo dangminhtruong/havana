@@ -1095,31 +1095,48 @@ router.delete('/bills/:id', (req, res) => {
 });
 
 router.patch('/bills/single/remove/item/:id', (req, res) => {
-	Bill.findByIdAndUpdate(
-		req.params.id,
-		{ $pull: { 'detais': { '_id': req.body.itemId } } },
-		{ new: true }
-	)
-		.populate({
-			path: 'detais.product_id',
-			select: [
-				'image',
-				'colors',
-				'size'
-			]
-		})
-		.exec((err, detail) => {
-			if (err) {
-				return res.send({
-					status: 500,
-					message: 'false'
-				});
+
+	Product.update(
+		{ _id : req.body.productId, 'colors.code' : req.body.color, 'size.code' : req.body.size },
+		{
+			$inc : { 
+				quantity : req.body.qty, 
+				saled : -req.body.qty,
+				'colors.$.quantity' : req.body.qty,
+				'size.$.quantity' : req.body.qty
 			}
-			return res.send({
-				status: 200,
-				bill: detail
-			});
-		});
+		},
+		(err, product) => {
+			if(err){
+				console.log(err);
+			}
+			Bill.findByIdAndUpdate(
+				req.params.id,
+				{ $pull: { 'detais': { '_id': req.body.itemId } } },
+				{ new: true }
+			)
+				.populate({
+					path: 'detais.product_id',
+					select: [
+						'image',
+						'colors',
+						'size'
+					]
+				})
+				.exec((err, detail) => {
+					if (err) {
+						return res.send({
+							status: 500,
+							message: 'false'
+						});
+					}
+					return res.send({
+						status: 200,
+						bill: detail
+					});
+				}); 
+		}
+	);
 });
 
 

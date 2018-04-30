@@ -129,15 +129,13 @@ router.get('/update-quantity/:id', (req, res) => {
 		let sizeQty = _.find(product.size, ['code', req.session.cart[index].size]).quantity;
 		let avg = (colorQty <= sizeQty) ? colorQty : sizeQty;
 
-		console.log('HAVANA', colorQty, sizeQty);
-
 		if(err){
 			return res.json({
 				status : 500,
 				messages : 'Có lỗi xảy ra! Vui lòng thử lại'
 			});
 		}
-		if(avg < req.query.newQuantity){
+		if(avg <= req.query.newQuantity){
 			return res.json({
 				status : 502,
 				messages : `Sản phẩm này hiện chỉ có sẵn ${avg} sản phẩm!`
