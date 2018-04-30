@@ -145,7 +145,8 @@
 														Update
 														<i class="fa fa-trash-o" aria-hidden="true"></i>
 													</button>
-													<button type="button" class="btn btn-danger btn-xs" v-on:click="removeItem(item._id)">
+													<button type="button" class="btn btn-danger btn-xs" 
+															v-on:click="removeItem(item._id, item.colors, item.size, item.product_id._id, item.quantity)">
 														Xóa
 														<i class="fa fa-trash-o" aria-hidden="true"></i>
 													</button>

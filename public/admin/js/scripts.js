@@ -834,8 +834,7 @@ let bill_details = new Vue({
 			});
 	},
 	methods: {
-		removeItem: function (itemId) {
-
+		removeItem: function (itemId, color, size, productId, qty) {
 			swal({
 				title: 'Xóa sản phẩm này ?',
 				text: 'Đơn hàng của khách hàng bị thay đổi !',
@@ -845,7 +844,14 @@ let bill_details = new Vue({
 			})
 				.then((willDelete) => {
 					if (willDelete) {
-						axios.patch(`/admin/bills/single/remove/item/${this.id}`, { itemId: itemId })
+						axios.patch(`/admin/bills/single/remove/item/${this.id}`, 
+							{ 
+								itemId: itemId,
+								color : color,
+								size : size,
+								productId : productId,
+								qty : qty
+							})
 							.then((response) => {
 								if (response.data.status !== 200) {
 									toastr.options.closeButton = true;
