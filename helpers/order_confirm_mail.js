@@ -41,10 +41,10 @@ var connectionHandle = function (data) {
                  <h3 style="text-align:center;font-size:30px;font-family:sans-serif;color:#424242">Thông báo đặt hàng</h3>
                  <hr>
                  <div style="font-family:sans-serif;color:#616161;font-weight:500;padding-left:5px">
-                    <p><strong>Cám ơn quý khách ${ data.user.username } đã đặt hàng tại Havana,</strong></p>
+                    <p><strong>Cám ơn quý khách ${ data.user.username } đã đặt hàng tại Diamonds,</strong></p>
                     <p style="line-height:150%">
-                       Havana xin thông báo đơn hàng của quý khách đã được tiếp nhận và đang trong quá trình xử lý.
-                       Havana sẽ thông báo đến quý khách ngay khi hàng chuẩn bị được giao.
+                       Diamonds xin thông báo đơn hàng của quý khách đã được tiếp nhận và đang trong quá trình xử lý.
+                       Diamonds sẽ thông báo đến quý khách ngay khi hàng chuẩn bị được giao.
                     </p>
                     <hr>
                     <h3 style="font-size:25px;font-family:sans-serif;color:#00bfa5;border-bottom:2px solid #00bfa5;padding-bottom:5px;display:inline-block">
@@ -80,12 +80,12 @@ var connectionHandle = function (data) {
                        Thời gian giao hàng dự kiến: Sau 3 ngày kể từ ngày đặt hàng.
                     </p>
                     <p style="margin:0;line-height:170%">
-                        <strong> Quý khách vui lòng nhấn vào 
+                        <strong style="color:red"> Quý khách vui lòng nhấn vào 
                             <a href="${ config.domain }/bill/verfi/${ data.billId }" ><b>ĐÂY</b></a> để xác nhận đơn hàng
                         </strong>
                     </p>
                     <hr>
-                    <p><strong>Một lần nữa Havana Store xin cảm ơn quý khách.</strong></p>
+                    <p><strong>Một lần nữa Diamonds Store xin cảm ơn quý khách.</strong></p>
                     <div class="yj6qo"></div>
                     <div class="adL">
                     </div>
@@ -97,10 +97,10 @@ var connectionHandle = function (data) {
         </div>
         `;
         let mail = {
-            from: 'havana@gmail.com', // Địa chỉ email của người gửi
+            from: 'Diamonds@gmail.com', // Địa chỉ email của người gửi
             to: data.user.email, // Địa chỉ email của người gửi
             subject: 'Submit order mail', // Tiêu đề mail
-            text: 'havana.com', // Nội dung mail dạng text
+            text: 'Diamonds.com', // Nội dung mail dạng text
             html: mailContent // Nội dung mail dạng html
         };
         //Tiến hành gửi email

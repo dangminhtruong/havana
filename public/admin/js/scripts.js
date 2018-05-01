@@ -1113,3 +1113,57 @@ let post_create = new Vue({
 		}
 	}
 });
+
+let list_post = new Vue({
+	el : '#list_post',
+	data : {
+		list : [],
+		curretnPage: 1,
+		totalPages: 5
+	},
+	mounted : function(){
+		axios.get('/admin/post/list/data')
+		.then((response) => {
+			console.log(response.data);
+			this.list = response.data.blogs;
+			this.currentPages = response.data.currentPages;
+			this.totalPages = response.data.pages;
+		});
+	},
+	methods : {
+		paginate: function (page) {
+			axios.get(`/admin/post/list/data?pages=${page}`)
+				.then((response) => {
+					this.list = response.data.blogs;
+					this.totalPages = response.data.pages;
+					this.curretnPage = response.data.currentPages;
+				});
+		},
+		removeCategory: function (id) {
+
+			swal({
+				title: 'Bạn có chắc chắn muốn xóa ?',
+				text: 'Bài viết này sẽ bị xóa bỏ khỏi hệ thống!',
+				icon: 'warning',
+				buttons: true,
+				dangerMode: true,
+			})
+				.then((willDelete) => {
+					if (willDelete) {
+						axios.delete(`/admin/post/remove/${id}`)
+							.then((response) => {
+								console.log(response.data);
+								this.list = response.data.blogs;
+								this.totalPages = response.data.pages;
+								this.curretnPage = response.data.currentPages;
+								swal('Xóa thành công!', {
+									icon: 'success',
+								});
+							});
+					} else {
+						swal('Hủy xóa thành công!');
+					}
+				});
+		}
+	}
+});

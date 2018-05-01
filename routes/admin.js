@@ -1456,12 +1456,83 @@ router.post('/post/create',cpUpload, (req, res) => {
 				messages: err.code
 			});
 		}else{ 
-			return res.status(200).json({
-				status : 200,
-				messages : 'Success',
-				data : req.files['avatar'][0].filename,
-			});
+			return res.redirect('/admin/post/list');
  	}
+	});
+});
+
+router.get('/post/list', (req, res) => {
+	res.render('./admin/pages/post_list', { user : req.user });
+});
+
+
+router.get('/post/list/data', (req, res) => {
+		async.parallel([
+			(callback) => {
+				if(req.query.pages !== null){
+					Blog.find()
+					.sort({ createdOn: -1 })
+					.limit(6)
+					.skip((req.query.pages - 1) * 6)
+					.exec((err, blogs) => {
+						callback(null, blogs);
+					});
+				}else{
+					Blog.find()
+					.sort({ createdOn: -1 })
+					.limit(6)
+					.exec((err, blogs) => {
+						callback(null, blogs);
+					});
+				}
+			},
+			(callback) => {
+				Blog.find().count()
+					.exec((err, total_records) => {
+						callback(null, total_records);
+					});
+			}
+		],
+			(err, results) => {
+				return res.status(200).json({
+					blogs: results[0],
+					pages: Math.ceil(results[1] / 6),
+					currentPages: 1
+				});
+			});
+
+});
+
+router.delete('/post/remove/:id', (req, res) => {
+	Blog.findByIdAndRemove(req.params.id, (err, blog) => {
+		if (err) return res.status(500).send(err);
+		const response = {
+			message: 'Post successfully deleted',
+			id: blog._id,
+		};
+		async.parallel([
+			(callback) => {
+				Blog.find()
+					.sort({ createdOn: -1 })
+					.limit(6)
+					.exec((err, categories) => {
+						callback(null, categories);
+					});
+			},
+			(callback) => {
+				Blog.find().count()
+					.exec((err, total_records) => {
+						callback(null, total_records);
+					});
+			}
+		],
+			(err, results) => {
+				return res.status(200).json({
+					blogs: results[0],
+					pages: Math.ceil(results[1] / 6),
+					currentPages: 1
+				});
+			});
 	});
 });
 
