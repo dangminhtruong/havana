@@ -7,6 +7,7 @@ const User = require('../model/user');
 const Category = require('../model/category');
 const Bill = require('../model/bill');
 const Message = require('../model/messages');
+const Blog = require('../model/blog');
 var config = require('../config/config');
 
 var passport = require('passport')
@@ -214,7 +215,7 @@ router.get('/category-data/:id', (req, res) => {
 				});
 		},
 		(callback) => {
-			Category.find({ quantity: { $gt: 0 } }, { _id: 1, name: 1, type: 1 })
+			Category.find({}, { _id: 1, name: 1, type: 1 })
 				.exec((err, category) => {
 					callback(null, category);
 				});
@@ -480,6 +481,59 @@ router.post('/password/change', (req, res) => {
 			return res.json({
 				status: 200,
 				message: 'Update password successfull'
+			});
+		}
+	);
+});
+router.get('/blog', (req, res) => {
+	async.parallel(
+		[
+			(callback) => {
+				Blog.find({}).limit(10).sort({ createdOn : -1 })
+				.exec((err, blogs) => {
+					callback(null, blogs);
+				});
+			},
+			(callback) => {
+				Category.find({}, { _id: 1, name: 1, type: 1 })
+					.exec((err, category) => {
+						callback(null, category);
+					});
+			}
+		],
+		(err, results) => {
+			return res.json({
+				blogs : results[0],
+				category : results[1],
+				cart : req.session.cart
+			});
+		}
+	);
+});
+
+
+router.get('/post/:id', (req, res) => {
+	async.parallel(
+		[
+			(callback) => {
+				Blog.findById(req.params.id)
+				.populate('user')
+				.exec((err, blog) => {
+					callback(null, blog);
+				});
+			},
+			(callback) => {
+				Category.find({}, { _id: 1, name: 1, type: 1 })
+					.exec((err, category) => {
+						callback(null, category);
+					});
+			}
+		],
+		(err, results) => {
+			return res.json({
+				post : results[0],
+				category : results[1],
+				cart : req.session.cart
 			});
 		}
 	);

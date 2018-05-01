@@ -1088,3 +1088,28 @@ let frame = new Vue({
 		}
 	}
 });
+
+let post_create = new Vue({
+	el : '#post_create',
+	data : {
+		alertTitleNull : '',
+		alertContentNull : '',
+		title : '',
+		content : ''
+	},
+	mounted : function(){
+		CKEDITOR.replace('post_content', { height : 700 });
+	},
+	methods : {
+		submit: function(){
+			this.content = CKEDITOR.instances.post_content.getData();
+			if(this.title === ''){
+				this.alertTitleNull = 'Không để trống tiêu đề !'
+			}else if(this.content === ''){
+				this.alertContentNull = 'Không để trống nội dung!'
+			}else{
+				this.$refs.form.submit();
+			}
+		}
+	}
+});

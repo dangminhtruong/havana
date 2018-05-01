@@ -4,6 +4,7 @@ const async = require('async');
 const Category = require('../model/category');
 const Bill = require('../model/bill');
 const Product = require('../model/product');
+const Blog = require('../model/blog');
 const User = require('../model/user');
 const _ = require('lodash');
 const bodyParser = require('body-parser');
@@ -1435,5 +1436,34 @@ router.post('/chatbox/add/message', (req, res) => {
 			}
 		});
 });
+
+router.get('/post/create', (req, res) => {
+	res.render('./admin/pages/create_post', { user: req.user });
+});
+
+router.post('/post/create',cpUpload, (req, res) => {
+	 blog = new Blog({
+		title: req.body.title,
+		content: req.body.content,
+		avata: req.files['avatar'][0].filename,
+		comment: [],
+		user: req.user._id,
+	});
+
+	blog.save((err, result) => {
+		if(err) {
+			return res.status(500).json({
+				messages: err.code
+			});
+		}else{ 
+			return res.status(200).json({
+				status : 200,
+				messages : 'Success',
+				data : req.files['avatar'][0].filename,
+			});
+ 	}
+	});
+});
+
 
 module.exports = router;
