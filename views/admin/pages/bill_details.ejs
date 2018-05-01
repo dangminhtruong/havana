@@ -132,7 +132,8 @@
 												</td>
 												<td class="colors">
 													<label class="containerr" v-for="(color, indexColor) in item.product_id.colors">
-														<input type="radio" :name="item._id" v-model="details[index].colors" :value="color.code">
+														<input type="radio" :name="item._id" v-on:change="validateQty(details[index].quantity, item.colors, item.size, item.product_id)"
+																v-model="details[index].colors" :value="color.code">
 														<span class="checkmark" :style="{ background: color.code }">
 														</span>
 													</label>

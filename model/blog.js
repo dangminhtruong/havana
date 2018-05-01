@@ -12,6 +12,14 @@ var User = require('../model/user');
 var BlogSchema = new mongoose.Schema({
 	title : String,
 	content : String,
+	avata : String,
+	comment : [
+		{
+			username : String,
+			content : String,
+			commentedOn: { type: Date, 'default': Date.now }
+		}
+	],
 	user : { type: ObjectId, ref : 'User'},
 	createdOn: { type: Date, 'default': Date.now }
 });
