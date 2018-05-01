@@ -328,6 +328,7 @@ router.post('/register', (req, res) => {
 		req.app.io.emit('notifiNewUser', {
 			content: 'Có người dùng đăng ký mới !',
 		});
+		
 		return res.status(200).json({
 			messages: 'Sucessfull register!',
 		});
