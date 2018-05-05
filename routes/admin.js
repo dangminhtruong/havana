@@ -1298,7 +1298,7 @@ router.get('/product/report', (req, res) => {
 });
 
 router.get('/product/report/data', (req, res) => {
-	Product.find({}, { name: 1, quantity: 1, saled: 1, image: 1 })
+	Product.find({ quantity : { $gt : 0 } }, { name: 1, quantity: 1, saled: 1, image: 1 })
 		.sort({ quantity: -1 })
 		.limit(50)
 		.exec((err, allProducts) => {
@@ -1315,7 +1315,7 @@ router.get('/product/report/data', (req, res) => {
 });
 
 router.get('/product/report/out-of-data', (req, res) => {
-	Product.find({ quantity: { $lt: 10 } }, { name: 1, quantity: 1, saled: 1, image: 1 })
+	Product.find({ quantity: { $lt: 10, $gt : 0 } }, { name: 1, quantity: 1, saled: 1, image: 1 })
 		.sort({ quantity: -1 })
 		.limit(50)
 		.exec((err, allProducts) => {
@@ -1332,12 +1332,7 @@ router.get('/product/report/out-of-data', (req, res) => {
 });
 
 router.get('/product/report/inventory-data', (req, res) => {
-	Product.find({
-		createdOn: { $lt: moment().subtract(30, 'days') },
-		saled: { $lt: 10 },
-		quantity: { $gt: 0 }
-	})
-		.limit(50)
+	Product.find({quantity: { $lt: 1 }})
 		.exec((err, allProducts) => {
 			if (err) {
 				res.json({
