@@ -86,7 +86,7 @@
 												<td>{{ item.saled }}</td>
 												<td>{{ item.quantity }}</td>
 												<td>
-													<a :href="`/admin/product/edit` " class="btn btn-primary btn-xs">Cập nhật</a>
+													<a :href="`/admin/product/edit/${item._id}` " class="btn btn-primary btn-xs">Cập nhật</a>
 												</td>
 											</tr>
 										</tbody>
@@ -98,13 +98,13 @@
 									<div class="col-md-3">
 										<a type="button" class="btn btn-warning" @click="outOf()">
 											Sản phẩm sắp hết
-											<i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+											<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
 										</a>
 									</div>
 									<div class="col-md-3">
 										<button type="button" class="btn btn-danger" @click="inventory()">
-											Sản phẩm tồn kho
-											<i class="fa fa-trash-o" aria-hidden="true"></i>
+											Sản phẩm đã hết
+											<i class="fa fa-outdent" aria-hidden="true"></i>
 										</button>
 									</div>
 									<div class="col-md-2"></div>

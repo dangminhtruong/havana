@@ -35,23 +35,6 @@ new Promise((resolve) => {
 					phone : faker.phone.phoneNumber(),
 					role : 2,
 					status : 1,
-					wish_list : [
-						{
-							product_id : _.sample(product_ids)._id,
-						},
-						{
-							product_id : _.sample(product_ids)._id,
-						},
-						{
-							product_id : _.sample(product_ids)._id,
-						},
-						{
-							product_id : _.sample(product_ids)._id,
-						},
-						{
-							product_id : _.sample(product_ids)._id,
-						}
-					],
 					notification : [
 						{
 							content : 'Có đơn đặt hàng mới'
