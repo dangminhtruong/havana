@@ -11,6 +11,7 @@
    <li>"node product_seeder"</li>
    <li>"node user_seeder"</li>
    <li>"node bill_seeder"</li>
+   <li>"node blog_seeder"</li> 
 </ul>
 . After this step, you have faked data...<br/>
 <b>Step 3</b> Run "nodemon" at main folder, then open browser, access to "localhost:3000"... That's is
@@ -26,5 +27,6 @@
 <li>"node product_seeder"</li> 
 <li>"node user_seeder"</li> 
 <li>"node bill_seeder"</li> 
+<li>"node blog_seeder"</li> 
 <b>Step 5</b> The app running at localhost:3000<br/>
 <h6>Notice !</h6> Here is client app https://github.com/dangminhtruong/havana_client
