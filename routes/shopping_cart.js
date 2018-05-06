@@ -216,8 +216,6 @@ router.post('/sign-in-order', (req, res) => {
 		}
 
 		async.eachSeries(data.detailsArr, (item, done) => {
-			console.log('HAVANA',item.colors,  item.size);
-			
 			let qty = parseInt(item.quantity);
 			Product.update(
 				{ _id: item.product_id, 'colors.code': item.colors, 'size.code': item.size },

@@ -57,16 +57,34 @@
                 <!--content-->
                 <div class="content-top">
                     <div class="col-md-12 " style="min-height:65vh;" id="analytic">
-                        <div class="container-fluid content show-grid">
+                        <div class="container-fluid content">
                             <div class="col-md-12 col-lg-12">
                                 <div class="col-md-12 well top_bar_title">
                                     <strong>Thống kê doanh thu</strong>
                                 </div>
+                                <div class="col-md-12" row>
+                                    <div class="col-md-1"></div>
+									<div class="col-md-5 col-xs-12">
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="Tìm từ ngày" id="start-day">
+										</div>
+									</div>
+									<div class="col-md-5 col-xs-12">
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="Đến ngày" id="end-day">
+										</div>
+                                    </div>
+                                    <div class="col-md-1 col-xs-12">
+										<div class="form-group">
+											<button class="btn btn-default" @click="startEndData">Lọc</button>
+										</div>
+									</div>
+								</div>
                                 <div class="col-md-12">
                                     <canvas id="pie-chart-men" width="800" height="450"></canvas>
 								</div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-12" v-if="showDefault">
                                 <div class="col-md-4">
                                     <div class="col-md-12 well top_bar_title">
                                         <strong>Hôm nay</strong>
@@ -161,6 +179,45 @@
                                         </table>
                                     </div>
                                 </div>
+                            </div>
+                            <div v-else>
+                                    <div class="col-md-3">
+
+                                    </div>
+                                    <div class="col-md-6">
+                                            <div class="col-md-12 well top_bar_title">
+                                                <strong>Từ ngày {{ startDay }} <br/> Đến ngày {{ endDay }}</strong>
+                                            </div>
+                                            <div class="col-md-12 tkspBanChay" id="tkspBanChay">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Tổng doanh thu: <b class="highlight">{{ startEndSummary }} vnđ </b></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Số sản phẩm bán ra: <b class="highlight">{{ daySummary }}</b></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b class="highlight">Top 10 sản phẩm bán chạy nhất <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i></b>
+                                                            </td>
+                                                        </tr>
+                                                        <tr v-for="(item, index) in startEndProducts">
+                                                            <td>
+                                                                {{ item._id }} <span class="badge">{{ item.total }}</span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+
+                                            </div>
                             </div>
                         </div>
                     </div>
