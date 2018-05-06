@@ -66,9 +66,9 @@
 							</div>
 							<div class="col-md-12" style="margin-bottom: 2vh;">
 								<div class="col-md-3">
-									<label class="col-md-12 control-label">Tên khách hàng</label>
+									<label class="col-md-12 control-label">Người nhận hàng</label>
 									<div class="col-md-12">
-										<%= bill.user.username %>
+										<%= (bill.receiver_name) ?  bill.receiver_name : bill.user.username %>
 									</div>
 								</div>
 
@@ -85,9 +85,9 @@
 									</div>
 								</div>
 								<div class="col-md-3">
-									<label class="col-md-12 control-label">Ghi chú</label>
+									<label class="col-md-12 control-label">Thanh toán</label>
 									<div class="col-md-12">
-										<%= bill.note %>
+										<%= (bill.payment === 1) ? 'Khi nhận hàng' : (bill.payment === 2) ? 'Thẻ cào' : 'Qua Ngân Lượng' %>
 									</div>
 								</div>
 							</div>

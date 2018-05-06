@@ -1023,34 +1023,6 @@ router.get('/bills/single/detail-data/:id', (req, res) => {
 		})
 });
 
-
-/* router.patch('/bills/single/update/color', (req, res) => {
-	Bill.findOneAndUpdate(
-		{ _id :req.body.id, 'detais._id' : req.body.itemId }, 
-		{ $set:  {  detais : req.body.dataUpdate  } },
-		{ new : true }
-	)
-	.populate({
-        path: 'detais.product_id',
-		select: [
-			'image',	
-			'colors',
-			'size'
-		]
-    })
-    .exec((err, detail) => {
-		if(err){
-			return res.send({
-				status : 500,
-				message : 'false'
-			});
-		}
-		return res.send({
-			bill : detail
-		});
-	});
-}); */
-
 router.patch('/bills/single/update/item', (req, res) => {
 	let qty;
 	new Promise((resolve, reject) => {
@@ -1137,15 +1109,16 @@ router.patch('/bills/single/update/item', (req, res) => {
 });
 
 router.delete('/bills/:id', (req, res) => {
-	async function restore() {
-		await Bill.findById(req.params.id, (err, bill) => {
+		Bill.findById(req.params.id, (err, bill) => {
 			if (err) {
+				
 				return res.send({
 					status: 500,
 					message: 'false'
 				});
 			} else {
-				bill.detais.forEach((item) => {
+				async.eachSeries(bill.detais, (item, done) => {
+					let qty = parseInt(item.quantity);
 					Product.update(
 						{
 							_id: item.product_id,
@@ -1154,35 +1127,32 @@ router.delete('/bills/:id', (req, res) => {
 						},
 						{
 							$inc: {
-								quantity: item.quantity,
-								saled: -item.quantity,
-								'colors.$.quantity': item.quantity,
-								'size.$.quantity': item.quantity
+								quantity: qty,
+								saled: -qty,
+								'colors.$.quantity': qty,
+								'size.$.quantity': qty
 							}
 						},
 						(err, product) => {
-							if (err) {
-								console.log(err);
-							}
+							done();
 						}
 					);
+				}, (err) => {
+					Bill.findByIdAndRemove(req.params.id, (err, result) => {
+						if (err) {
+							return res.json({
+								status: 500,
+								message: 'fasle'
+							});
+						}
+						return res.json({
+							status: 200,
+							messages: 'success'
+						});
+					});
 				});
 			}
 		});
-		Bill.findByIdAndRemove(req.params.id, (err, result) => {
-			if (err) {
-				return res.json({
-					status: 500,
-					message: 'fasle'
-				});
-			}
-			return res.json({
-				status: 200,
-				messages: 'success'
-			});
-		});
-	}
-	restore();
 });
 
 router.patch('/bills/validate/quantity', (req, res) => {
@@ -1298,7 +1268,7 @@ router.get('/product/report', (req, res) => {
 });
 
 router.get('/product/report/data', (req, res) => {
-	Product.find({ quantity : { $gt : 0 } }, { name: 1, quantity: 1, saled: 1, image: 1 })
+	Product.find({ quantity: { $gt: 0 } }, { name: 1, quantity: 1, saled: 1, image: 1 })
 		.sort({ quantity: -1 })
 		.limit(50)
 		.exec((err, allProducts) => {
@@ -1315,7 +1285,7 @@ router.get('/product/report/data', (req, res) => {
 });
 
 router.get('/product/report/out-of-data', (req, res) => {
-	Product.find({ quantity: { $lt: 10, $gt : 0 } }, { name: 1, quantity: 1, saled: 1, image: 1 })
+	Product.find({ quantity: { $lt: 10, $gt: 0 } }, { name: 1, quantity: 1, saled: 1, image: 1 })
 		.sort({ quantity: -1 })
 		.limit(50)
 		.exec((err, allProducts) => {
@@ -1332,7 +1302,7 @@ router.get('/product/report/out-of-data', (req, res) => {
 });
 
 router.get('/product/report/inventory-data', (req, res) => {
-	Product.find({quantity: { $lt: 1 }})
+	Product.find({ quantity: { $lt: 1 } })
 		.exec((err, allProducts) => {
 			if (err) {
 				res.json({
@@ -1436,8 +1406,8 @@ router.get('/post/create', (req, res) => {
 	res.render('./admin/pages/create_post', { user: req.user });
 });
 
-router.post('/post/create',cpUpload, (req, res) => {
-	 blog = new Blog({
+router.post('/post/create', cpUpload, (req, res) => {
+	blog = new Blog({
 		title: req.body.title,
 		content: req.body.content,
 		avata: req.files['avatar'][0].filename,
@@ -1446,55 +1416,55 @@ router.post('/post/create',cpUpload, (req, res) => {
 	});
 
 	blog.save((err, result) => {
-		if(err) {
+		if (err) {
 			return res.status(500).json({
 				messages: err.code
 			});
-		}else{ 
+		} else {
 			return res.redirect('/admin/post/list');
- 	}
+		}
 	});
 });
 
 router.get('/post/list', (req, res) => {
-	res.render('./admin/pages/post_list', { user : req.user });
+	res.render('./admin/pages/post_list', { user: req.user });
 });
 
 
 router.get('/post/list/data', (req, res) => {
-		async.parallel([
-			(callback) => {
-				if(req.query.pages !== null){
-					Blog.find()
+	async.parallel([
+		(callback) => {
+			if (req.query.pages !== null) {
+				Blog.find()
 					.sort({ createdOn: -1 })
 					.limit(6)
 					.skip((req.query.pages - 1) * 6)
 					.exec((err, blogs) => {
 						callback(null, blogs);
 					});
-				}else{
-					Blog.find()
+			} else {
+				Blog.find()
 					.sort({ createdOn: -1 })
 					.limit(6)
 					.exec((err, blogs) => {
 						callback(null, blogs);
 					});
-				}
-			},
-			(callback) => {
-				Blog.find().count()
-					.exec((err, total_records) => {
-						callback(null, total_records);
-					});
 			}
-		],
-			(err, results) => {
-				return res.status(200).json({
-					blogs: results[0],
-					pages: Math.ceil(results[1] / 6),
-					currentPages: 1
+		},
+		(callback) => {
+			Blog.find().count()
+				.exec((err, total_records) => {
+					callback(null, total_records);
 				});
+		}
+	],
+		(err, results) => {
+			return res.status(200).json({
+				blogs: results[0],
+				pages: Math.ceil(results[1] / 6),
+				currentPages: 1
 			});
+		});
 
 });
 
