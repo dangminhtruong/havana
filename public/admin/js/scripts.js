@@ -456,12 +456,21 @@ let analytic = new Vue({
 		daySummary: 0,
 		weekSummary: 0,
 		monthSummary: 0,
+		startEndSummary : 0,
 		topDay: 0,
 		topWeek: 0,
 		topMonth: 0,
 		earnedDay: 0,
 		earnedWeek: 0,
-		earnedMonth: 0
+		earnedMonth: 0,
+		startDay : null,
+		endDay : null,
+		label : [],
+		summary : [],
+		bg_color : [],
+		showDefault : true,
+		startEndSale : 0,
+		startEndProducts : []
 	},
 	methods: {
 		getRandomColor() {
@@ -471,9 +480,48 @@ let analytic = new Vue({
 				color += letters[Math.floor(Math.random() * 16)];
 			}
 			return color;
+		},
+		startEndData : function(){
+			this.startDay = $('#start-day').val();
+			this.endDay = $('#end-day').val();
+			axios.post('/admin//analytic/start-end', { 
+				startDay : this.startDay,
+				endDay : this.endDay
+			})
+			.then((response) => {
+				this.startEndSummary = response.data.summary;
+				this.showDefault = false;
+				this.startEndSale = response.data.earn;
+				this.startEndProducts = response.data.topProducts
+
+				response.data.chart.forEach(item => {
+					this.label.push(item._id);
+					this.summary.push(item.total);
+					this.bg_color.push(this.getRandomColor());
+				});
+				new Chart(document.getElementById('pie-chart-men'), {
+					type: 'pie',
+					data: {
+						labels: this.label,
+						datasets: [{
+							label: 'Population (millions)',
+							backgroundColor: this.bg_color,
+							data: this.summary
+						}]
+					},
+					options: {
+						title: {
+							display: true,
+							text: 'Tỷ lệ loại sản phẩm bán ra'
+						}
+					}
+				});
+			});
 		}
 	},
 	mounted: function () {
+		$('#start-day').datepicker({ dateFormat: 'yy-mm-dd' });
+		$('#end-day').datepicker({ dateFormat: 'yy-mm-dd' });
 
 		axios.get('/admin/analytic-data')
 			.then((response) => {
@@ -488,23 +536,22 @@ let analytic = new Vue({
 				this.topWeek = response.data.week;
 				this.topMonth = response.data.month;
 
-				let label = [];
-				let summary = [];
-				let bg_color = [];
+				
 
 				response.data.chart.forEach(item => {
-					label.push(item._id);
-					summary.push(item.total);
-					bg_color.push(this.getRandomColor());
+					this.label.push(item._id);
+					this.summary.push(item.total);
+					this.bg_color.push(this.getRandomColor());
 				});
+
 				new Chart(document.getElementById('pie-chart-men'), {
 					type: 'pie',
 					data: {
-						labels: label,
+						labels: this.label,
 						datasets: [{
 							label: 'Population (millions)',
-							backgroundColor: bg_color,
-							data: summary
+							backgroundColor: this.bg_color,
+							data: this.summary
 						}]
 					},
 					options: {

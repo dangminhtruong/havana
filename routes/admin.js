@@ -137,6 +137,7 @@ router.get('/bills/week-data', (req, res) => {
 			res.send(bills);
 		});
 });
+
 /*--------------------------------------------------------*/
 router.get('/bills/month-data', (req, res) => {
 	Bill.find({
@@ -1109,50 +1110,50 @@ router.patch('/bills/single/update/item', (req, res) => {
 });
 
 router.delete('/bills/:id', (req, res) => {
-		Bill.findById(req.params.id, (err, bill) => {
-			if (err) {
-				
-				return res.send({
-					status: 500,
-					message: 'false'
-				});
-			} else {
-				async.eachSeries(bill.detais, (item, done) => {
-					let qty = parseInt(item.quantity);
-					Product.update(
-						{
-							_id: item.product_id,
-							'colors.code': item.colors,
-							'size.code': item.size
-						},
-						{
-							$inc: {
-								quantity: qty,
-								saled: -qty,
-								'colors.$.quantity': qty,
-								'size.$.quantity': qty
-							}
-						},
-						(err, product) => {
-							done();
+	Bill.findById(req.params.id, (err, bill) => {
+		if (err) {
+
+			return res.send({
+				status: 500,
+				message: 'false'
+			});
+		} else {
+			async.eachSeries(bill.detais, (item, done) => {
+				let qty = parseInt(item.quantity);
+				Product.update(
+					{
+						_id: item.product_id,
+						'colors.code': item.colors,
+						'size.code': item.size
+					},
+					{
+						$inc: {
+							quantity: qty,
+							saled: -qty,
+							'colors.$.quantity': qty,
+							'size.$.quantity': qty
 						}
-					);
-				}, (err) => {
-					Bill.findByIdAndRemove(req.params.id, (err, result) => {
-						if (err) {
-							return res.json({
-								status: 500,
-								message: 'fasle'
-							});
-						}
+					},
+					(err, product) => {
+						done();
+					}
+				);
+			}, (err) => {
+				Bill.findByIdAndRemove(req.params.id, (err, result) => {
+					if (err) {
 						return res.json({
-							status: 200,
-							messages: 'success'
+							status: 500,
+							message: 'fasle'
 						});
+					}
+					return res.json({
+						status: 200,
+						messages: 'success'
 					});
 				});
-			}
-		});
+			});
+		}
+	});
 });
 
 router.patch('/bills/validate/quantity', (req, res) => {
@@ -1499,6 +1500,82 @@ router.delete('/post/remove/:id', (req, res) => {
 				});
 			});
 	});
+});
+
+
+router.post('/analytic/start-end', (req, res) => {
+	console.log(req.body.startDay, new Date(req.body.startDay) );
+	async.parallel(
+		[
+			(callback) => {
+				Bill.aggregate(
+					{ $unwind: '$detais' },
+					{
+						$match: {
+							createdOn: {
+								$gt:  new Date(req.body.startDay),
+								$lt: new Date(req.body.endDay)
+							}
+						}
+					},
+					{
+						$group: {
+							_id: '$detais.category_name',
+							total: { $sum: '$detais.quantity' },
+						}
+					},
+					{ $sort: { total: -1 } }
+				)
+					.limit(10)
+					.exec((err, records) => {
+						if(err){
+							console.log(err);
+						}
+						callback(null, records);
+					});
+			},
+			(callback) => {
+				Bill.aggregate(
+					{ $unwind: '$detais' },
+					{
+						$match: {
+							createdOn: {
+								$gt:  new Date(req.body.startDay),
+								$lt: new Date(req.body.endDay)
+							}
+						}
+					},
+					{
+						$group: {
+							_id: '$detais.product_name',
+							total: { $sum: '$detais.quantity' },
+							earned: { $sum: '$detais.price' }
+						}
+					},
+					{ $sort: { total: -1 } }
+				)
+					.limit(10)
+					.exec((err, records) => {
+						if(err){
+							console.log(err);
+						}
+						Product.find({ _id: { $in: records } }, { name: 1 })
+							.exec((err, rec) => {
+								callback(null, records);
+							});
+					});
+			}
+
+		], (err, results) => {
+			res.json({
+				chart : results[0],
+				topProducts : results[1],
+				summary : _.sumBy(results[1], function (o) { return o.total; }),
+				earn: _.sumBy(results[1], function (o) { return o.earned; }),
+			});
+		});
+
+
 });
 
 
