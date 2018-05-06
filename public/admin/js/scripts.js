@@ -363,16 +363,33 @@ const addProduct = new Vue({
 		],
 		promoPriceAlert: null,
 		unitPriceAlert: null,
-		quantityAlert: null
-
+		quantityAlert: null,
+		equalColorAlert : null,
+		equalSizeAlert : null
 	},
 	methods: {
 		checkValidate: function () {
 			if (this.validatePromoPrice() && this.validateUnitPrice() && this.validateQuantity()) {
-				this.$refs.form.submit();
+				let cqty = 0, sqty =0;
+				this.sizes.forEach((item) => {
+					sqty += parseInt(item.quantity);
+				});
+				this.colors.forEach((item) => {
+					cqty += parseInt(item.quantity);
+				});
+				if(cqty !== parseInt(this.quantity)){
+					this.equalColorAlert = 'Tổng số lượng các màu sản phẩm không phù hợp !';
+					this.equalSizeAlert = null;
+				}else if(sqty !== parseInt(this.quantity)){
+					this.equalColorAlert = null;
+					this.equalSizeAlert = 'Tổng số lượng các sizes không phù hợp !';
+				}else{
+					this.equalColorAlert = null;
+					this.equalSizeAlert = null;
+					this.$refs.form.submit();
+				}
 			}
 		},
-
 		validatePromoPrice: function () {
 			if (isNaN(this.promo_price)) {
 				this.promoPriceAlert = 'Price must be an integer value';
@@ -858,39 +875,49 @@ let bill_details = new Vue({
 			}
 		},
 		removeItem: function (itemId, color, size, productId, qty) {
-			swal({
-				title: 'Xóa sản phẩm này ?',
-				text: 'Đơn hàng của khách hàng bị thay đổi !',
-				icon: 'warning',
-				buttons: true,
-				dangerMode: true,
-			})
-				.then((willDelete) => {
-					if (willDelete) {
-						axios.patch(`/admin/bills/single/remove/item/${this.id}`, 
-							{ 
-								itemId: itemId,
-								color : color,
-								size : size,
-								productId : productId,
-								qty : qty
-							})
-							.then((response) => {
-								if (response.data.status !== 200) {
-									toastr.options.closeButton = true;
-									toastr.error('Opps! something went wrong!');
-								}
-								else {
-									toastr.options.closeButton = true;
-									toastr.success('Success !');
-									this.details = response.data.bill.detais;
-								}
-							});
-					} else {
-						swal('Hủy xóa thành cônng !');
-					}
-				});
-
+			if(this.details.length <= 1){
+				swal({
+					title: 'Không thể xóa, đơn hàng sẽ bị rỗng',
+					text: 'Mẹo ! Nếu muốn, hãy hủy bỏ đơn hàng !',
+					icon: 'warning',
+					dangerMode: true,
+				})
+			}
+			else{
+				swal({
+					title: 'Xóa sản phẩm này ?',
+					text: 'Đơn hàng của khách hàng bị thay đổi !',
+					icon: 'warning',
+					buttons: true,
+					dangerMode: true,
+				})
+					.then((willDelete) => {
+						if (willDelete) {
+							axios.patch(`/admin/bills/single/remove/item/${this.id}`, 
+								{ 
+									itemId: itemId,
+									color : color,
+									size : size,
+									productId : productId,
+									qty : qty
+								})
+								.then((response) => {
+									if (response.data.status !== 200) {
+										toastr.options.closeButton = true;
+										toastr.error('Opps! something went wrong!');
+									}
+									else {
+										toastr.options.closeButton = true;
+										toastr.success('Success !');
+										this.details = response.data.bill.detais;
+									}
+								});
+						} else {
+							swal('Hủy xóa thành cônng !');
+						}
+					});
+	
+			}
 
 		},
 		updateItem: function (index, itemId) {
@@ -1140,7 +1167,6 @@ let list_post = new Vue({
 				});
 		},
 		removeCategory: function (id) {
-
 			swal({
 				title: 'Bạn có chắc chắn muốn xóa ?',
 				text: 'Bài viết này sẽ bị xóa bỏ khỏi hệ thống!',
