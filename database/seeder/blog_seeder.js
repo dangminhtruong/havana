@@ -9,7 +9,7 @@ const seeder = require('mongoose-seed');
 const faker = require('faker');
 
 new Promise((resolve) => {
-	mongoose.connect('mongodb://mongodb:27017/havana', {
+	mongoose.connect('mongodb://mongodb/havana', {
 		useMongoClient: true,
 		promiseLibrary: require('bluebird')
 	});
@@ -34,7 +34,7 @@ new Promise((resolve) => {
 		};
 		resolve(item);
 	}).then((item) => {
-		seeder.connect('mongodb://mongodb:27017/havana', function () {
+		seeder.connect('mongodb://mongodb/havana', function () {
 			let data = [{
 				'model': 'Blog',
 				'documents': item
