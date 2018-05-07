@@ -169,7 +169,6 @@ router.get('/update-size/:id', (req, res) => {
 });
 
 router.post('/sign-in-order', (req, res) => {
-	console.log(req.body);
 	let details = (cart) => {
 		let restoreDetails = [];
 		let total = 0;
@@ -214,23 +213,42 @@ router.post('/sign-in-order', (req, res) => {
 				messages: err
 			});
 		}
-
 		async.eachSeries(data.detailsArr, (item, done) => {
 			let qty = parseInt(item.quantity);
-			Product.update(
-				{ _id: item.product_id, 'colors.code': item.colors, 'size.code': item.size },
-				{
-					$inc: {
-						quantity: -qty,
-						saled: qty,
-						'colors.$.quantity' :  -qty,
-						'size.$.quantity' : -qty 
+			new Promise((resolve, reject) => {
+				Product.findById(item.product_id, (err, prd) => {
+					if(err){
+						reject();
+					}else{
+						 
+						resolve({
+							sIndex : _.findIndex(prd.size, ['code', item.size]),
+						 	cIndex : _.findIndex(prd.colors, ['code', item.colors])
+						});
+					}
+				})
+			}).then((path) => {
+				let cpath = `colors.${path.cIndex}.quantity`;
+				let spath = `size.${path.sIndex}.quantity`;
+				
+				Product.update(
+					{ _id: item.product_id, 'colors.code': item.colors, 'size.code': item.size },
+					{
+						$inc: {
+							quantity: -qty,
+							saled: qty,
+							[cpath] :  -qty,
+							[spath] : -qty 
+						},
 					},
-				},
-				(err, prd) => {
-					done();
-				}
-			);
+					(err, product) => {
+						if(err){
+							throw new Error;
+						}
+						done();
+					}
+				);
+			});
 		}, (err) => {
 			eventEmitter.emit('sendConfirmOrderMail', {
 				items: data.detailsArr,
@@ -247,7 +265,7 @@ router.post('/sign-in-order', (req, res) => {
 				details: data.detailsArr,
 				total: data.billTotal,
 				user: req.user
-			});
+			}); 
 		});
 	});
 

@@ -997,7 +997,6 @@ let bill_details = new Vue({
 								dataUpdate: data
 							})
 								.then((response) => {
-									console.log(response);
 									if (response.data.status === 200) {
 										this.details = response.data.bill.detais;
 										toastr.options.closeButton = true;

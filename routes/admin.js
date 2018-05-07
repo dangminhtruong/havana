@@ -1120,24 +1120,42 @@ router.delete('/bills/:id', (req, res) => {
 		} else {
 			async.eachSeries(bill.detais, (item, done) => {
 				let qty = parseInt(item.quantity);
-				Product.update(
-					{
-						_id: item.product_id,
-						'colors.code': item.colors,
-						'size.code': item.size
-					},
-					{
-						$inc: {
-							quantity: qty,
-							saled: -qty,
-							'colors.$.quantity': qty,
-							'size.$.quantity': qty
+
+				new Promise((resolve, reject) => {
+					Product.findById(item.product_id, (err, prd) => {
+						if (err) {
+							reject();
+						} else {
+
+							resolve({
+								sIndex: _.findIndex(prd.size, ['code', item.size]),
+								cIndex: _.findIndex(prd.colors, ['code', item.colors])
+							});
 						}
-					},
-					(err, product) => {
-						done();
-					}
-				);
+					})
+				}).then((path) => {
+					let cpath = `colors.${path.cIndex}.quantity`;
+					let spath = `size.${path.sIndex}.quantity`;
+					Product.update(
+						{
+							_id: item.product_id,
+							'colors.code': item.colors,
+							'size.code': item.size
+						},
+						{
+							$inc: {
+								quantity: qty,
+								saled: -qty,
+								[cpath]: qty,
+								[spath]: qty
+							}
+						},
+						(err, product) => {
+							done();
+						}
+					);
+
+				});
 			}, (err) => {
 				Bill.findByIdAndRemove(req.params.id, (err, result) => {
 					if (err) {
@@ -1187,47 +1205,64 @@ router.patch('/bills/validate/quantity', (req, res) => {
 
 router.patch('/bills/single/remove/item/:id', (req, res) => {
 
-	Product.update(
-		{ _id: req.body.productId, 'colors.code': req.body.color, 'size.code': req.body.size },
-		{
-			$inc: {
-				quantity: req.body.qty,
-				saled: -req.body.qty,
-				'colors.$.quantity': req.body.qty,
-				'size.$.quantity': req.body.qty
-			}
-		},
-		(err, product) => {
+
+	new Promise((resolve, reject) => {
+		Product.findById(req.body.productId, (err, prd) => {
 			if (err) {
-				console.log(err);
-			}
-			Bill.findByIdAndUpdate(
-				req.params.id,
-				{ $pull: { 'detais': { '_id': req.body.itemId } } },
-				{ new: true }
-			)
-				.populate({
-					path: 'detais.product_id',
-					select: [
-						'image',
-						'colors',
-						'size'
-					]
-				})
-				.exec((err, detail) => {
-					if (err) {
-						return res.send({
-							status: 500,
-							message: 'false'
-						});
-					}
-					return res.send({
-						status: 200,
-						bill: detail
-					});
+				reject();
+			} else {
+
+				resolve({
+					sIndex: _.findIndex(prd.size, ['code', req.body.size]),
+					cIndex: _.findIndex(prd.colors, ['code', req.body.color])
 				});
-		}
-	);
+			}
+		})
+	}).then((path) => {
+		let cpath = `colors.${path.cIndex}.quantity`;
+		let spath = `size.${path.sIndex}.quantity`;
+		Product.update(
+			{ _id: req.body.productId, 'colors.code': req.body.color, 'size.code': req.body.size },
+			{
+				$inc: {
+					quantity: req.body.qty,
+					saled: -req.body.qty,
+					[cpath]: req.body.qty,
+					[spath]: req.body.qty
+				}
+			},
+			(err, product) => {
+				if (err) {
+					throw new Error;
+				}
+				Bill.findByIdAndUpdate(
+					req.params.id,
+					{ $pull: { 'detais': { '_id': req.body.itemId } } },
+					{ new: true }
+				)
+					.populate({
+						path: 'detais.product_id',
+						select: [
+							'image',
+							'colors',
+							'size'
+						]
+					})
+					.exec((err, detail) => {
+						if (err) {
+							return res.send({
+								status: 500,
+								message: 'false'
+							});
+						}
+						return res.send({
+							status: 200,
+							bill: detail
+						});
+					});
+			}
+		);
+	});
 });
 
 
@@ -1504,7 +1539,7 @@ router.delete('/post/remove/:id', (req, res) => {
 
 
 router.post('/analytic/start-end', (req, res) => {
-	console.log(req.body.startDay, new Date(req.body.startDay) );
+	console.log(req.body.startDay, new Date(req.body.startDay));
 	async.parallel(
 		[
 			(callback) => {
@@ -1513,7 +1548,7 @@ router.post('/analytic/start-end', (req, res) => {
 					{
 						$match: {
 							createdOn: {
-								$gt:  new Date(req.body.startDay),
+								$gt: new Date(req.body.startDay),
 								$lt: new Date(req.body.endDay)
 							}
 						}
@@ -1528,7 +1563,7 @@ router.post('/analytic/start-end', (req, res) => {
 				)
 					.limit(10)
 					.exec((err, records) => {
-						if(err){
+						if (err) {
 							console.log(err);
 						}
 						callback(null, records);
@@ -1540,7 +1575,7 @@ router.post('/analytic/start-end', (req, res) => {
 					{
 						$match: {
 							createdOn: {
-								$gt:  new Date(req.body.startDay),
+								$gt: new Date(req.body.startDay),
 								$lt: new Date(req.body.endDay)
 							}
 						}
@@ -1556,7 +1591,7 @@ router.post('/analytic/start-end', (req, res) => {
 				)
 					.limit(10)
 					.exec((err, records) => {
-						if(err){
+						if (err) {
 							console.log(err);
 						}
 						Product.find({ _id: { $in: records } }, { name: 1 })
@@ -1568,9 +1603,9 @@ router.post('/analytic/start-end', (req, res) => {
 
 		], (err, results) => {
 			res.json({
-				chart : results[0],
-				topProducts : results[1],
-				summary : _.sumBy(results[1], function (o) { return o.total; }),
+				chart: results[0],
+				topProducts: results[1],
+				summary: _.sumBy(results[1], function (o) { return o.total; }),
 				earn: _.sumBy(results[1], function (o) { return o.earned; }),
 			});
 		});
