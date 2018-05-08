@@ -136,7 +136,7 @@ router.get('/update-quantity/:id', (req, res) => {
 				messages: 'Có lỗi xảy ra! Vui lòng thử lại'
 			});
 		}
-		if (avg <= req.query.newQuantity) {
+		if (avg < req.query.newQuantity) {
 			return res.json({
 				status: 502,
 				messages: `Sản phẩm này hiện chỉ có sẵn ${avg} sản phẩm!`
