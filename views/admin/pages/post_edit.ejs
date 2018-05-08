@@ -5,7 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="keywords" content="havana" />
-		<%- include('../blocks/header_links') %>
+        <%- include('../blocks/header_links') %>
+        <script src="/admin/ckeditor/ckeditor.js"></script>
 	</head>
 	<body>
 		<div id="wrapper">
@@ -42,44 +43,39 @@
 		<h2>
 		<a href="index.html">Trang quản trị</a>
 		<i class="fa fa-angle-right"></i>
-        <span><%= __('Người dùng') %></span>
+        <span><%= __('Loại sản phẩm') %></span>
         <i class="fa fa-angle-right"></i>
-		<span><%= __('Danh sách') %></span>
+		<span><%= __('Thêm') %></span>
 		</h2>
 		</div>
 		<div class="content-top">
-		<div class="col-md-12 " style="min-height:65vh" id="list_post">
-        <div class="col-md-12" style="background-color:#fff">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-                            <th>Ảnh</th>
-                            <th>Tiêu đề</th>
-							<th>
-								Thao tác
-							</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr v-for="(item, index) in list">
-                                <td><img :src= " `/img/${item.avata}`" class="img-responsive" width="30px" height="50px"></td>
-                                <td style="width: 80%; overflow-x: hidden">{{ item.title }}</td>
-								<td>
-									<a  v-bind:href="`/admin/post/edit/${item._id}`" type="button" class="btn btn-warning btn-xs">Sửa</a>
-									<button type="button" class="btn btn-danger btn-xs" @click="removeCategory(item._id)">Xóa</button>
-								</td>
-							</tr>
-						</tbody>
-						</table>
-						<div class="col-md-12">
-								<ul class="pagination pagination-sm">
-										<li v-for="n in totalPages" @click="paginate(n)">
-											<span v-if="n == curretnPage" style="color:red">{{n}}</span>
-											<span v-else>{{n}}</span>
-										</li>
-									</ul>
+		<div class="col-md-12 " style="min-height:65vh;" id="post_edit">
+            <div >
+                <div class="col-md-12 panel-content">
+                    <input type="hidden" value="<%= id %>" id="current_post_id"/>
+                    <form action="/admin/post/update/<%= id %>" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                                <img :src="`/img/${avata}`" alt="Chania" class="img-responsive"/>
+							<label for="exampleFormControlFile1">
+								<%= __('Thay đổi đại diện bài viết ') %>
+							</label>
+							<input type="file" class="form-control-file" name="avatar" accept="image/*">
 						</div>
-        </div>
+                        <div class="form-group">
+                            <label for="email"><%= __('Tiêu đề bài viết') %>:</label>
+							<input type="text" class="form-control" name="title" v-model="title" required>
+							<p style="color :red;">{{ alertTitleNull }}</p>
+						</div>
+                        <div class="form-group">
+                            <label for="pwd"><%= __('Nội dung bài viết') %>:</label>
+							<textarea class="form-control" rows="5" id="post_edit_content" name="content" v-model="content" required></textarea>
+							<p style="color :red;">{{ alertContentNull }}</p>
+                        </div>
+                        <button type="submit" class="btn btn-default" style="color: #999;"><%= __('Xong') %></button>
+                    </form>
+                </div>
+            </div>
+            
 		</div>
 		<div class="clearfix"> </div>
 		</div>
@@ -90,12 +86,12 @@
 		<div class="clearfix"> </div>
 		</div>
 		</div>
-		<%- include('../blocks/footer_links') %>
-		<% if(typeof status !== 'undefined'){ %>
+        <%- include('../blocks/footer_links') %>
+        <% if(typeof messages !== 'undefined'){ %>
 			<script>
 				toastr.options.closeButton = true;
-				toastr.success('Updated!');
+				toastr.error('Có lỗi xảy ra !');
 			</script>
-			<% } %>
+		<% } %>
 	</body>
 </html>

@@ -997,6 +997,7 @@ let bill_details = new Vue({
 								dataUpdate: data
 							})
 								.then((response) => {
+									console.log(response);
 									if (response.data.status === 200) {
 										this.details = response.data.bill.detais;
 										toastr.options.closeButton = true;
@@ -1197,7 +1198,6 @@ let list_post = new Vue({
 	mounted : function(){
 		axios.get('/admin/post/list/data')
 		.then((response) => {
-			console.log(response.data);
 			this.list = response.data.blogs;
 			this.currentPages = response.data.currentPages;
 			this.totalPages = response.data.pages;
@@ -1237,5 +1237,28 @@ let list_post = new Vue({
 					}
 				});
 		}
+	}
+});
+
+let post_edit = new Vue({
+	el : '#post_edit',
+	data : {
+		alertTitleNull : '',
+		alertContentNull : '',
+		title : '',
+		content : '',
+		avata : 'product1a.jpg'
+	},
+	mounted : function(){
+		let id = $('#current_post_id').val();
+		CKEDITOR.replace('post_edit_content', { height : 700 });
+		axios.get(`/admin/post/edit/data/${id}`)
+		.then((response) => {
+			console.log(response.data);
+			const editor = CKEDITOR.instances['post_edit_content'];
+			editor.setData(response.data.post.content);
+			this.title = response.data.post.title;
+			this.avata = response.data.post.avata;
+		});
 	}
 });
