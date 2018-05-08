@@ -1103,6 +1103,12 @@ let product_statistic = new Vue({
 				.then((response) => {
 					this.products = response.data.products;
 				});
+		},
+		currentHas : function(){
+			axios.get('/admin/product/report/data')
+			.then((response) => {
+				this.products = response.data.products;
+			});
 		}
 	}
 

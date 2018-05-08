@@ -69,7 +69,7 @@
                                 <td>{{ item.address }}</td>
                                 <td>{{ item.email }}</td>
 								<td>
-									<a  v-bind:href="`/admin/category/update?id=${item._id}`" type="button" class="btn btn-warning btn-xs">Sửa</a>
+									<a  v-bind:href="`/admin/user/update/${item._id}`" type="button" class="btn btn-warning btn-xs">Sửa</a>
 									<button type="button" class="btn btn-danger btn-xs" @click="removeCategory(item._id)">Xóa</button>
 								</td>
 							</tr>
