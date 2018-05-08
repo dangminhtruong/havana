@@ -846,6 +846,12 @@ router.get('/user/list', (req, res) => {
 	});
 });
 
+router.get('/user/update/:id', (req, res) => {
+	User.findById(req.params.id, (err, info) => {
+		return res.render('./admin/pages/edit_user', { user : req.user, info : info });
+	});
+});
+
 router.get('/user/list/data', (req, res) => {
 	async.parallel([
 		(callback) => {
@@ -1172,6 +1178,7 @@ router.delete('/bills/:id', (req, res) => {
 		}
 	});
 });
+
 
 router.patch('/bills/validate/quantity', (req, res) => {
 	Product.findById(req.body.productId, (err, product) => {
