@@ -328,7 +328,7 @@ router.post('/register', (req, res) => {
 		req.app.io.emit('notifiNewUser', {
 			content: 'Có người dùng đăng ký mới !',
 		});
-		
+
 		return res.status(200).json({
 			messages: 'Sucessfull register!',
 		});
@@ -490,10 +490,10 @@ router.get('/blog', (req, res) => {
 	async.parallel(
 		[
 			(callback) => {
-				Blog.find({}).limit(10).sort({ createdOn : -1 })
-				.exec((err, blogs) => {
-					callback(null, blogs);
-				});
+				Blog.find({}).limit(10).sort({ createdOn: -1 })
+					.exec((err, blogs) => {
+						callback(null, blogs);
+					});
 			},
 			(callback) => {
 				Category.find({}, { _id: 1, name: 1, type: 1 })
@@ -503,10 +503,17 @@ router.get('/blog', (req, res) => {
 			}
 		],
 		(err, results) => {
+			if (err) {
+				return res.json({
+					blogs: [],
+					category: results[1],
+					cart: req.session.cart
+				});
+			}
 			return res.json({
-				blogs : results[0],
-				category : results[1],
-				cart : req.session.cart
+				blogs: results[0],
+				category: results[1],
+				cart: req.session.cart
 			});
 		}
 	);
@@ -518,10 +525,10 @@ router.get('/post/:id', (req, res) => {
 		[
 			(callback) => {
 				Blog.findById(req.params.id)
-				.populate('user')
-				.exec((err, blog) => {
-					callback(null, blog);
-				});
+					.populate('user')
+					.exec((err, blog) => {
+						callback(null, blog);
+					});
 			},
 			(callback) => {
 				Category.find({}, { _id: 1, name: 1, type: 1 })
@@ -532,9 +539,9 @@ router.get('/post/:id', (req, res) => {
 		],
 		(err, results) => {
 			return res.json({
-				post : results[0],
-				category : results[1],
-				cart : req.session.cart
+				post: results[0],
+				category: results[1],
+				cart: req.session.cart
 			});
 		}
 	);

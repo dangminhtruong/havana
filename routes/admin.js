@@ -1025,7 +1025,6 @@ router.get('/bills/single/detail-data/:id', (req, res) => {
 });
 
 router.patch('/bills/single/update/item', (req, res) => {
-	let qty;
 	new Promise((resolve, reject) => {
 		Bill.findById(req.body.billId, (err, bill) => {
 			if (err) {
@@ -1037,7 +1036,7 @@ router.patch('/bills/single/update/item', (req, res) => {
 						size: req.body.dataUpdate[0].size
 					});
 				qty = req.body.dataUpdate[0].quantity - detail[0].quantity;
-				resolve(qty);
+				resolve(parseInt(qty));
 			}
 		});
 	}).then((qty) => {
@@ -1466,6 +1465,35 @@ router.get('/post/list', (req, res) => {
 	res.render('./admin/pages/post_list', { user: req.user });
 });
 
+router.post('/post/update/:id', cpUpload, (req, res) => {
+	let data = {
+		title: req.body.title,
+		content: req.body.content,
+	};
+	if(req.files['avatar']){
+		data = {
+			title: req.body.title,
+			content: req.body.content,
+			avata: req.files['avatar'][0].filename,
+		};
+	}
+
+	Blog.findByIdAndUpdate(
+		req.params.id,
+		data,
+		(err, blog) => {
+			if(err){
+				return res.render('./admin/pages/post_edit', {
+					 messages : 'Có lỗi xảy ra',
+					 user: req.user, 
+					 id: req.params.id 
+				});
+			}
+			return res.redirect('/admin/post/list');
+		}
+	);
+});
+
 
 router.get('/post/list/data', (req, res) => {
 	async.parallel([
@@ -1537,6 +1565,27 @@ router.delete('/post/remove/:id', (req, res) => {
 	});
 });
 
+router.get('/post/edit/:id', (req, res) => {
+	res.render('./admin/pages/post_edit', { user: req.user, id: req.params.id });
+});
+
+
+router.get('/post/edit/data/:id', (req, res) => {
+	console.log(req.params.id);
+	Blog.findById(req.params.id, (err, blog) => {
+		if (err) {
+			//	console.log(err);
+			return res.json({
+				status: 500,
+				messages: 'false'
+			});
+		}
+		return res.json({
+			status: 200,
+			post: blog
+		});
+	});
+});
 
 router.post('/analytic/start-end', (req, res) => {
 	console.log(req.body.startDay, new Date(req.body.startDay));
