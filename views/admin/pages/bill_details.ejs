@@ -122,7 +122,7 @@
 															:value=`${item.quantity}` v-model="details[index].quantity">
 												</td>
 												<td>
-													<select class="form-control custom" v-model="details[index].size" @change="updateSize(details[index].quantity, item.colors, details[index].size, item.product_id._id, index)">
+													<select class="form-control custom" v-model="details[index].size" @change="updateSize(details[index].size, item.product_id._id, index)">
 														<template v-for="(size, indexSize) in item.product_id.size">
 															<option :value="size.code">
 																{{ size.code }}

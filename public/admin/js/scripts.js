@@ -939,7 +939,7 @@ let bill_details = new Vue({
 								color : colorCode,
 								productId : productId,
 								billId : this.id,
-								index : index,
+								index : index
 							})
 							.then((response) => {
 								console.log(response.data);
@@ -951,7 +951,7 @@ let bill_details = new Vue({
 			}
 
 		},
-		updateSize : function(qty, color, size, productId, index){
+		updateSize : function(size, productId, index){
 			if(!this.validate){
 				swal({
 					title: 'Cập nhật sản phẩm này ?',
@@ -966,16 +966,14 @@ let bill_details = new Vue({
 								size : size,
 								productId : productId,
 								billId : this.id,
-								index : index,
-								color : color,
-								newQuantity : qty
+								index : index
 							})
 							.then((response) => {
 								if(response.data.status === 200){
-									toastr.options.closeButton = true;
+									ctoastr.options.closeButton = true;
 									toastr.success(`${response.data.messages}`);
 								}else{
-									toastr.options.closeButton = true;
+									ctoastr.options.closeButton = true;
 									toastr.error(`${response.data.messages}`);
 								}
 							});

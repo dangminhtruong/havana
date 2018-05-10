@@ -1182,78 +1182,56 @@ router.delete('/bills/:id', (req, res) => {
 });
 
 router.patch('/bills/update/color', (req, res) => {
-
-	Product.findById(req.body.productId, (err, product) => {
-		if (err) {
-			return res.json({
-				status: 500,
-				messages: 'Có lỗi xảy ra khi kiểm tra số lượng sản phẩm !'
-			});
-		}
-
-		let colorQty = _.find(product.colors, ['code', req.body.color]).quantity;
-		let sizeQty = _.find(product.size, ['code', req.body.size]).quantity;
-		let avg = (colorQty <= sizeQty) ? colorQty : sizeQty;
-
-		if (avg < req.body.newQuantity) {
-			return res.json({
-				status: 502,
-				messages: `Sản phẩm này hiện chỉ có sẵn ${avg} sản phẩm!`
-			});
-		} else {
-			new Promise((resolve, reject) => {
-				Bill.findById(req.body.billId, (err, bill) => {
+	new Promise((resolve, reject) => {
+		Bill.findById(req.body.billId, (err, bill) => {
+			if (err) {
+				return reject();
+				console.log(err);
+			}
+			let cpath = `detais.${req.body.index}.colors`;
+			Bill.findByIdAndUpdate(
+				req.body.billId,
+				{ [cpath]: req.body.color },
+				{ new: true },
+				() => {
 					if (err) {
+						console.log(err);
 						return reject();
 					}
-					let cpath = `detais.${req.body.index}.colors`;
-					Bill.findByIdAndUpdate(
-						req.body.billId,
-						{ [cpath]: req.body.color },
-						{ new: true },
-						() => {
-							if (err) {
-								console.log(err);
-								return reject();
-							}
 
-							return resolve(200);
-						}
-					);
+					return resolve(200);
+				}
+			);
 
-				})
-			}).then((status) => {
-				return res.json({
-					status: 200,
-					messages: 'Sucessfull update color'
-				});
-			})
-				.catch((err) => {
-					return res.json({
-						status: 500,
-						messages: 'Opps! something went wrong'
-					});
-				});
-		}
-	});
-
+		})
+	}).then((status) => {
+		return res.json({
+			status: 200,
+			messages: 'Sucessfull update color'
+		});
+	})
+		.catch((err) => {
+			return res.json({
+				status: 500,
+				messages: 'Opps! something went wrong'
+			});
+		});
 });
 
 router.patch('/bills/update/size', (req, res) => {
-
 	new Promise((resolve, reject) => {
 		Bill.findById(req.body.billId, (err, bill) => {
 			if (err) {
 				return reject();
 			}
 			let cpath = `detais.${req.body.index}.size`;
+
 			Bill.findByIdAndUpdate(
 				req.body.billId,
 				{ [cpath]: req.body.size },
 				{ new: true },
 				() => {
 					if (err) {
-						console.log(err);
 						return reject();
 					}
 
