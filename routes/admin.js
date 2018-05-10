@@ -1030,9 +1030,9 @@ router.get('/bills/single/detail-data/:id', (req, res) => {
 		})
 });
 
-/*
+
 router.patch('/bills/single/update/item', (req, res) => {
-	new Promise((resolve, reject) => {
+	/* new Promise((resolve, reject) => {
 		Bill.findById(req.body.billId, (err, bill) => {
 			if (err) {
 				reject(err);
@@ -1046,76 +1046,79 @@ router.patch('/bills/single/update/item', (req, res) => {
 				resolve(parseInt(qty));
 			}
 		});
-	}).then((qty) => {
-		async.parallel(
-			[
-				(callback) => {
-					Bill.findOneAndUpdate(
-						{ _id: req.body.billId, 'detais._id': req.body.itemId },
-						{ $set: { detais: req.body.dataUpdate } },
-						{ new: true }
-					)
-						.populate({
-							path: 'detais.product_id',
-							select: [
-								'image',
-								'colors',
-								'size'
-							]
-						})
-						.exec((err, detail) => {
-							if (err) {
-								return res.send({
-									status: 500,
-									message: 'false'
-								});
-							}
-							callback(null, detail);
-						});
-				},
-				 (callback) => {
-					Product.update(
-						{
-							_id: req.body.dataUpdate[0].product_id,
-							'colors.code': req.body.dataUpdate[0].colors,
-							'size.code': req.body.dataUpdate[0].size
-						},
-						{
-							$inc: {
-								quantity: -qty,
-								saled: qty,
-								'colors.$.quantity': -qty,
-								'size.$.quantity': -qty
-							}
-						},
-						(err, product) => {
-							if (err) {
-								return res.send({
-									status: 500,
-									message: 'false'
-								});
-							}
-							callback(null, product);
-						}
-					);
-				} 
-			],
-			(err, results) => {
-				return res.json({
-					status: 200,
-					bill: results[0]
+	}).then((qty) => { */
+	/* 		async.parallel(
+				[
+					(callback) => { */
+	Bill.findOneAndUpdate(
+		{ _id: req.body.billId, 'detais._id': req.body.itemId },
+		{ $set: { detais: req.body.dataUpdate } },
+		{ new: true }
+	)
+		.populate({
+			path: 'detais.product_id',
+			select: [
+				'image',
+				'colors',
+				'size'
+			]
+		})
+		.exec((err, detail) => {
+			if (err) {
+				return res.send({
+					status: 500,
+					message: 'false'
 				});
 			}
-		);
-	}).catch((err) => {
-		return res.send({
-			status: 500,
-			message: 'false'
+			return res.json({
+				status: 200,
+				bill: detail
+			});
 		});
-	});
+	/* 	}, */
+	/* (callback) => {
+		Product.update(
+			{
+				_id: req.body.dataUpdate[0].product_id,
+				'colors.code': req.body.dataUpdate[0].colors,
+				'size.code': req.body.dataUpdate[0].size
+			},
+			{
+				$inc: {
+					quantity: -qty,
+					saled: qty,
+					'colors.$.quantity': -qty,
+					'size.$.quantity': -qty
+				}
+			},
+			(err, product) => {
+				if (err) {
+					return res.send({
+						status: 500,
+						message: 'false'
+					});
+				}
+				callback(null, product);
+			}
+		);
+	} */
+	/* ],
+	(err, results) => {
+		return res.json({
+			status: 200,
+			bill: results[0]
+		});
+	}
+); */
+	/* 	}).catch((err) => {
+			return res.send({
+				status: 500,
+				message: 'false'
+			});
+		}); */
 });
 
-*/
+
 router.delete('/bills/:id', (req, res) => {
 	Bill.findById(req.params.id, (err, bill) => {
 		if (err) {
@@ -1743,6 +1746,54 @@ router.post('/analytic/start-end', (req, res) => {
 
 
 });
+
+
+router.post('/user/update', (req, res) => {
+
+	User.findByIdAndUpdate(
+		req.body.id,
+		{
+			username: req.body.username,
+			address: req.body.address,
+			email: req.body.email,
+			password: req.body.newpassword,
+			phone: req.body.phone,
+			role: req.body.role,
+		},
+		{ new: true },
+		(err, user) => {
+			if(err){
+				console.log(err);
+				return res.json({
+					status: 500,
+					messages: 'Opps! there is something went wrong'
+				});
+			}
+
+			res.json({
+				status: 200,
+				user: user
+			});
+		}
+	);
+});
+
+router.get('/user/info/:id', (req, res) => {
+	User.findById(req.params.id, (err, userInfo) => {
+		if (err) {
+			return res.json({
+				status: 500,
+				messages: 'Opps! there is something went wrong'
+			});
+		}
+
+		return res.json({
+			status: 200,
+			user: userInfo
+		});
+	});
+});
+
 
 
 module.exports = router;
