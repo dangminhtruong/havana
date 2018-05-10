@@ -882,7 +882,8 @@ let bill_details = new Vue({
 		id: '',
 		status: 1,
 		list: [],
-		validate : false
+		validate : false,
+		oldDetails : []
 	},
 	mounted: function () {
 		let id = $('#current_bill_id').val();
@@ -920,6 +921,68 @@ let bill_details = new Vue({
 					}
 				});
 			}
+		},
+		updateColor : function(colorCode, productId, index){
+		
+
+			if(!this.validate){
+				swal({
+					title: 'Cập nhật sản phẩm này ?',
+					text: 'Đơn hàng của khách hàng bị thay đổi !',
+					icon: 'warning',
+					buttons: true,
+					dangerMode: true,
+				})
+					.then((willDelete) => {
+						if (willDelete) {
+							axios.patch('/admin/bills/update/color', {
+								color : colorCode,
+								productId : productId,
+								billId : this.id,
+								index : index
+							})
+							.then((response) => {
+								console.log(response.data);
+							});
+						} else {
+							swal('Hủy thay đổi thành cônng !');
+						}
+					});
+			}
+
+		},
+		updateSize : function(size, productId, index){
+			if(!this.validate){
+				swal({
+					title: 'Cập nhật sản phẩm này ?',
+					text: 'Đơn hàng của khách hàng bị thay đổi !',
+					icon: 'warning',
+					buttons: true,
+					dangerMode: true,
+				})
+					.then((willDelete) => {
+						if (willDelete) {
+							axios.patch('/admin/bills/update/size', {
+								size : size,
+								productId : productId,
+								billId : this.id,
+								index : index
+							})
+							.then((response) => {
+								if(response.data.status === 200){
+									ctoastr.options.closeButton = true;
+									toastr.success(`${response.data.messages}`);
+								}else{
+									ctoastr.options.closeButton = true;
+									toastr.error(`${response.data.messages}`);
+								}
+							});
+						} else {
+							swal('Hủy thay đổi thành cônng !');
+						}
+					});
+			}
+
 		},
 		removeItem: function (itemId, color, size, productId, qty) {
 			if(this.details.length <= 1){

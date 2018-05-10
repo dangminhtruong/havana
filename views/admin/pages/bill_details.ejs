@@ -122,7 +122,7 @@
 															:value=`${item.quantity}` v-model="details[index].quantity">
 												</td>
 												<td>
-													<select class="form-control custom" v-model="details[index].size"  v-on:change="validateQty(details[index].quantity, item.colors, item.size, item.product_id)">
+													<select class="form-control custom" v-model="details[index].size" @change="updateSize(details[index].size, item.product_id._id, index)">
 														<template v-for="(size, indexSize) in item.product_id.size">
 															<option :value="size.code">
 																{{ size.code }}
@@ -132,8 +132,9 @@
 												</td>
 												<td class="colors">
 													<label class="containerr" v-for="(color, indexColor) in item.product_id.colors">
-														<input type="radio" :name="item._id" v-on:change="validateQty(details[index].quantity, item.colors, item.size, item.product_id)"
-																v-model="details[index].colors" :value="color.code">
+														<input type="radio" :name="item._id" 
+																v-model="details[index].colors" :value="color.code" 
+																@click="updateColor(color.code, item.product_id._id, index)"/>
 														<span class="checkmark" :style="{ background: color.code }">
 														</span>
 													</label>
@@ -143,10 +144,10 @@
 													${{ item.quantity * item.price }}
 												</td>
 												<td>
-													<button type="button" class="btn btn-primary btn-xs" v-on:click="updateItem(index, item._id)">
+													<!---button type="button" class="btn btn-primary btn-xs" v-on:click="updateItem(index, item._id)">
 														Update
 														<i class="fa fa-trash-o" aria-hidden="true"></i>
-													</button>
+													</button-->
 													<button type="button" class="btn btn-danger btn-xs" 
 															v-on:click="removeItem(item._id, item.colors, item.size, item.product_id._id, item.quantity)">
 														Xóa

@@ -848,7 +848,7 @@ router.get('/user/list', (req, res) => {
 
 router.get('/user/update/:id', (req, res) => {
 	User.findById(req.params.id, (err, info) => {
-		return res.render('./admin/pages/edit_user', { user : req.user, info : info });
+		return res.render('./admin/pages/edit_user', { user: req.user, info: info });
 	});
 });
 
@@ -1030,6 +1030,7 @@ router.get('/bills/single/detail-data/:id', (req, res) => {
 		})
 });
 
+/*
 router.patch('/bills/single/update/item', (req, res) => {
 	new Promise((resolve, reject) => {
 		Bill.findById(req.body.billId, (err, bill) => {
@@ -1072,7 +1073,7 @@ router.patch('/bills/single/update/item', (req, res) => {
 							callback(null, detail);
 						});
 				},
-				(callback) => {
+				 (callback) => {
 					Product.update(
 						{
 							_id: req.body.dataUpdate[0].product_id,
@@ -1097,7 +1098,7 @@ router.patch('/bills/single/update/item', (req, res) => {
 							callback(null, product);
 						}
 					);
-				}
+				} 
 			],
 			(err, results) => {
 				return res.json({
@@ -1114,6 +1115,7 @@ router.patch('/bills/single/update/item', (req, res) => {
 	});
 });
 
+*/
 router.delete('/bills/:id', (req, res) => {
 	Bill.findById(req.params.id, (err, bill) => {
 		if (err) {
@@ -1179,6 +1181,79 @@ router.delete('/bills/:id', (req, res) => {
 	});
 });
 
+router.patch('/bills/update/color', (req, res) => {
+	new Promise((resolve, reject) => {
+		Bill.findById(req.body.billId, (err, bill) => {
+			if (err) {
+				return reject();
+				console.log(err);
+			}
+			let cpath = `detais.${req.body.index}.colors`;
+			Bill.findByIdAndUpdate(
+				req.body.billId,
+				{ [cpath]: req.body.color },
+				{ new: true },
+				() => {
+					if (err) {
+						console.log(err);
+						return reject();
+					}
+
+					return resolve(200);
+				}
+			);
+
+		})
+	}).then((status) => {
+		return res.json({
+			status: 200,
+			messages: 'Sucessfull update color'
+		});
+	})
+		.catch((err) => {
+			return res.json({
+				status: 500,
+				messages: 'Opps! something went wrong'
+			});
+		});
+});
+
+router.patch('/bills/update/size', (req, res) => {
+	new Promise((resolve, reject) => {
+		Bill.findById(req.body.billId, (err, bill) => {
+			if (err) {
+				return reject();
+			}
+			let cpath = `detais.${req.body.index}.size`;
+
+			Bill.findByIdAndUpdate(
+				req.body.billId,
+				{ [cpath]: req.body.size },
+				{ new: true },
+				() => {
+					if (err) {
+						return reject();
+					}
+
+					return resolve(200);
+				}
+			);
+
+		})
+	}).then((status) => {
+		return res.json({
+			status: 200,
+			messages: 'Sucessfull update size'
+		});
+	})
+		.catch((err) => {
+			return res.json({
+				status: 500,
+				messages: 'Opps! something went wrong'
+			});
+		});
+});
+
 
 router.patch('/bills/validate/quantity', (req, res) => {
 	Product.findById(req.body.productId, (err, product) => {
@@ -1193,7 +1268,7 @@ router.patch('/bills/validate/quantity', (req, res) => {
 		let sizeQty = _.find(product.size, ['code', req.body.size]).quantity;
 		let avg = (colorQty <= sizeQty) ? colorQty : sizeQty;
 
-		if (avg <= req.body.newQuantity) {
+		if (avg < req.body.newQuantity) {
 			return res.json({
 				status: 502,
 				messages: `Sản phẩm này hiện chỉ có sẵn ${avg} sản phẩm!`
@@ -1477,7 +1552,7 @@ router.post('/post/update/:id', cpUpload, (req, res) => {
 		title: req.body.title,
 		content: req.body.content,
 	};
-	if(req.files['avatar']){
+	if (req.files['avatar']) {
 		data = {
 			title: req.body.title,
 			content: req.body.content,
@@ -1489,11 +1564,11 @@ router.post('/post/update/:id', cpUpload, (req, res) => {
 		req.params.id,
 		data,
 		(err, blog) => {
-			if(err){
+			if (err) {
 				return res.render('./admin/pages/post_edit', {
-					 messages : 'Có lỗi xảy ra',
-					 user: req.user, 
-					 id: req.params.id 
+					messages: 'Có lỗi xảy ra',
+					user: req.user,
+					id: req.params.id
 				});
 			}
 			return res.redirect('/admin/post/list');
