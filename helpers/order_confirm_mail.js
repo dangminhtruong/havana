@@ -35,7 +35,7 @@ var connectionHandle = function (data) {
                  </div>
                  <h1>
                     <a style="display:block;width:30%" href="http://bstore.azurewebsites.com/" target="_blank" data-saferedirecturl="https://www.google.com/url?hl=vi&amp;q=http://bstore.azurewebsites.com/&amp;source=gmail&amp;ust=1517298275281000&amp;usg=AFQjCNFKF3H9k5_CgglHcZYaS2SxcwIGdA">
-                    <img style="width:100%;height:auto" src="https://ci5.googleusercontent.com/proxy/e2ey4pIYTd1ye5NWYJJT-AeEgTHCxoJeNLZDiRK9HzsXVIHG3yFd5GYjcKWAMfUNoc6gM61EVYliKl8=s0-d-e1-ft#http://bulma.io/images/bulma-logo.png" class="CToWUd">
+                    <img style="width:100%;height:auto" src="http://128.199.229.75/images/diamond.jpg" class="CToWUd">
                     </a>
                  </h1>
                  <h3 style="text-align:center;font-size:30px;font-family:sans-serif;color:#424242">Thông báo đặt hàng</h3>
