@@ -1,10 +1,10 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>Minimal an Admin Panel Category Flat Bootstrap Responsive Website Template | Home :: w3layouts</title>
+		<title>Diamond</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta name="keywords" content="havana" />
+		<meta name="keywords" content="Diamond" />
 		<%- include('../blocks/header_links') %>
 	</head>
 	<body>
@@ -18,7 +18,7 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			</button>
-			<h1> <a class="navbar-brand" href="/admin">Havana</a></h1>
+			<h1> <a class="navbar-brand" href="/admin">Diamond</a></h1>
 		</div>
 		<div class=" border-bottom">
 			<div class="full-left">
@@ -48,11 +48,12 @@
 		</h2>
 		</div>
 		<div class="content-top">
-		<div class="col-md-12 " style="min-height:75vh;" id="user_add">
+		<div class="col-md-12 " style="min-height:75vh;" id="edit_user">
             <div >
                 <div class="col-md-12 panel-content" style="min-height:70vh">
-                    <form action="/admin/category/add" method="post"  v-on:submit.prevent="onSubmit">
-                        <div class="col-md-6">
+						<input type="hidden" value="<%= user._id%>" id="currentUser"/>
+					<form action="/admin/user/changepass" method="post"  v-on:submit.prevent="onSubmit">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label for="sel1"><%= __(' Phân quyền ') %> :</label>
                                 <select class="form-control" v-model="userRight" required>
@@ -63,37 +64,22 @@
                             </div>
                             <div class="form-group">
                                 <label for="email"><%= __('Tên người dùng ') %>:</label>
-                                <input type="text" class="form-control" name="userName" value="<%= info.username %>" required/>
+                                <input type="text" class="form-control" v-model="userName" name="userName" autocomplete='me' required/>
                             </div>
                             <div class="form-group">
                                 <label for="email"><%= __('Số điện thoại') %>:</label>
-                                <input type="text" class="form-control" name="phone" value="<%= info.phone %>" required>
+                                <input type="text" class="form-control" v-model="phone" name="phone" autocomplete='tel-0' required>
 							</div>
 							<div class="form-group">
                                 <label for="email"><%= __('Địa chỉ ') %>:</label>
-                                <input type="text" class="form-control" name="address" value="<%= info.address %>" required>
+                                <input type="text" class="form-control" v-model="address" name="address" autocomplete='address' required>
                             </div>
-                           
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
+							<div class="form-group">
                                 <label for="email"><%= __('Email ') %>:</label>
-                                <input type="text" class="form-control" name="email" value="<%= info.email %>" required>
+                                <input type="text" class="form-control" v-model="email" name="email" autocomplete='mail' required>
                             </div>
-                            <div class="form-group">
-                                    <label for="email"><%= __('Mật khẩu hiện tại ') %>:</label>
-                                    <input type="password" class="form-control" v-model="password" required>
-                                </div>
-                            <div class="form-group">
-                                <label for="email"><%= __('Mật khẩu mới') %>:</label>
-                                <input type="password" class="form-control" v-model="password" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="email"><%= __('Xác nhận lại mật khẩu mới') %>:</label>
-                                <input type="password" class="form-control" v-model="repass" required>
-                                <p style="color :red;">{{ alertRepass }}</p>
-							</div>
-							<button type="button" class="btn btn-sucess" @click="addUser" style="color: #999; background-color:#F25C27"><%= __('Xong') %></button>
+
+							<button type="button" class="btn btn-sucess" @click="editUser" style="color: #999; background-color:#F25C27"><%= __('Xong') %></button>
                         </div>
                     </form>
                 </div>

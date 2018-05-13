@@ -1030,7 +1030,7 @@ router.get('/bills/single/detail-data/:id', (req, res) => {
 		})
 });
 
-/*
+
 router.patch('/bills/single/update/item', (req, res) => {
 	new Promise((resolve, reject) => {
 		Bill.findById(req.body.billId, (err, bill) => {
@@ -1039,8 +1039,7 @@ router.patch('/bills/single/update/item', (req, res) => {
 			} else {
 				detail = _.filter(bill.detais,
 					{
-						colors: req.body.dataUpdate[0].colors,
-						size: req.body.dataUpdate[0].size
+						product_id: req.body.dataUpdate[0].product_id,
 					});
 				qty = req.body.dataUpdate[0].quantity - detail[0].quantity;
 				resolve(parseInt(qty));
@@ -1070,10 +1069,13 @@ router.patch('/bills/single/update/item', (req, res) => {
 									message: 'false'
 								});
 							}
-							callback(null, detail);
+							return res.json({
+								status: 200,
+								bill: detail
+							});
 						});
 				},
-				 (callback) => {
+				(callback) => {
 					Product.update(
 						{
 							_id: req.body.dataUpdate[0].product_id,
@@ -1098,7 +1100,7 @@ router.patch('/bills/single/update/item', (req, res) => {
 							callback(null, product);
 						}
 					);
-				} 
+				}
 			],
 			(err, results) => {
 				return res.json({
@@ -1115,7 +1117,7 @@ router.patch('/bills/single/update/item', (req, res) => {
 	});
 });
 
-*/
+
 router.delete('/bills/:id', (req, res) => {
 	Bill.findById(req.params.id, (err, bill) => {
 		if (err) {
@@ -1743,6 +1745,53 @@ router.post('/analytic/start-end', (req, res) => {
 
 
 });
+
+
+router.post('/user/update', (req, res) => {
+
+	User.findByIdAndUpdate(
+		req.body.id,
+		{
+			username: req.body.username,
+			address: req.body.address,
+			email: req.body.email,
+			phone: req.body.phone,
+			role: req.body.role,
+		},
+		{ new: true },
+		(err, user) => {
+			if (err) {
+				console.log(err);
+				return res.json({
+					status: 500,
+					messages: 'Opps! there is something went wrong'
+				});
+			}
+
+			res.json({
+				status: 200,
+				user: user
+			});
+		}
+	);
+});
+
+router.get('/user/info/:id', (req, res) => {
+	User.findById(req.params.id, (err, userInfo) => {
+		if (err) {
+			return res.json({
+				status: 500,
+				messages: 'Opps! there is something went wrong'
+			});
+		}
+
+		return res.json({
+			status: 200,
+			user: userInfo
+		});
+	});
+});
+
 
 
 module.exports = router;

@@ -364,26 +364,26 @@ const addProduct = new Vue({
 		promoPriceAlert: null,
 		unitPriceAlert: null,
 		quantityAlert: null,
-		equalColorAlert : null,
-		equalSizeAlert : null
+		equalColorAlert: null,
+		equalSizeAlert: null
 	},
 	methods: {
 		checkValidate: function () {
 			if (this.validatePromoPrice() && this.validateUnitPrice() && this.validateQuantity()) {
-				let cqty = 0, sqty =0;
+				let cqty = 0, sqty = 0;
 				this.sizes.forEach((item) => {
 					sqty += parseInt(item.quantity);
 				});
 				this.colors.forEach((item) => {
 					cqty += parseInt(item.quantity);
 				});
-				if(cqty !== parseInt(this.quantity)){
+				if (cqty !== parseInt(this.quantity)) {
 					this.equalColorAlert = 'Tổng số lượng các màu sản phẩm không phù hợp !';
 					this.equalSizeAlert = null;
-				}else if(sqty !== parseInt(this.quantity)){
+				} else if (sqty !== parseInt(this.quantity)) {
 					this.equalColorAlert = null;
 					this.equalSizeAlert = 'Tổng số lượng các sizes không phù hợp !';
-				}else{
+				} else {
 					this.equalColorAlert = null;
 					this.equalSizeAlert = null;
 					this.$refs.form.submit();
@@ -456,21 +456,21 @@ let analytic = new Vue({
 		daySummary: 0,
 		weekSummary: 0,
 		monthSummary: 0,
-		startEndSummary : 0,
+		startEndSummary: 0,
 		topDay: 0,
 		topWeek: 0,
 		topMonth: 0,
 		earnedDay: 0,
 		earnedWeek: 0,
 		earnedMonth: 0,
-		startDay : null,
-		endDay : null,
-		label : [],
-		summary : [],
-		bg_color : [],
-		showDefault : true,
-		startEndSale : 0,
-		startEndProducts : []
+		startDay: null,
+		endDay: null,
+		label: [],
+		summary: [],
+		bg_color: [],
+		showDefault: true,
+		startEndSale: 0,
+		startEndProducts: []
 	},
 	methods: {
 		getRandomColor() {
@@ -481,42 +481,42 @@ let analytic = new Vue({
 			}
 			return color;
 		},
-		startEndData : function(){
+		startEndData: function () {
 			this.startDay = $('#start-day').val();
 			this.endDay = $('#end-day').val();
-			axios.post('/admin//analytic/start-end', { 
-				startDay : this.startDay,
-				endDay : this.endDay
+			axios.post('/admin//analytic/start-end', {
+				startDay: this.startDay,
+				endDay: this.endDay
 			})
-			.then((response) => {
-				this.startEndSummary = response.data.summary;
-				this.showDefault = false;
-				this.startEndSale = response.data.earn;
-				this.startEndProducts = response.data.topProducts
+				.then((response) => {
+					this.startEndSummary = response.data.summary;
+					this.showDefault = false;
+					this.startEndSale = response.data.earn;
+					this.startEndProducts = response.data.topProducts
 
-				response.data.chart.forEach(item => {
-					this.label.push(item._id);
-					this.summary.push(item.total);
-					this.bg_color.push(this.getRandomColor());
-				});
-				new Chart(document.getElementById('pie-chart-men'), {
-					type: 'pie',
-					data: {
-						labels: this.label,
-						datasets: [{
-							label: 'Population (millions)',
-							backgroundColor: this.bg_color,
-							data: this.summary
-						}]
-					},
-					options: {
-						title: {
-							display: true,
-							text: 'Tỷ lệ loại sản phẩm bán ra'
+					response.data.chart.forEach(item => {
+						this.label.push(item._id);
+						this.summary.push(item.total);
+						this.bg_color.push(this.getRandomColor());
+					});
+					new Chart(document.getElementById('pie-chart-men'), {
+						type: 'pie',
+						data: {
+							labels: this.label,
+							datasets: [{
+								label: 'Population (millions)',
+								backgroundColor: this.bg_color,
+								data: this.summary
+							}]
+						},
+						options: {
+							title: {
+								display: true,
+								text: 'Tỷ lệ loại sản phẩm bán ra'
+							}
 						}
-					}
+					});
 				});
-			});
 		}
 	},
 	mounted: function () {
@@ -536,7 +536,7 @@ let analytic = new Vue({
 				this.topWeek = response.data.week;
 				this.topMonth = response.data.month;
 
-				
+
 
 				response.data.chart.forEach(item => {
 					this.label.push(item._id);
@@ -882,8 +882,7 @@ let bill_details = new Vue({
 		id: '',
 		status: 1,
 		list: [],
-		validate : false,
-		oldDetails : []
+		validate: false
 	},
 	mounted: function () {
 		let id = $('#current_bill_id').val();
@@ -900,26 +899,26 @@ let bill_details = new Vue({
 			});
 	},
 	methods: {
-		validateQty : function(qty, color, size, productId){
-			if(qty < 1){
+		validateQty: function (qty, color, size, productId) {
+			if (qty < 1) {
 				toastr.error('Số lượng không hợp lệ!');
 				this.validate = true;
-			}else{
+			} else {
 				axios.patch(`/admin/bills/validate/quantity`, {
-					productId : productId,
-					color : color,
-					size : size,
-					newQuantity : qty
+					productId: productId,
+					color: color,
+					size: size,
+					newQuantity: qty
 				})
-				.then((response) => {
-					if(response.data.status === 502){
-						toastr.error(`${response.data.messages}`);
-						this.validate = true;
-					}else if(response.data.status === 200){
-						toastr.success(`${response.data.messages}`);
-						this.validate = false;
-					}
-				});
+					.then((response) => {
+						if (response.data.status === 502) {
+							toastr.error(`${response.data.messages}`);
+							this.validate = true;
+						} else if (response.data.status === 200) {
+							toastr.success(`${response.data.messages}`);
+							this.validate = false;
+						}
+					});
 			}
 		},
 		updateColor : function(colorCode, productId, index){
@@ -985,7 +984,7 @@ let bill_details = new Vue({
 
 		},
 		removeItem: function (itemId, color, size, productId, qty) {
-			if(this.details.length <= 1){
+			if (this.details.length <= 1) {
 				swal({
 					title: 'Không thể xóa, đơn hàng sẽ bị rỗng',
 					text: 'Mẹo ! Nếu muốn, hãy hủy bỏ đơn hàng !',
@@ -993,7 +992,7 @@ let bill_details = new Vue({
 					dangerMode: true,
 				})
 			}
-			else{
+			else {
 				swal({
 					title: 'Xóa sản phẩm này ?',
 					text: 'Đơn hàng của khách hàng bị thay đổi !',
@@ -1003,13 +1002,13 @@ let bill_details = new Vue({
 				})
 					.then((willDelete) => {
 						if (willDelete) {
-							axios.patch(`/admin/bills/single/remove/item/${this.id}`, 
-								{ 
+							axios.patch(`/admin/bills/single/remove/item/${this.id}`,
+								{
 									itemId: itemId,
-									color : color,
-									size : size,
-									productId : productId,
-									qty : qty
+									color: color,
+									size: size,
+									productId: productId,
+									qty: qty
 								})
 								.then((response) => {
 									if (response.data.status !== 200) {
@@ -1026,12 +1025,12 @@ let bill_details = new Vue({
 							swal('Hủy xóa thành cônng !');
 						}
 					});
-	
+
 			}
 
 		},
 		updateItem: function (index, itemId) {
-			if(!this.validate){
+			if (!this.validate) {
 				swal({
 					title: 'Cập nhật sản phẩm này ?',
 					text: 'Đơn hàng của khách hàng sẽ bị thay đổi!',
@@ -1053,7 +1052,7 @@ let bill_details = new Vue({
 									size: item.size
 								});
 							});
-	
+
 							axios.patch('/admin/bills/single/update/item', {
 								billId: this.id,
 								itemId: itemId,
@@ -1074,7 +1073,7 @@ let bill_details = new Vue({
 							swal('Cancled !');
 						}
 					});
-			}else{
+			} else {
 				toastr.error('Số lượng thay đổi không hợp lệ!');
 			}
 		},
@@ -1167,11 +1166,11 @@ let product_statistic = new Vue({
 					this.products = response.data.products;
 				});
 		},
-		currentHas : function(){
+		currentHas: function () {
 			axios.get('/admin/product/report/data')
-			.then((response) => {
-				this.products = response.data.products;
-			});
+				.then((response) => {
+					this.products = response.data.products;
+				});
 		}
 	}
 
@@ -1233,24 +1232,24 @@ let frame = new Vue({
 });
 
 let post_create = new Vue({
-	el : '#post_create',
-	data : {
-		alertTitleNull : '',
-		alertContentNull : '',
-		title : '',
-		content : ''
+	el: '#post_create',
+	data: {
+		alertTitleNull: '',
+		alertContentNull: '',
+		title: '',
+		content: ''
 	},
-	mounted : function(){
-		CKEDITOR.replace('post_content', { height : 700 });
+	mounted: function () {
+		CKEDITOR.replace('post_content', { height: 700 });
 	},
-	methods : {
-		submit: function(){
+	methods: {
+		submit: function () {
 			this.content = CKEDITOR.instances.post_content.getData();
-			if(this.title === ''){
+			if (this.title === '') {
 				this.alertTitleNull = 'Không để trống tiêu đề !'
-			}else if(this.content === ''){
+			} else if (this.content === '') {
 				this.alertContentNull = 'Không để trống nội dung!'
-			}else{
+			} else {
 				this.$refs.form.submit();
 			}
 		}
@@ -1258,21 +1257,21 @@ let post_create = new Vue({
 });
 
 let list_post = new Vue({
-	el : '#list_post',
-	data : {
-		list : [],
+	el: '#list_post',
+	data: {
+		list: [],
 		curretnPage: 1,
 		totalPages: 5
 	},
-	mounted : function(){
+	mounted: function () {
 		axios.get('/admin/post/list/data')
-		.then((response) => {
-			this.list = response.data.blogs;
-			this.currentPages = response.data.currentPages;
-			this.totalPages = response.data.pages;
-		});
+			.then((response) => {
+				this.list = response.data.blogs;
+				this.currentPages = response.data.currentPages;
+				this.totalPages = response.data.pages;
+			});
 	},
-	methods : {
+	methods: {
 		paginate: function (page) {
 			axios.get(`/admin/post/list/data?pages=${page}`)
 				.then((response) => {
@@ -1310,24 +1309,82 @@ let list_post = new Vue({
 });
 
 let post_edit = new Vue({
-	el : '#post_edit',
-	data : {
-		alertTitleNull : '',
-		alertContentNull : '',
-		title : '',
-		content : '',
-		avata : 'product1a.jpg'
+	el: '#post_edit',
+	data: {
+		alertTitleNull: '',
+		alertContentNull: '',
+		title: '',
+		content: '',
+		avata: 'product1a.jpg'
 	},
-	mounted : function(){
+	mounted: function () {
 		let id = $('#current_post_id').val();
-		CKEDITOR.replace('post_edit_content', { height : 700 });
+		CKEDITOR.replace('post_edit_content', { height: 700 });
 		axios.get(`/admin/post/edit/data/${id}`)
-		.then((response) => {
-			console.log(response.data);
-			const editor = CKEDITOR.instances['post_edit_content'];
-			editor.setData(response.data.post.content);
-			this.title = response.data.post.title;
-			this.avata = response.data.post.avata;
-		});
+			.then((response) => {
+				const editor = CKEDITOR.instances['post_edit_content'];
+				editor.setData(response.data.post.content);
+				this.title = response.data.post.title;
+				this.avata = response.data.post.avata;
+			});
+	}
+});
+
+let edit_user = new Vue({
+	el: '#edit_user',
+	data: {
+		currentId: null,
+		alertRepass: '',
+		userName: '',
+		phone: '',
+		email: '',
+		password: '',
+		address: '',
+		repass: '',
+		userRight: 4,
+		newpassword: ''
+	},
+	mounted: function () {
+		userId = $('#currentUser').val();
+		console.log(userId);
+		axios.get(`/admin/user/info/${userId}`)
+			.then((response) => {
+				this.currentId = response.data.user._id;
+				this.userName = response.data.user.username;
+				this.phone = response.data.user.phone;
+				this.email = response.data.user.email;
+				this.address = response.data.user.address;
+				this.userRight = response.data.user.role;
+			});
+	},
+	methods: {
+		onSubmit: function () {
+
+		},
+		editUser: function () {
+			axios.post('/admin/user/update', {
+				id: this.currentId,
+				username: this.userName,
+				address: this.address,
+				email: this.email,
+				phone: this.phone,
+				role: this.userRight,
+			}).then((response) => {
+				console.log(response);
+				if (response.data.status !== 200) {
+					toastr.options.closeButton = true;
+					toastr.error('Có lỗi xảy ra !');
+				} else {
+					toastr.options.closeButton = true;
+					toastr.success('Cập nhật thành công !');
+					this.currentId = response.data.user._id;
+					this.userName = response.data.user.username;
+					this.phone = response.data.user.phone;
+					this.email = response.data.user.email;
+					this.address = response.data.user.address;
+					this.userRight = response.data.user.role;
+				}
+			});
+		}
 	}
 });
