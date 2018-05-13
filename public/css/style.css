@@ -4,8 +4,8 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 --*/
 @font-face {
-    font-family: 'OleoScript-Regular';
-    src:url(../fonts/OleoScript-Regular.ttf) format('truetype');
+    font-family: 'Lobster';
+    src:url(../fonts/Lobster.ttf) format('truetype');
 }
 @font-face {
     font-family: 'Roboto-Regular';
@@ -261,7 +261,7 @@ ul.callbacks_tabs.callbacks1_tabs {
 .content-top h1{
 	color:#000;
 	font-size: 3em;
-	font-family: 'OleoScript-Regular';
+	font-family: 'Lobster';
 	text-align: center;
 	margin: 0 0 1em;
 }
@@ -271,7 +271,7 @@ ul.callbacks_tabs.callbacks1_tabs {
 .col-md1 h3 {
   	font-size: 1.2em;
   	line-height: 1.1em;
-  	font-family: 'OleoScript-Regular';
+  	font-family: 'Lobster';
   	text-align: center;
   	margin: 0 0 0.7em;
   	color: #000;
@@ -333,7 +333,7 @@ ul.callbacks_tabs.callbacks1_tabs {
 .top-footer1 h2 {
   font-size: 2em;
   color: #52d0c4;
-    font-family: 'OleoScript-Regular';
+    font-family: 'Lobster';
       margin: 0 0 0.5em;
 }
 .top-footer1 input[type="text"] {
@@ -371,7 +371,7 @@ ul.callbacks_tabs.callbacks1_tabs {
 	font-size: 1.1em;
 	color: #000;
 	margin: 0 0 0.5em;
-	  font-family: 'OleoScript-Regular';
+	  font-family: 'Lobster';
 }
 .footer-bottom-cate ul{
 	padding: 0;
@@ -423,7 +423,7 @@ p.footer-class a:hover{
 .contact h1{
 	font-size: 3em;
 	color: #000;
-  	font-family: 'OleoScript-Regular';
+  	font-family: 'Lobster';
 	margin: 0 0px 1em;
 	text-align: center;
 }
@@ -504,7 +504,7 @@ p.footer-class a:hover{
 	color:#000;
 	font-size:2em;
 	margin: 0 15px 0.7em;
-	  font-family: 'OleoScript-Regular';	
+	  font-family: 'Lobster';	
 }
 .address {
   padding: 3em 0 0;
@@ -521,13 +521,13 @@ p.footer-class a:hover{
 	color:#000;
 	font-size: 3em;
 	margin:0 0 1em;
-	font-family: 'OleoScript-Regular';
+	font-family: 'Lobster';
 	text-align: center;
 }
 .login-left h4{
 	color:#000;
 	font-size: 1.3em;
-	font-family: 'OleoScript-Regular';
+	font-family: 'Lobster';
 }
  .login-left p {
 	color: #b2b2b2;
@@ -600,7 +600,7 @@ a.forgot {
 	color:#000;
 	font-size:3em;
 	margin:0 0 1em;
-	  font-family: 'OleoScript-Regular';
+	  font-family: 'Lobster';
 	  text-align: center;
 }
 .register-top-grid span, .register-bottom-grid span {
@@ -712,7 +712,7 @@ a.forgot {
 .products h1{
 	color:#000;
 	font-size: 3em;
-	font-family: 'OleoScript-Regular';
+	font-family: 'Lobster';
 	text-align: center;
 	margin: 0 0 1em;
 }
@@ -723,7 +723,7 @@ a.forgot {
 h3.cate {
 	color: #52D0C4;
 	font-size: 1.5em;
-	  font-family: 'OleoScript-Regular';
+	  font-family: 'Lobster';
 }
 ul.kid-menu{
 	display: block !important;
@@ -834,7 +834,7 @@ span.price-in1 {
 	font-size:1.5em;
 	color:#52D0C4;
 	line-height:1.5em;
-	  font-family: 'OleoScript-Regular';
+	  font-family: 'Lobster';
 }
 label.add-to{
 	display:block;
@@ -925,7 +925,7 @@ table{
 th{
 	color: #52D0C4;
   	font-size: 1.2em;
- 	font-family: 'OleoScript-Regular';
+ 	font-family: 'Lobster';
     font-weight: 400;	
 }
 th, td {
@@ -946,7 +946,7 @@ a.at-in {
 .sed h5{
      color: #52D0C4;
   	font-size: 1.1em;
-  	font-family: 'OleoScript-Regular';
+  	font-family: 'Lobster';
 }
 .sed p{
     color:#b2b2b2;
@@ -969,6 +969,13 @@ a.at-in {
   border: 1px solid #000;
   border-radius: 0 !important;
 }
+.custom2{
+  border: 1px solid #EEE;
+  border-radius: 0 !important;
+  border-radius: 0 !important;
+  padding: 0.5em !important;
+  margin: 0.5em 0 !important;
+}
 .check{
 	width:6%;
 }
@@ -978,7 +985,7 @@ a.at-in {
 .check-out h1 {
     font-size: 3em;
   color: #000;
-  font-family: 'OleoScript-Regular';
+  font-family: 'Lobster';
   margin: 0 0px 1em;
   text-align: center;
 }
@@ -1033,7 +1040,7 @@ button.to-buy-back:hover{
 h1.typo1 {
     font-size: 3em;
   color: #000;
-  font-family: 'OleoScript-Regular';
+  font-family: 'Lobster';
   margin: 0 0px 1em;
   text-align: center;
 }
@@ -2659,4 +2666,40 @@ h1.typo1 {
   margin-top: 5vh;
   max-height: 50vh;
   overflow-y: scroll;
+}
+h2.double:before { 
+    /* this is just to undo the :before styling from above */
+    border-top: none; 
+}
+
+h2.double:after {
+    border-bottom: 1px solid blue;
+    -webkit-box-shadow: 0 1px 0 0 red;
+    -moz-box-shadow: 0 1px 0 0 red;
+    box-shadow: 0 1px 0 0 red;
+    content: "";
+    margin: 0 auto; /* this centers the line to the full width specified */
+    position: absolute;
+    top: 45%; left: 0; right: 0;
+    width: 95%;
+    z-index: -1;
+}
+h2.background {
+  position: relative;
+  z-index: 1;
+}
+h2.background :before {
+      border-top: 2px solid #dfdfdf;
+      content:"";
+      margin: 0 auto; /* this centers the line to the full width specified */
+      position: absolute; /* positioning must be absolute here, and relative positioning must be applied to the parent */
+      top: 50%; left: 0; right: 0; bottom: 0;
+      width: 95%;
+      z-index: -1;
+  }
+
+  h2 > span { 
+    /* to hide the lines from behind the text, you have to set the background color the same as the container */ 
+    background: #fff; 
+    padding: 0 15px; 
 }
