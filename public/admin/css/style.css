@@ -3758,3 +3758,30 @@ button.to-buy {
 #custom_hover :hover{
    text-decoration: none !important;
 }
+
+#custom-search-form .search-query {
+    /* IE7-8 doesn't have border-radius, so don't indent the padding */
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+#custom-search-form button {
+    border: 0;
+    background: none;
+    /** belows styles are working good */
+    position: relative;
+    /* IE7-8 doesn't have border-radius, so don't indent the padding */
+    margin-bottom: 0;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.search-query:focus + button {
+    z-index: 3;   
+}
+
+.search-query {
+    padding: 6px 12px;
+}

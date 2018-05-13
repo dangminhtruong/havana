@@ -1672,7 +1672,6 @@ router.get('/post/edit/data/:id', (req, res) => {
 });
 
 router.post('/analytic/start-end', (req, res) => {
-	console.log(req.body.startDay, new Date(req.body.startDay));
 	async.parallel(
 		[
 			(callback) => {
@@ -1792,6 +1791,18 @@ router.get('/user/info/:id', (req, res) => {
 	});
 });
 
+
+router.get('/product/find/:keyword', (req, res) => {
+	Product.find({ name : { $regex: req.params.keyword, $options: '-i' } })
+	.exec((err, product) => {
+		if(err){
+			throw new Error;
+		}
+		return res.json({
+			result : product
+		});
+	});
+});
 
 
 module.exports = router;

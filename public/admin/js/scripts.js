@@ -489,6 +489,7 @@ let analytic = new Vue({
 				endDay: this.endDay
 			})
 				.then((response) => {
+					console.log(response.data);
 					this.startEndSummary = response.data.summary;
 					this.showDefault = false;
 					this.startEndSale = response.data.earn;
@@ -499,6 +500,7 @@ let analytic = new Vue({
 						this.summary.push(item.total);
 						this.bg_color.push(this.getRandomColor());
 					});
+
 					new Chart(document.getElementById('pie-chart-men'), {
 						type: 'pie',
 						data: {
@@ -1145,7 +1147,8 @@ let bill_details = new Vue({
 let product_statistic = new Vue({
 	el: '#product_statistic',
 	data: {
-		products: []
+		products: [],
+		keywords: null
 	},
 	mounted: function () {
 		axios.get('/admin/product/report/data')
@@ -1171,6 +1174,15 @@ let product_statistic = new Vue({
 				.then((response) => {
 					this.products = response.data.products;
 				});
+		},
+		search : function(){
+			if(this.keywords){
+				axios.get(`/admin/product/find/${this.keywords}`)
+				.then((response) => {
+					console.log(response);
+					this.products = response.data.result;
+				});
+			}
 		}
 	}
 
