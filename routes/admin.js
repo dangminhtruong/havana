@@ -1755,7 +1755,6 @@ router.post('/user/update', (req, res) => {
 			username: req.body.username,
 			address: req.body.address,
 			email: req.body.email,
-			password: req.body.newpassword,
 			phone: req.body.phone,
 			role: req.body.role,
 		},
