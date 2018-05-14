@@ -1030,8 +1030,7 @@ router.get('/bills/single/detail-data/:id', (req, res) => {
 		})
 });
 
-
-router.patch('/bills/single/update/item', (req, res) => {
+/* router.patch('/bills/single/update/item', (req, res) => {
 	new Promise((resolve, reject) => {
 		Bill.findById(req.body.billId, (err, bill) => {
 			if (err) {
@@ -1116,6 +1115,87 @@ router.patch('/bills/single/update/item', (req, res) => {
 		});
 	});
 });
+ */
+router.patch('/bills/single/update/item/:bill', (req, res) =>{
+	let path = `detais.${req.body.index}.quantity`;
+	Bill.findByIdAndUpdate(
+		req.params.bill, 
+		{ 
+			$inc: {
+				[path]: req.body.changedQty,
+			}
+		},
+		{ new : true },
+		(err, bill) => {
+			if(err){
+				console.log(err);
+				return res.json({
+					status : 500
+				});
+			}
+
+			Product.findById(
+				req.body.productId,
+				(err, product) => {
+					if(err){
+						console.log(err);
+						return res.json({
+							status : 500
+						});
+					}
+
+					console.log(product.colors, product.size);
+					console.log("REEQUEST",typeof req.body.color, typeof req.body.size);
+
+					let cIndex = _.findIndex(product.colors, ['code', req.body.color]);
+					let sIndex = _.findIndex(product.size, ['code', req.body.size]);
+
+					/* product.colors.forEach((item, index) => {
+						if(item.code == req.body.color){
+							cIndex = index;
+							return false;
+						}
+					});
+
+					product.size.forEach((item, index) => {
+						if(item.code == req.body.size){
+							sIndex = index;
+							return false;
+						}
+					}); */
+
+
+					let cpath = `colors.${cIndex}.quantity`;
+					let spath = `size.${sIndex}.quantity`;
+					console.log(cpath, spath);
+					Product.findByIdAndUpdate(
+						req.body.productId,
+						{
+							$inc: {
+								quantity: -req.body.changedQty,
+								[cpath]:  -req.body.changedQty,
+								[spath]:  -req.body.changedQty
+							}
+						},
+						(err, prd) => {
+							if(err){
+								console.log(err);
+								return res.json({
+									status : 500
+								});
+							}
+
+							return res.json({
+								status : 200
+							});
+						}
+					);
+				}
+			);
+		}
+	);
+});
+
 
 
 router.delete('/bills/:id', (req, res) => {
@@ -1265,6 +1345,9 @@ router.patch('/bills/validate/quantity', (req, res) => {
 				messages: 'Có lỗi xảy ra khi kiểm tra số lượng sản phẩm !'
 			});
 		}
+
+		console.log(product.colors);
+		console.log(req.body.color);
 
 		let colorQty = _.find(product.colors, ['code', req.body.color]).quantity;
 		let sizeQty = _.find(product.size, ['code', req.body.size]).quantity;
