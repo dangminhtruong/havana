@@ -110,7 +110,7 @@
 											<tr v-for="(item, index) in details" :key="item._id">
 												<td class="ring-in">
 													<a class="at-in" href="#">
-														<img :src=`/img/${item.product_id.image}` class="img-responsive" alt="">
+														<img :src=`/img/${item.image}` class="img-responsive" alt="">
 													</a>
 													<div class="sed">
 														<h5>{{ item.product_name }}</h5>
@@ -118,7 +118,7 @@
 													<div class="clearfix"> </div>
 												</td>
 												<td class="check">
-													<input type="text" name="quantity" v-on:keyup="validateQty(details[index].quantity, item.colors, item.size, item.product_id)"
+													<input type="text" name="quantity" @change="updateItem(index, item.product_id._id, details[index].quantity, details[index].quantity - details[index].qty, item.colors, item.size)"
 															:value=`${item.quantity}` v-model="details[index].quantity">
 												</td>
 												<td>

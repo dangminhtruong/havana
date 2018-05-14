@@ -890,9 +890,29 @@ let bill_details = new Vue({
 		let id = $('#current_bill_id').val();
 		axios.get(`/admin/bills/single/detail-data/${id}`)
 			.then((response) => {
-				this.details = response.data.bill.detais;
+				console.log(response.data.bill.detais);
+
+				//this.details = response.data.bill.detais;
 				this.id = id;
 				this.status = response.data.bill.status;
+
+				let restruct = [];
+				
+				response.data.bill.detais.forEach((item) => {
+					restruct.push({
+						colors : item.colors,
+						image : item.product_id.image,
+						product_name : item.product_name,
+						size : item.size,
+						product_id : item.product_id,
+						price : item.price,
+						quantity : item.quantity,
+						qty : item.quantity
+					});
+				});
+
+				this.details = restruct;
+
 				let tmp = [];
 				for (i = this.status; i <= 4; i++) {
 					tmp.push(i);
@@ -924,8 +944,6 @@ let bill_details = new Vue({
 			}
 		},
 		updateColor : function(colorCode, productId, index){
-		
-
 			if(!this.validate){
 				swal({
 					title: 'Cập nhật sản phẩm này ?',
@@ -1031,8 +1049,40 @@ let bill_details = new Vue({
 			}
 
 		},
-		updateItem: function (index, itemId) {
-			if (!this.validate) {
+		updateItem: function (index, productId, newQty, changedQty, color, size) {
+				if (newQty < 1) {
+					toastr.error('Số lượng không hợp lệ!');
+					this.validate = true;
+				} else {
+					axios.patch(`/admin/bills/validate/quantity`, {
+						productId: productId,
+						color: color,
+						size: size,
+						newQuantity: newQty
+					})
+						.then((response) => {
+							if (response.data.status === 502) {
+								toastr.error(`${response.data.messages}`);
+								
+							} else if (response.data.status === 200) {
+								toastr.success(`${response.data.messages}`);
+								console.log("TEST DATA",index, productId, newQty, changedQty);
+								axios.patch(`/admin/bills/single/update/item/${this.id}`,{
+									index : index,
+									productId : productId,
+									newQty : newQty,
+									changedQty : changedQty,
+									color : color,
+									size, size
+								})
+								.then((resp) => {
+									console.log(resp);
+								});
+							}
+						});
+				}
+
+			/* if (!this.validate) {
 				swal({
 					title: 'Cập nhật sản phẩm này ?',
 					text: 'Đơn hàng của khách hàng sẽ bị thay đổi!',
@@ -1077,7 +1127,7 @@ let bill_details = new Vue({
 					});
 			} else {
 				toastr.error('Số lượng thay đổi không hợp lệ!');
-			}
+			} */
 		},
 		removeBill: function (id) {
 			swal({
@@ -1108,7 +1158,6 @@ let bill_details = new Vue({
 				});
 		},
 		updateStatus: function (status) {
-
 			swal({
 				title: 'Cập nhật trạng thái đơn hàng này ?',
 				text: 'Đơn hàng của khách hàng thay đổi trạng thái !',
@@ -1142,7 +1191,6 @@ let bill_details = new Vue({
 		}
 	}
 });
-
 
 let product_statistic = new Vue({
 	el: '#product_statistic',
