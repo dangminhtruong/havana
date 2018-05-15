@@ -1150,21 +1150,6 @@ router.patch('/bills/single/update/item/:bill', (req, res) =>{
 					let cIndex = _.findIndex(product.colors, ['code', req.body.color]);
 					let sIndex = _.findIndex(product.size, ['code', req.body.size]);
 
-					/* product.colors.forEach((item, index) => {
-						if(item.code == req.body.color){
-							cIndex = index;
-							return false;
-						}
-					});
-
-					product.size.forEach((item, index) => {
-						if(item.code == req.body.size){
-							sIndex = index;
-							return false;
-						}
-					}); */
-
-
 					let cpath = `colors.${cIndex}.quantity`;
 					let spath = `size.${sIndex}.quantity`;
 					console.log(cpath, spath);
@@ -1371,7 +1356,6 @@ router.patch('/bills/validate/quantity', (req, res) => {
 
 router.patch('/bills/single/remove/item/:id', (req, res) => {
 
-
 	new Promise((resolve, reject) => {
 		Product.findById(req.body.productId, (err, prd) => {
 			if (err) {
@@ -1403,7 +1387,7 @@ router.patch('/bills/single/remove/item/:id', (req, res) => {
 				}
 				Bill.findByIdAndUpdate(
 					req.params.id,
-					{ $pull: { 'detais': { '_id': req.body.itemId } } },
+					{ $pull: { 'detais': { 'product_id': req.body.productId } } },
 					{ new: true }
 				)
 					.populate({
