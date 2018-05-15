@@ -2703,3 +2703,36 @@ h2.background :before {
     background: #fff; 
     padding: 0 15px; 
 }
+/*------------------*/
+
+.cdropdown {
+  position: relative;
+  display: block;
+  margin-right: 5vh;
+}
+
+.cdropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 250px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.cdropdown-content a {
+  color: black;
+  text-align: left;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  padding-left: 1vh;
+  font-family: 'Courier New', Courier, monospace;
+  color: #52d0c4;
+  text-decoration: none;
+  display: block;
+}
+
+.cdropdown a:hover {background-color: #ddd}
+
+.cshow {display:block; }

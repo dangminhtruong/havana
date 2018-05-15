@@ -547,4 +547,17 @@ router.get('/post/:id', (req, res) => {
 	);
 });
 
+router.get('/product/find/:keyword', (req, res) => {
+	Product.find({ name : { $regex: req.params.keyword, $options: '-i' } })
+	.limit(5)
+	.exec((err, product) => {
+		if(err){
+			throw new Error;
+		}
+		return res.json({
+			result : product
+		});
+	});
+});
+
 module.exports = router;
