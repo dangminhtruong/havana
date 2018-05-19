@@ -7,9 +7,9 @@ const config = {
     },
     email : {
         username : 'xxdangminhtruongxx@gmail.com',
-        pass : '01292007776'
+        pass : '********'
     },
-    domain : "http://128.199.229.75/",
+    domain : "http://localhost:3000/",
     userStatus : {
         isAdmin : 1,
         isStaff : 2,

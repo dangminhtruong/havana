@@ -252,7 +252,7 @@ router.get('/product-data/:id', function (req, res) {
 				});
 		},
 		(callback) => {
-			Category.find({ quantity: { $gt: 0 } }, { _id: 1, name: 1, type: 1 })
+			Category.find({}, { _id: 1, name: 1, type: 1 })
 				.exec((err, category) => {
 					callback(null, category);
 				});
