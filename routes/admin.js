@@ -1128,7 +1128,6 @@ router.patch('/bills/single/update/item/:bill', (req, res) =>{
 		{ new : true },
 		(err, bill) => {
 			if(err){
-				console.log(err);
 				return res.json({
 					status : 500
 				});
@@ -1138,21 +1137,15 @@ router.patch('/bills/single/update/item/:bill', (req, res) =>{
 				req.body.productId,
 				(err, product) => {
 					if(err){
-						console.log(err);
 						return res.json({
 							status : 500
 						});
 					}
-
-					console.log(product.colors, product.size);
-					console.log("REEQUEST",typeof req.body.color, typeof req.body.size);
-
 					let cIndex = _.findIndex(product.colors, ['code', req.body.color]);
 					let sIndex = _.findIndex(product.size, ['code', req.body.size]);
 
 					let cpath = `colors.${cIndex}.quantity`;
 					let spath = `size.${sIndex}.quantity`;
-					console.log(cpath, spath);
 					Product.findByIdAndUpdate(
 						req.body.productId,
 						{
@@ -1164,7 +1157,6 @@ router.patch('/bills/single/update/item/:bill', (req, res) =>{
 						},
 						(err, prd) => {
 							if(err){
-								console.log(err);
 								return res.json({
 									status : 500
 								});
@@ -1252,9 +1244,7 @@ router.patch('/bills/update/color', (req, res) => {
 	new Promise((resolve, reject) => {
 		Bill.findById(req.body.billId, (err, bill) => {
 			if (err) {
-				return reject();
-				console.log(err);
-			}
+				return reject();			}
 			let cpath = `detais.${req.body.index}.colors`;
 			Bill.findByIdAndUpdate(
 				req.body.billId,
@@ -1262,7 +1252,6 @@ router.patch('/bills/update/color', (req, res) => {
 				{ new: true },
 				() => {
 					if (err) {
-						console.log(err);
 						return reject();
 					}
 

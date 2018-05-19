@@ -890,9 +890,6 @@ let bill_details = new Vue({
 		let id = $('#current_bill_id').val();
 		axios.get(`/admin/bills/single/detail-data/${id}`)
 			.then((response) => {
-				console.log(response.data.bill.detais);
-
-				//this.details = response.data.bill.detais;
 				this.id = id;
 				this.status = response.data.bill.status;
 
@@ -970,37 +967,54 @@ let bill_details = new Vue({
 			}
 
 		},
-		updateSize: function (size, productId, index) {
-			if (!this.validate) {
-				swal({
-					title: 'Cập nhật sản phẩm này ?',
-					text: 'Đơn hàng của khách hàng bị thay đổi !',
-					icon: 'warning',
-					buttons: true,
-					dangerMode: true,
-				})
-					.then((willDelete) => {
-						if (willDelete) {
-							axios.patch('/admin/bills/update/size', {
-								size: size,
-								productId: productId,
-								billId: this.id,
-								index: index
-							})
-								.then((response) => {
-									if (response.data.status === 200) {
-										ctoastr.options.closeButton = true;
-										toastr.success(`${response.data.messages}`);
-									} else {
-										ctoastr.options.closeButton = true;
-										toastr.error(`${response.data.messages}`);
-									}
-								});
-						} else {
-							swal('Hủy thay đổi thành cônng !');
-						}
-					});
-			}
+		updateSize: function (size, color, productId, index, newQty) {
+			console.log('JUST TEST',size, color, productId, index, newQty);
+			axios.patch(`/admin/bills/validate/quantity`, {
+				productId: productId,
+				color: color,
+				size: size,
+				newQuantity: newQty
+			})
+			.then((response) => {
+				console.log(response);
+				if (response.data.status === 502) {
+					toastr.error(`${response.data.messages}`);
+				}else{
+					swal({
+						title: 'Cập nhật sản phẩm này ?',
+						text: 'Đơn hàng của khách hàng bị thay đổi !',
+						icon: 'warning',
+						buttons: true,
+						dangerMode: true,
+					})
+						.then((willDelete) => {
+							if (willDelete) {
+								axios.patch('/admin/bills/update/size', {
+									size: size,
+									productId: productId,
+									billId: this.id,
+									index: index
+								})
+									.then((response) => {
+										if (response.data.status === 200) {
+											ctoastr.options.closeButton = true;
+											toastr.success(`${response.data.messages}`);
+										} else {
+											ctoastr.options.closeButton = true;
+											toastr.error(`${response.data.messages}`);
+										}
+									});
+								
+							} else {
+								swal('Hủy thay đổi thành cônng !');
+							}
+						});
+				}
+			});
+
+		
+			
+		
 
 		},
 		removeItem: function (itemId, color, size, productId, qty) {
@@ -1031,7 +1045,6 @@ let bill_details = new Vue({
 									qty: qty
 								})
 								.then((response) => {
-									console.log(response.data);
 									if (response.data.status !== 200) {
 										toastr.options.closeButton = true;
 										toastr.error('Opps! something went wrong!');
