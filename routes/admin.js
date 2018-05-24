@@ -1320,9 +1320,6 @@ router.patch('/bills/validate/quantity', (req, res) => {
 			});
 		}
 
-		console.log(product.colors);
-		console.log(req.body.color);
-
 		let colorQty = _.find(product.colors, ['code', req.body.color]).quantity;
 		let sizeQty = _.find(product.size, ['code', req.body.size]).quantity;
 		let avg = (colorQty <= sizeQty) ? colorQty : sizeQty;
@@ -1334,7 +1331,7 @@ router.patch('/bills/validate/quantity', (req, res) => {
 			});
 		} else {
 			return res.json({
-				status: 200,
+				status: 200, 
 				messages: `Số lượng hợp lệ`
 			});
 		}
