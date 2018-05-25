@@ -21,7 +21,8 @@ const config = {
     activity : {
         online : 1,
         offline : 0
-    }
+    },
+    reportPath : 'public/report'
 }
 
 
