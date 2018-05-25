@@ -560,4 +560,10 @@ router.get('/product/find/:keyword', (req, res) => {
 	});
 });
 
+router.get('/cron', (req, res) => {
+	let cron = require('../helpers/excel_report_today');
+	cron();
+	res.send('ok');
+});
+
 module.exports = router;
