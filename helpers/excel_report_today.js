@@ -73,6 +73,4 @@ const todayReport = () => {
         });
 }
 
-todayReport();
-
-//module.exports = todayReport;
+module.exports = todayReport;
