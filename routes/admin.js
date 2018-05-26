@@ -1116,29 +1116,29 @@ router.get('/bills/single/detail-data/:id', (req, res) => {
 	});
 });
  */
-router.patch('/bills/single/update/item/:bill', (req, res) =>{
+router.patch('/bills/single/update/item/:bill', (req, res) => {
 	let path = `detais.${req.body.index}.quantity`;
 	Bill.findByIdAndUpdate(
-		req.params.bill, 
-		{ 
+		req.params.bill,
+		{
 			$inc: {
 				[path]: req.body.changedQty,
 			}
 		},
-		{ new : true },
+		{ new: true },
 		(err, bill) => {
-			if(err){
+			if (err) {
 				return res.json({
-					status : 500
+					status: 500
 				});
 			}
 
 			Product.findById(
 				req.body.productId,
 				(err, product) => {
-					if(err){
+					if (err) {
 						return res.json({
-							status : 500
+							status: 500
 						});
 					}
 					let cIndex = _.findIndex(product.colors, ['code', req.body.color]);
@@ -1151,19 +1151,19 @@ router.patch('/bills/single/update/item/:bill', (req, res) =>{
 						{
 							$inc: {
 								quantity: -req.body.changedQty,
-								[cpath]:  -req.body.changedQty,
-								[spath]:  -req.body.changedQty
+								[cpath]: -req.body.changedQty,
+								[spath]: -req.body.changedQty
 							}
 						},
 						(err, prd) => {
-							if(err){
+							if (err) {
 								return res.json({
-									status : 500
+									status: 500
 								});
 							}
 
 							return res.json({
-								status : 200
+								status: 200
 							});
 						}
 					);
@@ -1244,7 +1244,8 @@ router.patch('/bills/update/color', (req, res) => {
 	new Promise((resolve, reject) => {
 		Bill.findById(req.body.billId, (err, bill) => {
 			if (err) {
-				return reject();			}
+				return reject();
+			}
 			let cpath = `detais.${req.body.index}.colors`;
 			Bill.findByIdAndUpdate(
 				req.body.billId,
@@ -1331,7 +1332,7 @@ router.patch('/bills/validate/quantity', (req, res) => {
 			});
 		} else {
 			return res.json({
-				status: 200, 
+				status: 200,
 				messages: `Số lượng hợp lệ`
 			});
 		}
@@ -1846,15 +1847,15 @@ router.get('/user/info/:id', (req, res) => {
 
 
 router.get('/product/find/:keyword', (req, res) => {
-	Product.find({ name : { $regex: req.params.keyword, $options: '-i' } })
-	.exec((err, product) => {
-		if(err){
-			throw new Error;
-		}
-		return res.json({
-			result : product
+	Product.find({ name: { $regex: req.params.keyword, $options: '-i' } })
+		.exec((err, product) => {
+			if (err) {
+				throw new Error;
+			}
+			return res.json({
+				result: product
+			});
 		});
-	});
 });
 
 

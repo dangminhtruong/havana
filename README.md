@@ -13,9 +13,10 @@
    <li>"node bill_seeder"</li>
    <li>"node blog_seeder"</li> 
 </ul>
+<b>Step 4</b> Go to helpers folder and run "node con_job.js" to run application's cron jobs<br/>
 . After this step, you have faked data...<br/>
-<b>Step 3</b> Run "nodemon" at main folder, then open browser, access to "localhost:3000"... That's is
-<h6>Notice !</h6> Here is client app https://github.com/dangminhtruong/havana_client
+<b>Step 5</b> Run "nodemon" at main folder, then open browser, access to "localhost:3000"... That's is
+<h6>Notice !</h6> Here is client React app https://github.com/dangminhtruong/havana_client
 
 <h3>In case you are using Docker</h3><br/>
 <b><i>Just simply run folowing steps</i></b><br/>
@@ -28,5 +29,6 @@
 <li>"node user_seeder"</li> 
 <li>"node bill_seeder"</li> 
 <li>"node blog_seeder"</li> 
-<b>Step 5</b> The app running at localhost:3000<br/>
-<h6>Notice !</h6> Here is client app https://github.com/dangminhtruong/havana_client
+<b>Step 5</b> Go to helpers folder and run "node con_job.js" to run application's cron jobs<br/>
+<b>Step 6</b> The app running at localhost:3000<br/>
+<h6>Notice !</h6> Here is client React app https://github.com/dangminhtruong/havana_client

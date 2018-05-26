@@ -44,10 +44,6 @@ router.get('/', function (req, res) {
 	});
 });
 
-
-
-
-
 router.post('/login/client', function (req, res, next) {
 	passport.authenticate('local', function (err, user, info) {
 		if (err) { throw new errr; }
@@ -90,8 +86,8 @@ router.post('/login/client', function (req, res, next) {
 });
 
 
-router.get('/logout', function (req, res) {
-	User.findByIdAndUpdate(req.user._id,
+router.get('/logout/admin/:id', function (req, res) {
+	User.findByIdAndUpdate(req.params.id,
 		{ status: config.activity.offline },
 		(err, user) => {
 			if (err) {
@@ -101,6 +97,23 @@ router.get('/logout', function (req, res) {
 	);
 	req.logout();
 	return res.redirect('/');
+});
+
+
+router.get('/logout/client/:id', function (req, res) {
+	User.findByIdAndUpdate(req.params.id,
+		{ status: config.activity.offline },
+		(err, user) => {
+			if (err) {
+				throw Error('cannot set online status')
+			}
+		}
+	);
+	req.logout();
+	return res.json({
+		status : 200,
+		messages : 'logouted'
+	});
 });
 
 
@@ -558,12 +571,6 @@ router.get('/product/find/:keyword', (req, res) => {
 			result : product
 		});
 	});
-});
-
-router.get('/cron', (req, res) => {
-	let cron = require('../helpers/excel_report_today');
-	cron();
-	res.send('ok');
 });
 
 module.exports = router;

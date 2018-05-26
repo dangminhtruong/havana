@@ -135,7 +135,7 @@
 													<label class="containerr" v-for="(color, indexColor) in item.product_id.colors">
 														<input type="radio" :name="item._id" 
 																v-model="details[index].colors" :value="color.code" 
-																@click="updateColor(color.code, item.product_id._id, index)"/>
+																@click="updateColor(color.code, item.product_id._id, index, details[index].size, details[index].quantity)"/>
 														<span class="checkmark" :style="{ background: color.code }">
 														</span>
 													</label>
