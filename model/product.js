@@ -26,15 +26,16 @@ var ProductSchema = new mongoose.Schema(
 			{ code : String,quantity : { type : Number, 'default' : 0 }}
 		],
 		image_details : [String],
-		rate : [{ star : Number, user_id : { type: ObjectId, ref : 'User' }}
-		],
+		rate : { star : Number,  summary : Number },
 		comment : [
 			{
 				user_name : String,
+				avata : String,
 				content : String,
 				reply : [
 					{
 						user_name : String,
+						avata : String,
 						content : String,
 						createdOn: { type: Date, 'default': Date.now }
 					}

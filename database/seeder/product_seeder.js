@@ -75,8 +75,31 @@ new Promise((resolve) => {
 						}
 					],
 					image_details : ['pi.png', 'pi2.png', 'pi3.png'],
-					rate : [],
-					comment : []
+					rate : { star : 3,  summary : 8 },
+					comment : [
+						{
+							user_name : 'dangminhtruong',
+							avata : 'commentavt1',
+							content : faker.lorem.paragraph(),
+							reply : [
+								{
+									user_name : 'ngantrang',
+									avata : 'commentavt2',
+									content : faker.lorem.paragraph(),
+								},
+								{
+									user_name : 'thuy',
+									avata : 'commentavt2',
+									content : faker.lorem.paragraph(),
+								}
+							],
+						},
+						{
+							user_name : 'thanhuyen',
+							avata : 'commentavt2',
+							content : faker.lorem.paragraph(),
+						}
+					]
 				}
 			);
 		}
