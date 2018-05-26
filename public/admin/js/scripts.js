@@ -489,7 +489,6 @@ let analytic = new Vue({
 				endDay: this.endDay
 			})
 				.then((response) => {
-					console.log(response.data);
 					this.startEndSummary = response.data.summary;
 					this.showDefault = false;
 					this.startEndSale = response.data.earn;
@@ -940,82 +939,89 @@ let bill_details = new Vue({
 					});
 			}
 		},
-		updateColor: function (colorCode, productId, index) {
-			if (!this.validate) {
-				swal({
-					title: 'Cập nhật sản phẩm này ?',
-					text: 'Đơn hàng của khách hàng bị thay đổi !',
-					icon: 'warning',
-					buttons: true,
-					dangerMode: true,
-				})
-					.then((willDelete) => {
-						if (willDelete) {
-							axios.patch('/admin/bills/update/color', {
-								color: colorCode,
-								productId: productId,
-								billId: this.id,
-								index: index
-							})
-								.then((response) => {
-									console.log(response.data);
-								});
-						} else {
-							swal('Hủy thay đổi thành cônng !');
-						}
-					});
-			}
-
+		updateColor: function (colorCode, productId, index, size, newQty) {
+			axios.patch(`/admin/bills/validate/quantity`, {
+				productId: productId,
+				color: colorCode,
+				size: size,
+				newQuantity: newQty
+			})
+				.then((response) => {
+					if (response.data.status === 502) {
+						toastr.error(`${response.data.messages}`);
+					} else {
+						swal({
+							title: 'Cập nhật sản phẩm này ?',
+							text: 'Đơn hàng của khách hàng bị thay đổi !',
+							icon: 'warning',
+							buttons: true,
+							dangerMode: true,
+						})
+							.then((willDelete) => {
+								if (willDelete) {
+									axios.patch('/admin/bills/update/color', {
+										color: colorCode,
+										productId: productId,
+										billId: this.id,
+										index: index
+									})
+										.then((response) => {
+											if (response.data.status === 200) {
+												toastr.options.closeButton = true;
+												toastr.success(`${response.data.messages}`);
+											} else {
+												toastr.options.closeButton = true;
+												toastr.error(`${response.data.messages}`);
+											}
+										});
+								} else {
+									swal('Hủy thay đổi thành cônng !');
+								}
+							});
+					}
+				});
 		},
 		updateSize: function (size, color, productId, index, newQty) {
-			console.log('JUST TEST',size, color, productId, index, newQty);
 			axios.patch(`/admin/bills/validate/quantity`, {
 				productId: productId,
 				color: color,
 				size: size,
 				newQuantity: newQty
 			})
-			.then((response) => {
-				console.log(response);
-				if (response.data.status === 502) {
-					toastr.error(`${response.data.messages}`);
-				}else{
-					swal({
-						title: 'Cập nhật sản phẩm này ?',
-						text: 'Đơn hàng của khách hàng bị thay đổi !',
-						icon: 'warning',
-						buttons: true,
-						dangerMode: true,
-					})
-						.then((willDelete) => {
-							if (willDelete) {
-								axios.patch('/admin/bills/update/size', {
-									size: size,
-									productId: productId,
-									billId: this.id,
-									index: index
-								})
-									.then((response) => {
-										if (response.data.status === 200) {
-											ctoastr.options.closeButton = true;
-											toastr.success(`${response.data.messages}`);
-										} else {
-											ctoastr.options.closeButton = true;
-											toastr.error(`${response.data.messages}`);
-										}
-									});
-								
-							} else {
-								swal('Hủy thay đổi thành cônng !');
-							}
-						});
-				}
-			});
-
-		
-			
-		
-
+				.then((response) => {
+					if (response.data.status === 502) {
+						toastr.error(`${response.data.messages}`);
+					} else {
+						swal({
+							title: 'Cập nhật sản phẩm này ?',
+							text: 'Đơn hàng của khách hàng bị thay đổi !',
+							icon: 'warning',
+							buttons: true,
+							dangerMode: true,
+						})
+							.then((willDelete) => {
+								if (willDelete) {
+									axios.patch('/admin/bills/update/size', {
+										size: size,
+										productId: productId,
+										billId: this.id,
+										index: index
+									})
+										.then((response) => {
+											if (response.data.status === 200) {
+												toastr.options.closeButton = true;
+												toastr.success(`${response.data.messages}`);
+											} else {
+												toastr.options.closeButton = true;
+												toastr.error(`${response.data.messages}`);
+											}
+										});
+								} else {
+									swal('Hủy thay đổi thành cônng !');
+								}
+							});
+					}
+				});
 		},
 		removeItem: function (itemId, color, size, productId, qty) {
 			if (this.details.length <= 1) {
@@ -1076,9 +1082,7 @@ let bill_details = new Vue({
 							swal('Hủy xóa thành cônng !');
 						}
 					});
-
 			}
-
 		},
 		updateItem: function (index, productId, newQty, changedQty, color, size) {
 			if (newQty < 1) {
@@ -1222,7 +1226,6 @@ let product_statistic = new Vue({
 			if (this.keywords) {
 				axios.get(`/admin/product/find/${this.keywords}`)
 					.then((response) => {
-						console.log(response);
 						this.products = response.data.result;
 					});
 			}
@@ -1347,7 +1350,6 @@ let list_post = new Vue({
 					if (willDelete) {
 						axios.delete(`/admin/post/remove/${id}`)
 							.then((response) => {
-								console.log(response.data);
 								this.list = response.data.blogs;
 								this.totalPages = response.data.pages;
 								this.curretnPage = response.data.currentPages;
@@ -1401,7 +1403,6 @@ let edit_user = new Vue({
 	},
 	mounted: function () {
 		userId = $('#currentUser').val();
-		console.log(userId);
 		axios.get(`/admin/user/info/${userId}`)
 			.then((response) => {
 				this.currentId = response.data.user._id;
@@ -1425,7 +1426,6 @@ let edit_user = new Vue({
 				phone: this.phone,
 				role: this.userRight,
 			}).then((response) => {
-				console.log(response);
 				if (response.data.status !== 200) {
 					toastr.options.closeButton = true;
 					toastr.error('Có lỗi xảy ra !');
