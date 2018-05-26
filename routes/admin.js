@@ -1845,7 +1845,6 @@ router.get('/user/info/:id', (req, res) => {
 	});
 });
 
-
 router.get('/product/find/:keyword', (req, res) => {
 	Product.find({ name: { $regex: req.params.keyword, $options: '-i' } })
 		.exec((err, product) => {
@@ -1857,6 +1856,5 @@ router.get('/product/find/:keyword', (req, res) => {
 			});
 		});
 });
-
 
 module.exports = router;

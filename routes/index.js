@@ -283,7 +283,8 @@ router.get('/product-data/:id', function (req, res) {
 				related_product: results[1],
 				cart: (req.session.cart) ? req.session.cart.length : 0,
 				category: results[2],
-				best_sales: results[3]
+				best_sales: results[3],
+				user : (req.user) ? req.user : null
 			});
 		});
 
@@ -572,5 +573,37 @@ router.get('/product/find/:keyword', (req, res) => {
 		});
 	});
 });
+
+router.post('/comment/add/:productId', (req, res) => {
+	Product.findByIdAndUpdate(
+		req.params.productId,
+		{ $push: 
+			{ comment: 
+				{ 
+					user_name : req.body.username,
+					avata : req.body.avata,
+					content : req.body.content,
+					reply : [],
+				} 
+			} 
+		},
+		{ new : true },
+		(err, result) => {
+			if(err) {
+				console.log(err);
+				return res.json({
+					status : 500,
+					messages : "Can't add your comment"
+				});
+			}
+			return res.json({
+				status : 200,
+				messages : 'Success',
+				data : result
+			});
+		}
+	);
+});
+
 
 module.exports = router;

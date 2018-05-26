@@ -79,24 +79,24 @@ new Promise((resolve) => {
 					comment : [
 						{
 							user_name : 'dangminhtruong',
-							avata : 'commentavt1',
+							avata : 'commentavt1.jpg',
 							content : faker.lorem.paragraph(),
 							reply : [
 								{
 									user_name : 'ngantrang',
-									avata : 'commentavt2',
+									avata : 'commentavt2.jpg',
 									content : faker.lorem.paragraph(),
 								},
 								{
 									user_name : 'thuy',
-									avata : 'commentavt2',
+									avata : 'commentavt2.jpg',
 									content : faker.lorem.paragraph(),
 								}
 							],
 						},
 						{
 							user_name : 'thanhuyen',
-							avata : 'commentavt2',
+							avata : 'commentavt2.jpg',
 							content : faker.lorem.paragraph(),
 						}
 					]
