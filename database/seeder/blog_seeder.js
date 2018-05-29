@@ -25,8 +25,8 @@ new Promise((resolve) => {
 		let item = [];
 		for (i = 0; i < 10; i++) {
 			item.push({
-				title: faker.lorem.sentences(),
-				content: faker.lorem.text(),
+				title: faker.lorem.words(),
+				content: faker.lorem.paragraphs(),
 				avata: 'avata.jpg',
 				user: _.sample(users)._id,
 				comment: [

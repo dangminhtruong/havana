@@ -25,6 +25,13 @@ new Promise((resolve) => {
 		let items = [];
 		let status = [1, 2];
 		let sizes = ["XXL", "XL", "L", "M", "S"];
+		let avas = ['pi.png', 'pi2.png', 'pi3.png', 'pi4.png', 'pi5.png', 
+					'pi6.png', 'pi7.png' , 'm1.jpg', 'm2.jpg', 'm4.jpg', 'w1.jpg',
+					'a1.jpg', 'a2.jpg', 'a3.jpg', 'a4.jpg', 'a5.jpg', 'a6.jpg', 
+					'a7.jpg', 'a8.jpg', 'a9.jpg', 'a10.jpg', 'a11.jpg', 'a12.jpg',
+					'b1.jpg', 'b2.jpg', 'b3.jpg', 'b4.jpg', 'b5.jpg', 'b6.jpg', 
+					'b7.jpg', 'b8.jpg', 'b9.jpg', 'b10.jpg', 'b11.jpg', 'b12.jpg'
+					];
 		for(i=0; i< 150; i++){
 			items.push(
 				{
@@ -33,7 +40,7 @@ new Promise((resolve) => {
 					promo_price : faker.commerce.price(),
 					slug_name : faker.helpers.slugify(),
 					descript: faker.lorem.paragraph(),
-					image : 'product1a.jpg',
+					image : _.sample(avas),
 					status : _.sample(status),
 					quantity : faker.random.number(),
 					saled : 0,
