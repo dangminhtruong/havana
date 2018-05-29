@@ -102,7 +102,7 @@ select.in-drop,select.in-drop1 {
 	font-size: 0.9em;
 	color: #000;
 	background: none;
-	width: 81%;
+	width: 100%;
 }
 .world ul li {
 	display: inline-block;
