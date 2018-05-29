@@ -9,7 +9,7 @@
                 <a href="#" @click="watched(item._id)">
                     <div class="user-new">
                     <p>{{ item.content }}</p>
-                    <span>Chưa xem</span>
+                    <span><%= __('un read') %></span>
                     </div>
                     <div class="user-new-left">
                         <i class="fa fa-envelope-o" aria-hidden="true"></i>
@@ -17,7 +17,7 @@
                     <div class="clearfix"> </div>
                 </a>
             </li>
-            <li><a href="#" class="view">Make all is viewed!</a></li>
+            <li><a href="#" class="view"><%=  __('Make all is viewed') %></a></li>
         </ul>
         </li>
         <li class="dropdown">
@@ -25,9 +25,10 @@
             <span class=" name-caret"><%= user.username %><i class="caret"></i></span>
             <img src="/img/avata.jpg" height="60px" width="60px"></a>
         <ul class="dropdown-menu " role="menu">
-            <li><a href="profile.html"><i class="fa fa-user"></i>Trang cá nhân</a></li>
-            <li><a href="inbox.html"><i class="fa fa-envelope"></i>Đổi mật khẩu</a></li>
-            <li><a href="/logout/admin/<%= user._id %>"><i class="fa fa-envelope"></i>Đăng xuất</a></li>
+            <li><a href="profile.html"><i class="fa fa-user"></i><%= __('Profile') %></a></li>
+            <li><a href="/change-languages/en"><i class="fa fa-envelope"></i><%= __('Change language to en') %></a></li>
+            <li><a href="/change-languages/vi"><i class="fa fa-envelope"></i><%= __('Change language vi') %></a></li>
+            <li><a href="/logout/admin/<%= user._id %>"><i class="fa fa-envelope"></i><%= __('Logout') %></a></li>
         </ul>
         </li>
     </ul>
