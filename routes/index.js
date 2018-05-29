@@ -101,14 +101,14 @@ router.get('/logout/admin/:id', function (req, res) {
 
 
 router.get('/logout/client/:id', function (req, res) {
-	User.findByIdAndUpdate(req.params.id,
+	/* User.findByIdAndUpdate(req.params.id,
 		{ status: config.activity.offline },
 		(err, user) => {
 			if (err) {
 				throw Error('cannot set online status')
 			}
 		}
-	);
+	); */
 	req.logout();
 	return res.json({
 		status : 200,

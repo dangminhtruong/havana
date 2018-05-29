@@ -597,6 +597,8 @@ let list_product = new Vue({
 					if (willDelete) {
 						axios.get(`/admin/product/remove/${id}`)
 							.then((response) => {
+								toastr.options.closeButton = true;
+								toastr.success('Xóa thành công !');
 								this.list = response.data.products;
 								this.totalPages = response.data.pages;
 								this.curretnPage = response.data.currentPages;
