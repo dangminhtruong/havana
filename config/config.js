@@ -9,7 +9,7 @@ const config = {
         username : 'xxdangminhtruongxx@gmail.com',
         pass : '01292007776t'
     },
-    domain : "http://128.199.229.75",
+    domain : "http://localhost:3000",
     userStatus : {
         isAdmin : 1,
         isStaff : 2,
