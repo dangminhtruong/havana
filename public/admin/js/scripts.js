@@ -470,7 +470,8 @@ let analytic = new Vue({
 		bg_color: [],
 		showDefault: true,
 		startEndSale: 0,
-		startEndProducts: []
+		startEndProducts: [],
+		pieChart : null
 	},
 	methods: {
 		getRandomColor() {
@@ -489,6 +490,9 @@ let analytic = new Vue({
 				endDay: this.endDay
 			})
 				.then((response) => {
+					this.label = [];
+					this.summary = [];
+					this.bg_color = [];
 					this.startEndSummary = response.data.summary;
 					this.showDefault = false;
 					this.startEndSale = response.data.earn;
@@ -500,23 +504,15 @@ let analytic = new Vue({
 						this.bg_color.push(this.getRandomColor());
 					});
 
-					new Chart(document.getElementById('pie-chart-men'), {
-						type: 'pie',
-						data: {
-							labels: this.label,
-							datasets: [{
-								label: 'Population (millions)',
-								backgroundColor: this.bg_color,
-								data: this.summary
-							}]
-						},
-						options: {
-							title: {
-								display: true,
-								text: 'Tỷ lệ loại sản phẩm bán ra'
-							}
-						}
-					});
+					this.pieChart.config.data = {
+						labels: this.label,
+						datasets: [{
+							label: 'Population (millions)',
+							backgroundColor: this.bg_color,
+							data: this.summary
+						}]
+					};
+					this.pieChart.update();
 				});
 		}
 	},
@@ -545,7 +541,7 @@ let analytic = new Vue({
 					this.bg_color.push(this.getRandomColor());
 				});
 
-				new Chart(document.getElementById('pie-chart-men'), {
+				 this.pieChart = new Chart(document.getElementById('pie-chart-men'), {
 					type: 'pie',
 					data: {
 						labels: this.label,
