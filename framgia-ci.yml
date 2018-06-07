@@ -1,6 +1,6 @@
 build:
   phpunit:
-    image: dangminhtruong/havana_api
+    image: dangminhtruong/havana_api:latest
     commands:
     - npm install
     - eslint routes
