@@ -9,6 +9,7 @@ const Bill = require('../model/bill');
 const Message = require('../model/messages');
 const Blog = require('../model/blog');
 var config = require('../config/config');
+const todayReport = require('../helpers/excel_report_today');
 
 var passport = require('passport')
 	, LocalStrategy = require('passport-local').Strategy;
@@ -577,15 +578,15 @@ router.get('/product/find/:keyword', (req, res) => {
 router.post('/comment/add/:productId', (req, res) => {
 	Product.findByIdAndUpdate(
 		req.params.productId,
-		{ $push: 
-			{ comment: 
-				{ 
+		{ $push:
+			{ comment:
+				{
 					user_name : req.body.username,
 					avata : req.body.avata,
 					content : req.body.content,
 					reply : [],
-				} 
-			} 
+				}
+			}
 		},
 		{ new : true },
 		(err, result) => {
@@ -603,6 +604,11 @@ router.post('/comment/add/:productId', (req, res) => {
 			});
 		}
 	);
+});
+
+router.get('/cron', (req, res) => {
+	todayReport();
+	res.send('ok');
 });
 
 

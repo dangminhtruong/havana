@@ -5,12 +5,13 @@ const _ = require('lodash');
 const Bill = require('../model/bill');
 const xl = require('excel4node');
 const config = require('../config/config');
+const Report = require('../model/report');
 
 const todayReport = () => {
     new Promise((resolve, reject) => {
         let startDay = new Date(moment().startOf('day'));
         let endDay = new Date(moment().endOf('day'));
-        
+
         mongoose.connect('mongodb://172.18.0.2:27017/havana', {
             useMongoClient: true,
             promiseLibrary: require('bluebird')
@@ -49,6 +50,8 @@ const todayReport = () => {
         .then((data) => {
             let wb = new xl.Workbook();
             let ws = wb.addWorksheet('Sheet 1');
+            let now = moment().format('DD_MM_YYYY');
+
             let style = wb.createStyle({
                 font: {
                     color: '#FF0800',
@@ -65,8 +68,20 @@ const todayReport = () => {
             ws.cell(2, 1).number(data.daySum).style(style);
             ws.cell(2, 2).number(data.dayEarn).style(style);
 
-            // Xuất file và lưu vào public/report 
-            wb.write(`../public/report/${Date.now()}.xlsx`);
+            // Xuất file và lưu vào public/report
+            wb.write(`../public/report/${now}.xlsx`);
+            let report = new Report({
+              path : `report/${now}.xlsx`,
+              title : `Báo cáo tổng hợp ngày ${now}`
+            });
+            report.save((error, report) => {
+              console.log("ofsdfsdfk");
+              if(error){
+                console.log(error);
+              }else{
+                console.log("ok");
+              }
+            });
         })
         .catch((err) => {
             throw new Error('Lỗi truy vấn');
