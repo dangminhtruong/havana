@@ -10,7 +10,6 @@ const Message = require('../model/messages');
 const Blog = require('../model/blog');
 var config = require('../config/config');
 const todayReport = require('../helpers/excel_report_today');
-const Report = require('../model/report');
 
 var passport = require('passport')
 	, LocalStrategy = require('passport-local').Strategy;
@@ -605,11 +604,6 @@ router.post('/comment/add/:productId', (req, res) => {
 			});
 		}
 	);
-});
-
-router.get('/cron', (req, res) => {
-	 todayReport();
-	 return res.send('ok');
 });
 
 module.exports = router;
