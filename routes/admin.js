@@ -18,7 +18,7 @@ var fs = require('fs');
 var config = require('../config/config');
 const Message = require('../model/messages');
 var covertToObj = require('../helpers/to_array_objects');
-
+const Report = require('../model/report');
 
 /*------------------------------------
 * Author : Dang Minh Truong
@@ -1855,6 +1855,15 @@ router.get('/product/find/:keyword', (req, res) => {
 				result: product
 			});
 		});
+});
+
+router.get('/report/list', (req, res) => {
+	Report.find({}, (err, reports) => {
+		if(err){
+			return res.redirect('back');
+		}
+		return res.render('./admin/pages/list_report', { user: req.user, reports: reports });
+	});
 });
 
 module.exports = router;

@@ -4,17 +4,29 @@ const moment = require('moment');
 const _ = require('lodash');
 const Bill = require('../model/bill');
 const xl = require('excel4node');
-const config = require('../config/config');
 const Report = require('../model/report');
 
 const todayReport = () => {
     new Promise((resolve, reject) => {
         let startDay = new Date(moment().startOf('day'));
         let endDay = new Date(moment().endOf('day'));
+        let now = moment().format('DD_MM_YYYY');
 
         mongoose.connect('mongodb://172.18.0.2:27017/havana', {
             useMongoClient: true,
             promiseLibrary: require('bluebird')
+        });
+
+        let report = new Report({
+            path: `report/${now}.xlsx`,
+            title: `Báo cáo tổng hợp ngày ${now}`
+        });
+        report.save(error => {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log("ok");
+            }
         });
 
         Bill.aggregate(
@@ -40,17 +52,19 @@ const todayReport = () => {
                 if (err) {
                     return reject(err);
                 }
+                
                 mongoose.connection.close();
                 return resolve({
                     daySum: _.sumBy(records, function (o) { return o.total; }),
                     dayEarn: _.sumBy(records, function (o) { return o.earned; }),
+                    time: now
                 });
             });
     })
         .then((data) => {
             let wb = new xl.Workbook();
             let ws = wb.addWorksheet('Sheet 1');
-            let now = moment().format('DD_MM_YYYY');
+
 
             let style = wb.createStyle({
                 font: {
@@ -69,19 +83,7 @@ const todayReport = () => {
             ws.cell(2, 2).number(data.dayEarn).style(style);
 
             // Xuất file và lưu vào public/report
-            wb.write(`../public/report/${now}.xlsx`);
-            let report = new Report({
-              path : `report/${now}.xlsx`,
-              title : `Báo cáo tổng hợp ngày ${now}`
-            });
-            report.save((error, report) => {
-              console.log("ofsdfsdfk");
-              if(error){
-                console.log(error);
-              }else{
-                console.log("ok");
-              }
-            });
+            wb.write(`../public/report/${data.time}.xlsx`);
         })
         .catch((err) => {
             throw new Error('Lỗi truy vấn');
