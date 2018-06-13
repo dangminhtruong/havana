@@ -2,7 +2,7 @@ const cron = require('cron');
 const todayReport = require('./excel_report_today');
 
 const job = new cron.CronJob({
-  cronTime: '00 49 16 * * 0-6',
+  cronTime: '00 09 19 * * 0-6',
   onTick: function() {
     todayReport();
     console.log('Cron job runing...');

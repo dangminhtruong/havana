@@ -470,6 +470,7 @@ router.get('/product/edit/:id', (req, res) => {
 });
 /*-------------------------------------------------*/
 router.post('/product/edit/:id', cpUpload, (req, res) => {
+	console.log(req.body);
 	let data = {
 		name: req.body.product_name,
 		unit_price: req.body.unit_price,
@@ -481,7 +482,6 @@ router.post('/product/edit/:id', cpUpload, (req, res) => {
 		category_id: req.body.product_type,
 		size: covertToObj(req.body.size),
 		colors: covertToObj(req.body.color),
-		createdOn: moment()
 	};
 
 	if (req.files['avatar']) {
@@ -1858,12 +1858,16 @@ router.get('/product/find/:keyword', (req, res) => {
 });
 
 router.get('/report/list', (req, res) => {
-	Report.find({}, (err, reports) => {
-		if(err){
-			return res.redirect('back');
+	Report.find({})
+	.sort({ createdOn : -1 })
+	.exec(
+		(err, reports) => {
+			if(err){
+				return res.redirect('back');
+			}
+			return res.render('./admin/pages/list_report', { user: req.user, reports: reports });
 		}
-		return res.render('./admin/pages/list_report', { user: req.user, reports: reports });
-	});
+	);
 });
 
 module.exports = router;
