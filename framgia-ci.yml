@@ -14,6 +14,13 @@ test:
     command: eslint --format=checkstyle
       --output-file=.framgia-ci-reports/eslint.xml
       routes --ext .js
+deploy:
+  testing:
+    image: docker:dind
+    commands:
+      - docker build -t dangminhtruong/havana:test .
+      - docker ps 
+      - docker push dangminhtruong/havana:test
 cache:
   nodejs:
     folder: node_modules
