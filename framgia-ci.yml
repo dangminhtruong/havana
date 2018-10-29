@@ -18,9 +18,6 @@ deploy:
     app_image: dangminhtruong/havana:test
     run: docker build -t $PLUGIN_APP_IMAGE . && docker push $PLUGIN_APP_IMAGE
 cache:
-  composer:
-    folder: vendor
-    file: composer.lock
   nodejs:
     folder: node_modules
-    file: yarn.lock
+    file: package-lock.json
