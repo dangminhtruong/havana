@@ -1,20 +1,20 @@
 project_type: php
 build:
-  general_test:
+  install_package:
     image: dangminhtruong/havana:test
     prepare:
       - npm install
+  build_docker:
+    image: docker:dind
+    prepare:
+      - npm install
+      - echo dangminhtruong && docker build -t $PLUGIN_APP_IMAGE . && docker push $PLUGIN_APP_IMAGE
 test:
   eslint:
     ignore: true
     command: eslint --format=checkstyle
       --output-file=.framgia-ci-reports/eslint.xml
       routes --ext .js
-deploy:
-  rocketeer:
-    image: framgiaciteam/deployer:2.0
-    app_image: dangminhtruong/havana:test
-    run: docker build -t $PLUGIN_APP_IMAGE . && docker push $PLUGIN_APP_IMAGE
 cache:
   nodejs:
     folder: node_modules
