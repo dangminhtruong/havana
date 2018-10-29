@@ -1,23 +1,26 @@
+project_type: php
 build:
-  phpunit:
-    image: dangminhtruong/havana_api:latest
-    commands:
-    - npm install
-    - eslint routes
-    - cd database/seeder
-    - node category_seeder
-    - node product_seeder
-    - node user_seeder
-services:
-  mongodb:
-    image: mongo
-    environment:
-      MYSQL_DATABASE: homestead_test
-      MYSQL_USER: homestead_test
-      MYSQL_PASSWORD: secret
-      MYSQL_ROOT_PASSWORD: root
+  general_test:
+    image: dangminhtruong/havana:test
+    prepare:
+      - npm install
+test:
+  eslint:
+    ignore: true
+    command: eslint --format=checkstyle
+      --output-file=.framgia-ci-reports/eslint.xml
+      routes --ext .js
 deploy:
-  docker:
-    username: octocat
-    password: password
-    email: xdangminhtruongx@gmail.com
+  rocketeer:
+    image: framgiaciteam/deployer:2.0
+    when:
+      branch: develop
+    app_image: dangminhtruong/havana:test
+    run: docker build -t $PLUGIN_APP_IMAGE . && docker push $PLUGIN_APP_IMAGE
+cache:
+  composer:
+    folder: vendor
+    file: composer.lock
+  nodejs:
+    folder: node_modules
+    file: yarn.lock
