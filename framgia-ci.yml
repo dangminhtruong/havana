@@ -13,8 +13,6 @@ test:
 deploy:
   rocketeer:
     image: framgiaciteam/deployer:2.0
-    when:
-      branch: develop
     app_image: dangminhtruong/havana:test
     run: docker build -t $PLUGIN_APP_IMAGE . && docker push $PLUGIN_APP_IMAGE
 cache:
