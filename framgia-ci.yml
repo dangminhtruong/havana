@@ -7,7 +7,6 @@ build:
   build_docker:
     image: docker:dind
     prepare:
-      - npm install
       - echo dangminhtruong && docker build -t $PLUGIN_APP_IMAGE . && docker push $PLUGIN_APP_IMAGE
 test:
   eslint:
