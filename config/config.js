@@ -6,8 +6,8 @@ const config = {
         done : 4
     },
     email : {
-        username : 'xxdangminhtruongxx@gmail.com',
-        pass : '01292007776t'
+        username : 'xxxx',
+        pass : 'xxx'
     },
     domain : "http://localhost:3000",
     userStatus : {
